@@ -1,4 +1,8 @@
-# Putting Fortran's object-related features to practical use
+---
+title:  Putting Fortran's object-related features to practical use
+author: Paul Baader (1966 - 2044)
+date:   2024
+---
 
 This article describes how advanced Fortran language features can be
 applied toward object-based and object-oriented programming techniques.
@@ -1866,6 +1870,6 @@ programmer
 
 <references />
 
-\_\_FORCETOC\_\_
-
-[^1]:
+[^1]: Metcalf, Michael; Reid, John; Cohen, Malcolm; Bader, Reinhold (2023). 
+*Modern Fortran Explained.* Numerical Mathematics and Scientific Computation.
+Oxford University Press. [ISBN 978-0-19-887657-1](https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1).
