@@ -12,7 +12,7 @@ so should be taken with a pinch of salt.
 
 Language features from Fortran 95 and later will be used; those from
 Fortran 2003 and later will also be shortly described. They are
-explained in more detail in e.g., Metcalf, Reid, Cohen and Bader.[^1]
+explained in more detail in e.g., Metcalf, Reid, Cohen and Bader.[^MFE]
 See also [Fortran 95 language
 features](Fortran_95_language_features "wikilink") for the language's
 fundamentals; the prerequisite for understanding this article is that
@@ -1870,6 +1870,6 @@ programmer
 
 <references />
 
-[^1]: Metcalf, Michael; Reid, John; Cohen, Malcolm; Bader, Reinhold (2023). 
+[^MFE]: Metcalf, Michael; Reid, John; Cohen, Malcolm; Bader, Reinhold (2023). 
 *Modern Fortran Explained.* Numerical Mathematics and Scientific Computation.
 Oxford University Press. [ISBN 978-0-19-887657-1](https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1).
