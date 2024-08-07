@@ -26,9 +26,9 @@ technical literature.
 Compilable and runnable example code is available from an external
 [Github repository](https://github.com/reinh-bader/object_fortran).
 
-## Object-based programming techniques
+# Object-based programming techniques
 
-### Introduction: Container-like types
+## Introduction: Container-like types
 
 The word "Container-like" is not a Fortran term, but used in the context
 of this article to designate types with components whose size (or type,
@@ -42,9 +42,9 @@ examples introduced in the following section. The demonstration codes
 for this chapter can be found in the `object_based` folder of the
 [Github repository](https://github.com/reinh-bader/object_fortran).
 
-### Examples for definitions of container-like types
+## Examples for definitions of container-like types
 
-#### Allocatable components
+### Allocatable components
 
 As an example for the type definition of a **value container** (not a
 Fortran term) with an `ALLOCATABLE` component consider
@@ -75,7 +75,7 @@ ALLOCATE( p%a(0:degree) )
 p%a(0:) = ...
 ```
 
-#### Pointer components
+### Pointer components
 
 As an example for the type definition of a **reference container** (not
 a Fortran term) with a `POINTER` component consider
@@ -132,7 +132,7 @@ my_list%data = my_data ! will only compile if type definition is accessible in h
 However, as we shall see below, setting up a complete and valid
 `sorted_list` object in a reliable manner needs additional work.
 
-### Constructing objects of container-like type
+## Constructing objects of container-like type
 
 The semantics of the default structure constructor for container-like
 objects needs to account for any additional `POINTER` or `ALLOCATABLE`
@@ -269,7 +269,7 @@ The constructor has a signature that differs from that of the default
 one, but the latter is unavailable outside the host scope of the type
 definition anyway, due to the opacity of `sorted_list`.
 
-### Copying objects of container-like type
+## Copying objects of container-like type
 
 Default assignment extends to container-like objects. For objects
 declared as
@@ -376,7 +376,7 @@ the next section. This is because assignment is not the only possible
 cause for orphaning of `POINTER`-related memory (or indeed other
 resource leaks).
 
-### Finalization and conclusions
+## Finalization and conclusions
 
 To deal with resource leaks that are otherwise not within the
 programmer's means to avoid, a type definition can be connected with a
@@ -445,9 +445,9 @@ See also the article "[Rule of
 three](Rule_of_three_(C++_programming) "wikilink")" for the analogous
 situation in C++.
 
-### Further language features useful for object-based programming
+## Further language features useful for object-based programming
 
-#### Extended semantics for allocatable objects
+### Extended semantics for allocatable objects
 
 Scalars can have the `ALLOCATABLE` attribute:
 
@@ -498,7 +498,7 @@ or shape, respectively.
 object-oriented programming, with additional semantics applying for the
 case of polymorphic objects.</small>
 
-#### Implementing move semantics
+### Implementing move semantics
 
 Sometimes it may be necessary to make use of move instead of copy
 semantics i.e., create a copy of an object and then getting rid of the
@@ -523,7 +523,7 @@ that the latter does not involve a regular object deallocation
 (effectively, a descriptor for the object is moved), so any existing
 finalizer will not be invoked.
 
-#### The `BLOCK` construct
+### The `BLOCK` construct
 
 The above rules on finalization imply that variables declared in the
 specification part of the main program are not finalizable, since they
@@ -563,7 +563,7 @@ executing an `EXIT` statement in its body; this can, for example, be
 used for structured error handling and finally permits sending `GO TO`
 to retirement.</small>
 
-#### The `ASSOCIATE` construct
+### The `ASSOCIATE` construct
 
 With the introduction of deeply nested derived types, code that needs
 access to ultimate components can become quite hard to read. An
@@ -608,7 +608,7 @@ their selectors, but no others. An associate name can only refer to an
 also appear in other block constructs (`SELECT TYPE`, `CHANGE TEAM`),
 which will be discussed where appropriate.
 
-### Performing I/O with objects of container-like type
+## Performing I/O with objects of container-like type
 
 For objects of container-like type, a data transfer statement
 
@@ -763,9 +763,9 @@ END SUBROUTINE
   parent I/O statement from the above table would therefore cause error
   termination unless an `iostat=` argument is added to it.
 
-## Object-oriented programming techniques
+# Object-oriented programming techniques
 
-### Introduction: Establishing an explicit relationship between types
+## Introduction: Establishing an explicit relationship between types
 
 The discussion on object-based program design in the previous chapter
 was based on creating derived types that are comprised of objects of
@@ -779,7 +779,7 @@ following sections; runnable example codes are supplied in the
 `object_oriented` subfolder of the [Github
 repository](https://github.com/reinh-bader/object_fortran)
 
-### Extension types
+## Extension types
 
 As a starting point, consider the definition of a type, an object of
 which can quite generally represent a physical body:
@@ -879,9 +879,9 @@ An object of type `body` is **type compatible** with both `a_proton` and
 `a_mutilated_proton`, so any of these two can, for example, appear in a
 call to the procedure `kick`.
 
-### Polymorphism
+## Polymorphism
 
-#### Declaring entities with `CLASS`
+### Declaring entities with `CLASS`
 
 By declaring an object with the `CLASS` instead of the `TYPE` specifier,
 is is possible to defer the actual type that an object has to be
@@ -914,7 +914,7 @@ dynamic type is considered to be the same as the declared type, although
 this is only useful in very few contexts that do not require the object
 to be allocated or associated.</small>
 
-#### Run-time type and class identification
+### Run-time type and class identification
 
 Within the scope of the object's declaration, only the components of its
 declared type are accessible. Also, I/O operations on a polymorphic
@@ -988,7 +988,7 @@ construct; in that case, a type guard has precedence over a class guard
 specifying the same type with respect to selection of the guarded
 statements to be executed.</small>
 
-#### Unlimited polymorphic objects
+### Unlimited polymorphic objects
 
 A special case of polymorphism is that an object can be **unlimited
 polymorphic**. Such an object, declared with `CLASS(*)`, can be of any
@@ -1147,7 +1147,7 @@ to set up a `wtype` object:
    CALL setup_wtype(my_wtype, c_w)  
 ```
 
-### Type-bound procedures (TBP)
+## Type-bound procedures (TBP)
 
 To resolve the class mismatch issues arising from the use of polymorphic
 objects, one needs a language mechanism for making a run-time decision
@@ -1301,7 +1301,7 @@ CALL my_polymorphic_body%update(dp)
   be `NON_OVERRIDABLE`; its implementation then is regarded as valid for
   all conceivable extension types.
 
-### Abstract types and interfaces
+## Abstract types and interfaces
 
 The `sortable` type used for demonstrating the `sortable_list`
 functionality in the [object-based
@@ -1398,7 +1398,7 @@ overriding TBP for the deferred binding. The constructor function
 (promised earlier, but not yet delivered) also needs to be updated to
 enable creation of objects of the extended type.
 
-### Generic type-bound procedures and operator overloading
+## Generic type-bound procedures and operator overloading
 
 As a convenience, use of an overloading for the comparison operator "\<"
 can be provided by creating a **generic** type-bound procedure:
@@ -1439,9 +1439,9 @@ polymorphic dummy arguments that are related by inheritance cannot be
 distinguished for the purpose of compile-time resolution to a specific
 procedure.
 
-### Completing the dependency inversion
+## Completing the dependency inversion
 
-#### Discussion of structural dependencies
+### Discussion of structural dependencies
 
 When implementing the above concept, typically a separate module, say
 `mod_sortable_extensions`, is created for some or all of the extension
@@ -1462,7 +1462,7 @@ that depends on it must be able to call it. As a consequence, one would
 end up with a circular `USE` dependency between the two modules, which
 is prohibited.
 
-#### Using submodules to break dependency cycles
+### Using submodules to break dependency cycles
 
 To deal with such a situation (among others), the concept of
 **submodule** is available. This is a type of program unit that serves
@@ -1500,7 +1500,7 @@ submodule.
 - the type `initialize` is, again, a renamed version of the `any_object`
   type referred to earlier.
 
-#### Implementation of the constructor
+### Implementation of the constructor
 
 The submodule containing the implementation then reads as follows:
 
@@ -1542,7 +1542,7 @@ END SUBMODULE
   `SUBMODULE (`<parent module>`:`<parent submodule>`) `<submodule_name>
   and the names of submodules of a given module must be unique.
 
-#### Diagramming the dependencies between program units
+### Diagramming the dependencies between program units
 
 The following diagram shows the use and host association relationships
 between the modules (blue boxes), the submodule (green box), and a main
@@ -1561,11 +1561,11 @@ The compilation order for separate files would be:
 2.  `program` and `mod_sortable_extensions`, independently
 3.  `smod_constructor`
 
-## Performance and ease of use
+# Performance and ease of use
 
-### Functions with parameters
+## Functions with parameters
 
-#### A type definition for invocation of a general function
+### A type definition for invocation of a general function
 
 In scientific applications, a commonly occurring requirement is the need
 to evaluate functions that depend on additional parameters, apart from
@@ -1632,7 +1632,7 @@ the supplied functions. On the other hand, the invocation needs to
 explicitly specify the `param` component, making it a bit unwieldy; the
 use of `pfunc_type` objects will be simplified as we go on.
 
-#### Performance issues arising from object-oriented programming
+### Performance issues arising from object-oriented programming
 
 Let us look at a target function implementation, in form of a trivial
 example $\sin(\lambda x)$:
@@ -1690,7 +1690,7 @@ the actual calculational code (marked "kernel" in the above box) is
 amenable to array-related compiler optimizations (the specifics of which
 depend on both hardware architecture and working set size).
 
-#### Completing the function type definition
+### Completing the function type definition
 
 The aim now is to proceed to a framework that permits to use both the
 scalar and the array versions in a uniform way, thereby making life for
@@ -1798,7 +1798,7 @@ END FUNCTION create_pfunc_type_array
 Disambiguation is possible due to the sufficiently different interfaces
 of the procedure arguments.
 
-#### Using the function type
+### Using the function type
 
 With the already-shown implementations for the target functions `psin`
 and `psin_array`, using this framework is illustrated by the following:
@@ -1827,7 +1827,7 @@ is considered not present. Once conditional expressions are implemented
 in compilers, the code will be appropriately reworked, since use of this
 feature is recommended against.</small>
 
-### Arrays of structures versus structures of arrays
+## Arrays of structures versus structures of arrays
 
 Returning to our earlier example type body, the next idea would be to
 simulate the dynamics of a large ensemble of bodies. A procedure
@@ -1850,9 +1850,9 @@ for example as follows:
 where `force` results from evaluating `force_field` at the position of
 the ensemble member.
 
-### Comments on further language features
+## Comments on further language features
 
-#### Variations on the passed object
+### Variations on the passed object
 
 All examples for type-bound procedures given up to now have the property
 that the invoking object itself is passed as the first argument to the
@@ -1866,7 +1866,7 @@ programmer
   object is not (implicitly) passed to the procedure at all in a TBP
   invocation.
 
-## References
+# References
 
 <references />
 
