@@ -14,9 +14,9 @@ Language features from Fortran 95 and later will be used; those from
 Fortran 2003 and later will also be shortly described. They are
 explained in more detail in e.g., Metcalf, Reid, Cohen and Bader.[^MFE]
 See also [Fortran 95 language
-features](Fortran_95_language_features "wikilink") for the language's
-fundamentals; the prerequisite for understanding this article is that
-features explained there are well understood.
+features](https://en.wikipedia.org/wiki/Fortran_95_language_features) for
+the language's fundamentals; the prerequisite for understanding this article
+is that features explained there are well understood.
 
 Boldface will be used where term definitions are introduced. They are
 additionally annotated by "(not a Fortran term)" or similar if the term
