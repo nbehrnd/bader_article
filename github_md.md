@@ -1,6 +1,6 @@
 ---
 title:  Putting Fortran's object-related features to practical use
-author: Paul Baader (1966 - 2044)
+author: Reinhold Bader (1966 - 2024)
 date:   2024
 ---
 
@@ -28,7 +28,7 @@ Compilable and runnable example code is available from an external
 
 # Object-based programming techniques
 
-## Introduction: Container-like types
+# Introduction: Container-like types
 
 The word "Container-like" is not a Fortran term, but used in the context
 of this article to designate types with components whose size (or type,
@@ -42,14 +42,14 @@ examples introduced in the following section. The demonstration codes
 for this chapter can be found in the `object_based` folder of the
 [Github repository](https://github.com/reinh-bader/object_fortran).
 
-## Examples for definitions of container-like types
+# Examples for definitions of container-like types
 
-### Allocatable components
+## Allocatable components
 
 As an example for the type definition of a **value container** (not a
 Fortran term) with an `ALLOCATABLE` component consider
 
-``` fortran
+```f90
 TYPE :: polynomial
    PRIVATE
    REAL, ALLOCATABLE :: a(:)
@@ -58,7 +58,7 @@ END TYPE
 
 An object declared to be of this type
 
-``` fortran
+```f90
 TYPE(polynomial) :: p
 ```
 
@@ -69,18 +69,18 @@ $p(x) = \sum_{k=0}^{degree} a_{k} \cdot x^k \quad (x \in \Re)$
 once it has been created and subsequently supplied with values of the
 coefficients:
 
-``` fortran
+```f90
 degree = ...  ! integer value known at run time only
 ALLOCATE( p%a(0:degree) )
 p%a(0:) = ...
 ```
 
-### Pointer components
+## Pointer components
 
 As an example for the type definition of a **reference container** (not
 a Fortran term) with a `POINTER` component consider
 
-``` fortran
+```f90
 TYPE :: sorted_list
    PRIVATE
    TYPE(sortable) :: data
@@ -97,11 +97,11 @@ each node. In this example, the assumption is that entries of type
 `data` in subsequent list items fulfill an ordering condition, based on
 the functionality supplied with that type:
 
-``` fortran
+```f90
 TYPE, PUBLIC :: sortable
    CHARACTER(len=:), ALLOCATABLE :: string
 END TYPE
-   
+
 INTERFACE OPERATOR(<)         ! compare two objects of type sortable
    MODULE PROCEDURE less_than ! implementation not shown here
 END INTERFACE
@@ -114,7 +114,7 @@ interest.</small>
 
 An object declared to be
 
-``` fortran
+```f90
 TYPE(sorted_list) :: my_list
 ```
 
@@ -122,17 +122,17 @@ is suitable as starting point for building a linked list with node
 entries of type `data`. In the simplest case, inserting a data item into
 the object is done by executing the following statements:
 
-``` fortran
+```f90
 TYPE(sortable) :: my_data
 :
 my_data = ...
-my_list%data = my_data ! will only compile if type definition is accessible in host
+my_list%data = my_data  ! will only compile if type definition is accessible in host
 ```
 
 However, as we shall see below, setting up a complete and valid
 `sorted_list` object in a reliable manner needs additional work.
 
-## Constructing objects of container-like type
+# Constructing objects of container-like type
 
 The semantics of the default structure constructor for container-like
 objects needs to account for any additional `POINTER` or `ALLOCATABLE`
@@ -141,7 +141,7 @@ attribute specified for type components.
 For the first example type from the last section, the executable
 statements in
 
-``` fortran
+```f90
 TYPE(polynomial) :: q, r
 :
 q = polynomial( [2., 3., 1.] )
@@ -154,7 +154,7 @@ result in an object `q` auto-allocated to the value
 For the second example type from the last section, the executable
 statements in
 
-``` fortran
+```f90
 TYPE(sorted_list) :: sl1
 TYPE(sorted_list), target :: sl2
 TYPE(sortable) :: d1, d2
@@ -167,20 +167,20 @@ result in an object `sl1` with `sl1%next` pointer associated with `sl2`,
 and an object `sl2` with `sl2%next` disassociated; the `data` components
 of both objects have values, `d1` and `d2`, respectively. Note that an
 argument that matches with a `POINTER` component must have either the
-`POINTER` or the `TARGET` attribute. Also, **keyword** **notation** can
+`POINTER` or the `TARGET` attribute. Also, **keyword notation** can
 be used in structure constructors in the same manner as for procedure
 arguments.
 
 The default constructor's behaviour has some properties that one needs
 to be aware of:
 
-1.  If all type components have the `PRIVATE` attribute i.e., the type
-    is **opaque** (not a Fortran term), it can only be used if the type
-    declaration is accessed by host association (this is the same as for
-    nonallocatable/nonpointer components);
-2.  especially for container-like types, its semantics may be
-    incompatible with the programmers intentions for how the objects
-    should be used.
+1. If all type components have the `PRIVATE` attribute i.e., the type
+   is **opaque** (not a Fortran term), it can only be used if the type
+   declaration is accessed by host association (this is the same as for
+   nonallocatable/nonpointer components);
+2. especially for container-like types, its semantics may be
+   incompatible with the programmers intentions for how the objects
+   should be used.
 
 Item 2 is illustrated by the above object setups, specifically:
 
@@ -211,8 +211,8 @@ For the `polynomial` type the interface block (placed in the
 specification section of the module containing the type definition)
 might read
 
-``` fortran
-INTERFACE polynomial 
+```f90
+INTERFACE polynomial
 ! overload to assure correct lower bound when creating a polynomial object
    MODULE PROCEDURE :: create_polynomial
    ... ! further specifics as needed
@@ -222,15 +222,15 @@ END INTERFACE
 and the implementation of `create_polynomial` (in the `CONTAINS` part of
 the module) might read
 
-``` fortran
+```f90
 PURE TYPE(polynomial) FUNCTION create_polynomial(a)
-   REAL, INTENT(in) :: a(0:)  
-      
+   REAL, INTENT(in) :: a(0:)
+
    INTEGER :: degree(1)
-      
+
    degree = findloc( a /= 0.0, value=.true., back=.true. ) - 1
    ALLOCATE( create_polynomial%a(0:degree(1)) )
-   create_polynomial%a(0:) = a(0:degree(1))  
+   create_polynomial%a(0:) = a(0:degree(1))
 END FUNCTION
 ```
 
@@ -240,8 +240,8 @@ unavailable.
 
 For the `sorted_list` type the interface block might read
 
-``` fortran
-INTERFACE sorted_list 
+```f90
+INTERFACE sorted_list
 ! the default constructor is unavailable because the type is opaque
 ! the specific has a different signature than the structure constructor
    MODULE PROCEDURE :: create_sorted_list
@@ -251,13 +251,13 @@ END INTERFACE
 
 with the implementation of `create_sorted_list` as follows:
 
-``` fortran
+```f90
 PURE FUNCTION create_sorted_list(item_array) RESULT(head)
    TYPE(sortable), INTENT(in) :: item_array(:)
    TYPE(sorted_list) :: head
-      
+
    INTEGER :: i
-    
+
    DO i = 1, size(item_array)
       CALL add_to_sorted_list(head, item_array(i))
       ! handles tedious details of pointer fiddling
@@ -269,49 +269,49 @@ The constructor has a signature that differs from that of the default
 one, but the latter is unavailable outside the host scope of the type
 definition anyway, due to the opacity of `sorted_list`.
 
-## Copying objects of container-like type
+# Copying objects of container-like type
 
 Default assignment extends to container-like objects. For objects
 declared as
 
-``` fortran
+```f90
 TYPE(polynomial) :: p, q
 TYPE(sorted_list) :: slp, slq
 
-...  ! code that defines p, slp
+... ! code that defines p, slp
 ```
 
 and after defining values for prospective right-hand sides, execution of
 the statement
 
-``` fortran
+```f90
 q = p
 ```
 
 produces the same result as
 
-``` fortran
+```f90
 IF ( allocated(q%a) ) DEALLOCATE( q%a )
-q%a = p%a   ! performs auto-allocation using the RHS's bounds, then copies the value
+q%a = p%a  ! performs auto-allocation using the RHS's bounds, then copies the value
 ```
 
 and execution of the statement
 
-``` fortran
+```f90
 slq = slp
 ```
 
 produces the same result as
 
-``` fortran
+```f90
 slq%data = slp%data
-slq%next => slp%next   ! creates a reference between list objects without copying any value
+slq%next => slp%next  ! creates a reference between list objects without copying any value
 ```
 
 The terms **deep copy** and **shallow copy** (neither are Fortran terms)
 are sometimes used to describe the above behaviour for `ALLOCATABLE` and
-`POINTER` components, respectively. Note that - different from the
-default structure constructor - having `PRIVATE` components does not
+`POINTER` components, respectively. Note that -- different from the
+default structure constructor -- having `PRIVATE` components does not
 affect the use of default assigment. However, the semantics of default
 assignment might not be what is needed from the programmer's point of
 view.
@@ -320,21 +320,20 @@ Specifically, consider the case where the object `slq` above has
 previously been set up by invoking the overloaded constructor. The
 assignment above would then have the following effects:
 
-1.  The list elements of the original `slq`, beginning with `slq%next`,
-    would become inaccessible ("orphaned"), effectively causing a memory
-    leak;
-2.  after the assignment statement, `slq%next` references into
-    `slp%next`, resulting in aliasing.
+1. The list elements of the original `slq`, beginning with `slq%next`,
+   would become inaccessible ("orphaned"), effectively causing a memory leak;
+2. after the assignment statement, `slq%next` references into
+   `slp%next`, resulting in aliasing.
 
 To avoid 2., it is possible to [**overload** the assignment
-operator](Fortran_95_language_features#Derived-data_types "wikilink")
+operator](https://en.wikipedia.org/wiki/Fortran_95_language_features#Derived-data_types)
 for reference containers to create a deep copy. Note that in the case
 where defined unary or binary operations are introduced, the functions
 that define these need to create deep copies to create the result
 variable anyway, otherwise things simply don't work. The downside of
 this is that in code like
 
-``` fortran
+```f90
 slq = slp // slq
 ```
 
@@ -348,16 +347,16 @@ exist only intermediately.
 Here an implementation of the specific procedure for the overloaded
 assignment of `sorted_list` objects:
 
-``` fortran
+```f90
 SUBROUTINE assign_sorted_list(to, from)
    TYPE(sorted_list), INTENT(in), TARGET :: from
-   TYPE(sorted_list), INTENT(out), TARGET :: to     ! finalizer is executed on entry, 
-                                                    ! see below for discussion of this.
-      
+   TYPE(sorted_list), INTENT(out), TARGET :: to   ! finalizer is executed on entry,
+                                                  ! see below for discussion of this.
+
    TYPE(sorted_list), POINTER :: p, q
-      
+
    p => from; q => to
-      
+
    deep_copy : DO
       IF ( associated(p) ) THEN
          q%data = p%data
@@ -376,14 +375,14 @@ the next section. This is because assignment is not the only possible
 cause for orphaning of `POINTER`-related memory (or indeed other
 resource leaks).
 
-## Finalization and conclusions
+# Finalization and conclusions
 
 To deal with resource leaks that are otherwise not within the
 programmer's means to avoid, a type definition can be connected with a
 user-defined **final procedure** that is automatically invoked in
 certain situations. For the `sorted_list` type, this would look like
 
-``` fortran
+```f90
 TYPE :: sorted_list
    PRIVATE
    TYPE(sortable) :: data
@@ -398,10 +397,10 @@ the type definition; this implies that `delete_sorted_list` is not a
 regular type component. The module procedure's implementation might then
 be as follows:
 
-``` fortran
+```f90
 PURE RECURSIVE SUBROUTINE delete_sorted_list(list)
    TYPE(sorted_list), INTENT(inout) :: list
-      
+
    IF ( associated(list%next) ) THEN
       DEALLOCATE( list%next )    ! invokes the finalizer recursively
    END IF
@@ -423,12 +422,12 @@ behaviour in recursive calls.</small>
 
 The finalizer will be automatically invoked on an object if
 
-1.  it appears on the left-hand side of an intrinsic assignment
-    statement (before the assignment is performed),
-2.  on invocation of a procedure call where it is argument associated
-    with an `INTENT(out)` dummy,
-3.  it is a non-saved variable and program execution ends its scope, or
-4.  it is deallocated.
+1. it appears on the left-hand side of an intrinsic assignment
+   statement (before the assignment is performed),
+2. on invocation of a procedure call where it is argument associated
+   with an `INTENT(out)` dummy,
+3. it is a non-saved variable and program execution ends its scope, or
+4. it is deallocated.
 
 Nonpointer nonallocatable function results fall into the third category
 above; however, finalization does not apply for the default structure
@@ -442,16 +441,16 @@ in a mutilated left-hand side, because the finalizer will be executed on
 the function that overloads the constructor, resulting in `slq%next`
 being disassociated. For this reason, the following guideline applies:
 See also the article "[Rule of
-three](Rule_of_three_(C++_programming) "wikilink")" for the analogous
-situation in C++.
+three](https://en.wikipedia.org/wiki/Rule_of_three_(C%2B%2B_programming))"
+for the analogous situation in C++.
 
-## Further language features useful for object-based programming
+# Further language features useful for object-based programming
 
-### Extended semantics for allocatable objects
+## Extended semantics for allocatable objects
 
 Scalars can have the `ALLOCATABLE` attribute:
 
-``` fortran
+```f90
 CHARACTER(len=:), ALLOCATABLE :: my_string
 TYPE(sorted_list), ALLOCATABLE :: my_list
 ```
@@ -460,10 +459,9 @@ Allocation then can be done explicitly; the following examples
 illustrate applications of the `ALLOCATE` statement that are useful or
 even necessary in this context:
 
-``` fortran
-
-ALLOCATE( CHARACTER(len=13) :: my_string )                    ! typed allocation
-ALLOCATE( my_list, source=sorted_list(array_of_sortable) )    ! sourced allocation
+```f90
+ALLOCATE( CHARACTER(len=13) :: my_string )                  ! typed allocation
+ALLOCATE( my_list, source=sorted_list(array_of_sortable) )  ! sourced allocation
 ```
 
 **Typed allocation** is necessary for the string variable, because the
@@ -476,11 +474,10 @@ Alternatively, allocatable objects (be they scalar or arrays) can be
 auto-allocated by appearing on the left-hand side of an *intrinsic*
 assignment statement:
 
-``` fortran
-
+```f90
 my_string = "anything goes"  ! auto-allocated to RHS length before value is transferred
-! my_list = sorted_list(array_of_sortable)  
-! the above statement would fail for an unallocated object, because the assignment 
+! my_list = sorted_list(array_of_sortable)
+! the above statement would fail for an unallocated object, because the assignment
 ! has been overloaded using a nonallocatable first dummy argument
 ```
 
@@ -498,21 +495,21 @@ or shape, respectively.
 object-oriented programming, with additional semantics applying for the
 case of polymorphic objects.</small>
 
-### Implementing move semantics
+## Implementing move semantics
 
 Sometimes it may be necessary to make use of move instead of copy
 semantics i.e., create a copy of an object and then getting rid of the
 original. The simplest way of doing this is to make use of allocatable
 (scalar or array) objects,
 
-``` fortran
+```f90
 TYPE(sorted_list), ALLOCATABLE :: my_list, your_list
 ```
 
 After `your_list` has been set up, the object's content can then be
 transferred to `my_list` by using the `move_alloc` intrinsic,
 
-``` fortran
+```f90
 CALL move_alloc(your_list, my_list)
 ```
 
@@ -523,7 +520,7 @@ that the latter does not involve a regular object deallocation
 (effectively, a descriptor for the object is moved), so any existing
 finalizer will not be invoked.
 
-### The `BLOCK` construct
+## The `BLOCK` construct
 
 The above rules on finalization imply that variables declared in the
 specification part of the main program are not finalizable, since they
@@ -533,19 +530,19 @@ ends. However, excessive memory consumption or the use of other
 resources may cause issues for reliable program execution. To work
 around these, the `BLOCK` construct can be used:
 
-``` fortran
+```f90
 PROGRAM test_sorted_list
    USE mod_sortable
    USE mod_sorted_list
    IMPLICIT none
    :
-   work : BLOCK     
-      TYPE(sortable) :: array(items)    
+   work : BLOCK
+      TYPE(sortable) :: array(items)
       TYPE(sorted_list) :: my_list, ...
-      : ! initialize array  
-     
+      : ! initialize array
+
       my_list = sorted_list(array)
-      : 
+      :
    END BLOCK work  ! finalizer is executed on my_list, ...
    :
 END PROGRAM
@@ -563,7 +560,7 @@ executing an `EXIT` statement in its body; this can, for example, be
 used for structured error handling and finally permits sending `GO TO`
 to retirement.</small>
 
-### The `ASSOCIATE` construct
+## The `ASSOCIATE` construct
 
 With the introduction of deeply nested derived types, code that needs
 access to ultimate components can become quite hard to read. An
@@ -571,17 +568,17 @@ access to ultimate components can become quite hard to read. An
 can be used. This is illustrated by a procedure that is used to
 implement the multiplication of two polynomials:
 
-``` fortran
+```f90
 PURE TYPE(polynomial) FUNCTION multiply_polynomial(p1, p2)
    TYPE(polynomial), INTENT(in) :: p1, p2
-      
+
    INTEGER :: j, l, lmax
-      
-   lmax = ubound(p1%a,1) + ubound(p2%a,1) 
+
+   lmax = ubound(p1%a,1) + ubound(p2%a,1)
    ALLOCATE( multiply_polynomial%a(0:lmax) )
-   
+
    ASSOCIATE( a => p1%a, b => p2%a, c => multiply_polynomial%a, &
-              jmax => ubound(p1%a,1), kmax => ubound(p2%a,1) ) ! association list
+              jmax => ubound(p1%a,1), kmax => ubound(p2%a,1) )  ! association list
       DO l = 0, lmax
          c(l) = 0
          DO j = max(0, l-kmax), min(jmax, l)
@@ -608,11 +605,11 @@ their selectors, but no others. An associate name can only refer to an
 also appear in other block constructs (`SELECT TYPE`, `CHANGE TEAM`),
 which will be discussed where appropriate.
 
-## Performing I/O with objects of container-like type
+# Performing I/O with objects of container-like type
 
 For objects of container-like type, a data transfer statement
 
-``` fortran
+```f90
 TYPE(sorted_list) :: my_list
 
 : ! set up my_list
@@ -627,7 +624,7 @@ appropriate manner. This is achieved by binding an I/O statement on a
 derived-type object to a user-defined procedure, for example through a
 suitably written named interface:
 
-``` fortran
+```f90
 INTERFACE WRITE(formatted)
    MODULE PROCEDURE write_fmt_list
 END INTERFACE
@@ -654,13 +651,13 @@ interpretation:
 The self-defined procedure is restricted with respect to its interfaces'
 characteristics, which are described in the following:
 
-``` fortran
+```f90
 SUBROUTINE <formatted_io>    (dtv, unit, iotype, v_list, iostat, iomsg)
 
 SUBROUTINE <unformatted_io>  (dtv, unit,                 iostat, iomsg)
 ```
 
-The placeholders <formatted_io> and <unformatted_io> must be replaced by
+The placeholders `<formatted_io>` and `<unformatted_io>` must be replaced by
 a specific procedure name referenced in the generic interface.
 
 The dummy arguments' declarations and meaning are:
@@ -718,20 +715,20 @@ Additional properties and restrictions for UDDTIO are:
 The following demonstrates a partial implementation of formatted writing
 on `sorted_list` objects:
 
-``` fortran
+```f90
 RECURSIVE SUBROUTINE write_fmt_list(dtv, unit, iotype, v_list, iostat, iomsg)
    CLASS(sorted_list), INTENT(in) :: dtv
    INTEGER, INTENT(in) :: unit, v_list(:)
    CHARACTER(len=*), INTENT(in) :: iotype
    INTEGER, INTENT(out) :: iostat
    CHARACTER(len=*), INTENT(inout) :: iomsg
-      
+
    CHARACTER(len=2) :: next_component
-      
+
    IF ( associated(dtv%next) ) THEN
-      WRITE(next_component, fmt='("T,")') 
+      WRITE(next_component, fmt='("T,")')
    ELSE
-      WRITE(next_component, fmt='("F")') 
+      WRITE(next_component, fmt='("F")')
    END IF
    SELECT CASE (iotype)
    CASE ('LISTDIRECTED')
@@ -765,7 +762,7 @@ END SUBROUTINE
 
 # Object-oriented programming techniques
 
-## Introduction: Establishing an explicit relationship between types
+# Introduction: Establishing an explicit relationship between types
 
 The discussion on object-based program design in the previous chapter
 was based on creating derived types that are comprised of objects of
@@ -779,16 +776,16 @@ following sections; runnable example codes are supplied in the
 `object_oriented` subfolder of the [Github
 repository](https://github.com/reinh-bader/object_fortran)
 
-## Extension types
+# Extension types
 
 As a starting point, consider the definition of a type, an object of
 which can quite generally represent a physical body:
 
-``` fortran
+```f90
 TYPE :: body
    REAL :: mass
    REAL :: pos(3), vel(3)
-END TYPE  
+END TYPE
 :
 TYPE(body) :: my_basketball = body(1.5, [0.0, 0.0, 2.0], [10.0, 0.0, 0.0])
 ```
@@ -796,17 +793,17 @@ TYPE(body) :: my_basketball = body(1.5, [0.0, 0.0, 2.0], [10.0, 0.0, 0.0])
 This might come along with procedures that impose a momentum change or a
 change of mass on a `body` object:
 
-``` fortran
+```f90
 PURE SUBROUTINE kick(a_body, dp)
    TYPE(body), INTENT(inout) :: a_body
    REAL, intent(in) :: dp(3)
 
-   a_body%vel(:) = a_body%vel(:) + dp(:) / a_body%mass 
-END SUBROUTINE 
+   a_body%vel(:) = a_body%vel(:) + dp(:) / a_body%mass
+END SUBROUTINE
 PURE SUBROUTINE accrete(a_body, dm)
    TYPE(body), INTENT(inout) :: a_body
    REAL, intent(in) :: dm
-   
+
    a_body%mass = a_body%mass + dm
 END SUBROUTINE accrete
 ```
@@ -821,7 +818,7 @@ for the existing codebase would simply be wasted. It is more convenient
 and less intrusive to create a new type that is an **extension** of the
 existing one (the **parent** type):
 
-``` fortran
+```f90
 TYPE, EXTENDS(body) :: charged_body
    REAL :: charge
 END TYPE
@@ -829,7 +826,7 @@ END TYPE
 
 An object of this type
 
-``` fortran
+```f90
 TYPE(charged_body) :: a_proton
 ```
 
@@ -853,7 +850,7 @@ parent type, which is a subobject of just that type:
 Correspondingly, there are various manners in which the default
 structure constructor can be used to create a defined value:
 
-``` fortran
+```f90
 TYPE(body) :: a_mutilated_proton
 
 ! Construct a_proton
@@ -863,7 +860,7 @@ a_proton = charged_body(mass=1.672E-27, pos=[0.0, 0.0, 0.0], &
 ! Alternative construction with the same result
 a_mutilated_proton = body(mass=1.672E-27, pos=[0.0, 0.0, 0.0], &
                           vel=[0.0, 0.0, 0.0])
-                          
+
 a_proton = charged_body(body=a_mutilated_proton, charge=1.602E-19)
 ```
 
@@ -872,16 +869,16 @@ attributes can be extended in the above manner; specifically, an
 extension type can itself be extended. For any given "base" type this
 gives rise to a potential hierarchy of types that can be represented by
 a directed acyclical graph:
-<img src="Inheritance_diagram.svg" title="Inheritance_diagram.svg"
-width="744" height="744" alt="Inheritance_diagram.svg" />
+
+![\ ](Inheritance_diagram.svg.png){height=8cm}
 
 An object of type `body` is **type compatible** with both `a_proton` and
 `a_mutilated_proton`, so any of these two can, for example, appear in a
 call to the procedure `kick`.
 
-## Polymorphism
+# Polymorphism
 
-### Declaring entities with `CLASS`
+## Declaring entities with `CLASS`
 
 By declaring an object with the `CLASS` instead of the `TYPE` specifier,
 is is possible to defer the actual type that an object has to be
@@ -898,7 +895,7 @@ following prerequisites:
 For example, the typed alllocation statement executed on a polymorphic
 allocatable object
 
-``` fortran
+```f90
 CLASS(body), ALLOCATABLE :: a_polymorphic_body
 :
 ALLOCATE( charged_body :: a_polymorphic_body )
@@ -914,7 +911,7 @@ dynamic type is considered to be the same as the declared type, although
 this is only useful in very few contexts that do not require the object
 to be allocated or associated.</small>
 
-### Run-time type and class identification
+## Run-time type and class identification
 
 Within the scope of the object's declaration, only the components of its
 declared type are accessible. Also, I/O operations on a polymorphic
@@ -923,7 +920,7 @@ way to obtain access to the complete object is to use a construct that
 permits **run-time type identification** (not a Fortran term),
 `SELECT TYPE`. For example, the I/O statements in
 
-``` fortran
+```f90
 SELECT TYPE (a_polymorphic_body)
 TYPE IS (body)
    WRITE(*,*) 'object of type body has value        ', a_polymorphic_body
@@ -932,7 +929,6 @@ TYPE IS (charged_body)
 CLASS default
    ERROR STOP 'Type extension unsupported in this construct'
 END SELECT
-   
 ```
 
 are permitted, since inside the block for each **type guard** the object
@@ -949,11 +945,11 @@ should be preferably used to gain access to additional type components.
 For updates of the `charge` component of a `charged_body` object, one
 now could consider the following:
 
-``` fortran
+```f90
 SUBROUTINE recharge(a_charged_body, dq)
    TYPE(charged_body), INTENT(inout) :: a_charged_body
    REAL, INTENT(in) :: dq
-   
+
    a_charged_body%charge = a_charged_body%charge + dq
 END SUBROUTINE
 ```
@@ -965,14 +961,13 @@ actual argument's declared type. One can work around this by using a
 `SELECT TYPE` construct with **run-time class identification** (not a
 Fortran term), based on writing **class guards** instead of type guards:
 
-``` fortran
+```f90
 SELECT TYPE (a_polymorphic_body)
 CLASS IS (charged_body)  ! new declared type for a_polymorphic_body
    CALL recharge(a_polymorphic_body, dq=1.0e-5)
 CLASS default
    WRITE(*,*) 'INFO: object a_polymorphic_body was not modified.'
 END SELECT
-   
 ```
 
 The `recharge` procedure will then be invoked if the dynamic type of
@@ -988,29 +983,29 @@ construct; in that case, a type guard has precedence over a class guard
 specifying the same type with respect to selection of the guarded
 statements to be executed.</small>
 
-### Unlimited polymorphic objects
+## Unlimited polymorphic objects
 
 A special case of polymorphism is that an object can be **unlimited
 polymorphic**. Such an object, declared with `CLASS(*)`, can be of any
 dynamic type (intrinsic type, extensible derived type, `SEQUENCE` or
 `BIND(C)` derived type), as illustrated by the following statements:
 
-``` fortran
-CLASS(*), ALLOCATABLE :: a_unlimited ! has no declared type, so any type is an extension
+```f90
+CLASS(*), ALLOCATABLE :: a_unlimited  ! has no declared type, so any type is an extension
 
-ALLOCATE( a_unlimited, source=2.5E4) ! dynamic type becomes real
+ALLOCATE( a_unlimited, source=2.5E4)  ! dynamic type becomes real
 
 SELECT TYPE ( a_unlimited )
 TYPE IS (REAL)
-   WRITE(*,*) 'a_unlimited is of intrinsic real type with value ', a_unlimited  
+   WRITE(*,*) 'a_unlimited is of intrinsic real type with value ', a_unlimited
 END SELECT
 
 DEALLOCATE( a_unlimited )
-ALLOCATE( a_unlimited, source=a_proton) ) ! dynamic type becomes charged_body
+ALLOCATE( a_unlimited, source=a_proton) )  ! dynamic type becomes charged_body
 
 SELECT TYPE ( a_unlimited )
 TYPE IS (charged_body)
-   WRITE(*,*) 'a_unlimited is a charged_body with value ', a_unlimited  
+   WRITE(*,*) 'a_unlimited is a charged_body with value ', a_unlimited
 END SELECT
 ```
 
@@ -1036,7 +1031,7 @@ this, a supporting type for the purpose of holding data targeted for
 manipulation of other objects is presented; its definition (placed in
 the module `mod_utility_types`) reads
 
-``` fortran
+```f90
 TYPE :: any_object
    CHARACTER(len=:), ALLOCATABLE :: description
    CLASS(*), ALLOCATABLE :: value(:)
@@ -1056,7 +1051,7 @@ compiler bugs and make handling of scalar data easier. The following
 example illustrates how to establish a simple interface for setting
 components of a structure:
 
-``` fortran
+```f90
 MODULE mod_wtype
    USE mod_utility_types, ONLY : initialize => any_object
 
@@ -1070,10 +1065,10 @@ CONTAINS
       ! in-place setting to avoid memory bursts for large objects
       TYPE(wtype), INTENT(inout) :: a_wtype
       TYPE(initialize), INTENT(in), TARGET :: a_component
-      
+
       INTEGER :: wsize
       REAL, POINTER :: pw(:,:)
-      
+
       SELECT CASE (a_component%description)
       CASE ("nonzeros")
          IF ( allocated(a_component%value) ) THEN
@@ -1089,7 +1084,7 @@ CONTAINS
                SELECT TYPE ( w => a_component%value )
                TYPE IS (REAL)
                   pw(1:a_component%shape(1), 1:a_component%shape(2)) => w
-                  a_wtype%w = pw 
+                  a_wtype%w = pw
                END SELECT
             END IF
          END IF
@@ -1129,25 +1124,25 @@ END MODULE
 The program invoking the `setup_wtype` procedure might do so as follows,
 to set up a `wtype` object:
 
-``` fortran
+```f90
    USE mod_wtype
    TYPE(initialize) :: c_nz, c_w
    TYPE(wtype) :: my_wtype
    INTEGER :: i, j
-   INTEGER :: ndim 
+   INTEGER :: ndim
 
    ndim = ...
-   
+
    ASSOCIATE ( my_data => [ ((real (max(0, min(i-j+2, j-i+2))), j=1, ndim), i=1, ndim) ] )
       c_nz = initialize("nonzeros", count(my_data /= 0))
       c_w = initialize("w", my_data, [ ndim, ndim ] )
    END ASSOCIATE
 
-   CALL setup_wtype(my_wtype, c_nz) 
-   CALL setup_wtype(my_wtype, c_w)  
+   CALL setup_wtype(my_wtype, c_nz)
+   CALL setup_wtype(my_wtype, c_w)
 ```
 
-## Type-bound procedures (TBP)
+# Type-bound procedures (TBP)
 
 To resolve the class mismatch issues arising from the use of polymorphic
 objects, one needs a language mechanism for making a run-time decision
@@ -1157,13 +1152,13 @@ type in the type definition via a `PROCEDURE` statement in the type's
 `CONTAINS` part. For the type `body`, the augmented type definition
 reads
 
-``` fortran
+```f90
 TYPE :: body
    REAL :: mass
    REAL :: pos(3), vel(3)
 CONTAINS
    PROCEDURE :: update => update_body
-END TYPE  
+END TYPE
 ```
 
 This does not impact how the structure constructor is used; for this,
@@ -1172,7 +1167,7 @@ establish a simple and uniform interface for object updates, the
 procedure `update_body` makes use of the `any_object` type discussed
 earlier, which in view of the context is locally renamed to `change`:
 
-``` fortran
+```f90
 SUBROUTINE update_body(a_body, a_change)
    CLASS(body), INTENT(inout) :: a_body
    TYPE(change), INTENT(in) :: a_change
@@ -1181,7 +1176,7 @@ SUBROUTINE update_body(a_body, a_change)
      CASE ('mass')
         SELECT TYPE ( delta => a_change%value(1) )
         TYPE IS (real)
-           CALL accrete(a_body, delta) 
+           CALL accrete(a_body, delta)
         END SELECT
      CASE ('momentum')
         SELECT TYPE ( delta => a_change%value )
@@ -1191,7 +1186,7 @@ SUBROUTINE update_body(a_body, a_change)
      CASE ('position')
         SELECT TYPE ( delta => a_change%value )
         TYPE IS (real)
-           IF ( size(delta) >= 3) a_body%pos = a_body%pos + delta(1:3) 
+           IF ( size(delta) >= 3) a_body%pos = a_body%pos + delta(1:3)
         END SELECT
      END SELECT
    END IF
@@ -1208,7 +1203,7 @@ Invocation of the procedure could be done in the usual manner, but the
 preferred style, especially in the case that the actual argument is
 polymorphic, is to do it through the object itself:
 
-``` fortran
+```f90
 TYPE(change) ::  dx
 :
 dx = change(description='mass', value=[0.0, 2.0, 0.0])
@@ -1232,7 +1227,7 @@ modification of the `charge` component (in addition to that of other
 components) of an object of dynamic type `charged_body`, it is possible
 to **override** the parent type's bound procedure:
 
-``` fortran
+```f90
 TYPE, EXTENDS(body) :: charged_body
    REAL :: charge
 CONTAINS
@@ -1242,11 +1237,11 @@ END TYPE
 
 with the procedure defined as follows:
 
-``` fortran
+```f90
 SUBROUTINE update_charged_body(a_body, a_change)
    CLASS(charged_body) :: a_body
    TYPE(change) :: a_change
-   
+
    IF ( allocated(a_change%description) .AND. allocated(a_change%value) ) THEN
       SELECT CASE ( trim(a_change%description) )
       CASE ('charge')
@@ -1255,7 +1250,7 @@ SUBROUTINE update_charged_body(a_body, a_change)
             a_body%charge = a_body%charge + delta
          END SELECT
       CASE default
-         CALL a_body%body%update(a_change) 
+         CALL a_body%body%update(a_change)
          ! assure that a change to a parent component is dealt with
       END SELECT
    END IF
@@ -1268,7 +1263,7 @@ extended type; even the argument keywords must be the same. Once the
 override has been defined, the call through an object of dynamic type
 `charged_body` will be dispatched to `update_charged_body`:
 
-``` fortran
+```f90
 TYPE(change) ::  dc, dp
 CLASS(body), ALLOCATABLE :: my_polymorphic_body
 
@@ -1279,8 +1274,8 @@ dc = change(description='charge', value=5.0E-6)
 dp = change(description='momentum', value=[-1.0,1.0,0.0])
 
 ! both the following dispatch to update_charged_body
-CALL my_polymorphic_body%update(dc) 
-CALL my_polymorphic_body%update(dp) 
+CALL my_polymorphic_body%update(dc)
+CALL my_polymorphic_body%update(dp)
 ```
 
 **Notes:**
@@ -1301,20 +1296,20 @@ CALL my_polymorphic_body%update(dp)
   be `NON_OVERRIDABLE`; its implementation then is regarded as valid for
   all conceivable extension types.
 
-## Abstract types and interfaces
+# Abstract types and interfaces
 
 The `sortable` type used for demonstrating the `sortable_list`
 functionality in the [object-based
-chapter's](User:RBaSc/draft_ftnoo#Object-based_features_and_programming_techniques "wikilink")
+chapter's](https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo#Object-based_features_and_programming_techniques)
 example was set up as a fixed container-like type. It is desirable to be
 able to use the list machinery more flexibly i.e., for any type that
 supports the "less-than" comparison. This can be achieved by introducing
 an **abstract type**
 
-``` fortran
+```f90
 TYPE, ABSTRACT :: sortable
 CONTAINS
-   PROCEDURE(compare), DEFERRED :: less_than 
+   PROCEDURE(compare), DEFERRED :: less_than
    ! ... more to follow
 END TYPE
 ```
@@ -1324,22 +1319,22 @@ whose dynamic type is abstract, or a non-polymorphic object of abstract
 type. For this reason, the deferred binding cannot represent an existing
 procedure, but is characterized by an **abstract interface**:
 
-``` fortran
+```f90
 ABSTRACT INTERFACE
    PURE LOGICAL FUNCTION compare(s1, s2)
       IMPORT :: sortable
-      CLASS(sortable), INTENT(in) :: s1, s2 
+      CLASS(sortable), INTENT(in) :: s1, s2
       ! dispatch is via the first argument
    END FUNCTION
 END INTERFACE
-   
+
 ```
 
 The `IMPORT` statement is required to give the interface access to the
 type defined in its host. Furthermore, an override of the structure
 constructor will be needed
 
-``` fortran
+```f90
 INTERFACE sortable
    PROCEDURE :: create_sortable
 END INTERFACE
@@ -1355,55 +1350,55 @@ This framework permits the programmer to implement the following
 programming technique, which is also known as **dependency inversion**
 (not a Fortran term):
 
-1.  Any machinery that makes use of polymorphic `sortable` objects is
-    made to only refer to the above abstractions. For example, the
-    definition of the `sorted_list` type could be adapted to read
+1. Any machinery that makes use of polymorphic `sortable` objects is
+   made to only refer to the above abstractions. For example, the
+   definition of the `sorted_list` type could be adapted to read
 
-TYPE, PUBLIC :: sorted_list
+   ``` fortran
+   TYPE, PUBLIC :: sorted_list
 
-`  PRIVATE`  
-`  CLASS(sortable), ALLOCATABLE :: data `  
-`  ! changed to refer to abstract type`  
-`  TYPE(sorted_list), POINTER :: next => null()`
+   PRIVATE
+   CLASS(sortable), ALLOCATABLE :: data
+     ! changed to refer to abstract type
+     TYPE(sorted_list), POINTER :: next => null()
 
-CONTAINS
+   CONTAINS
 
-`  FINAL :: delete_sorted_list`
+     FINAL :: delete_sorted_list
 
-END TYPE
-
-</syntaxhighlight>
+   END TYPE
+   ```
 
 The advantage of this is that no change to the preexisting machinery
 will be needed whenever a programmer decides to add an extension type as
 outlined in 2. below.
 
-1.  For a concrete realization of a `sortable` object, the programmer
-    needs to create a type extension, for example
+1. For a concrete realization of a `sortable` object, the programmer
+   needs to create a type extension, for example
 
-TYPE, PUBLIC, EXTENDS(sortable) :: sortable_string
+   ``` fortran
+   TYPE, PUBLIC, EXTENDS(sortable) :: sortable_string
 
-`  CHARACTER(len=:), ALLOCATABLE :: string`
+     CHARACTER(len=:), ALLOCATABLE :: string
 
-CONTAINS
+   CONTAINS
 
-`  PROCEDURE :: less_than => less_than_string`
+     PROCEDURE :: less_than => less_than_string
 
-END TYPE
-
-</syntaxhighlight>
+   END TYPE
+   ```
 
 including an *obligatory* implementation `less_than_string` of an
 overriding TBP for the deferred binding. The constructor function
 (promised earlier, but not yet delivered) also needs to be updated to
 enable creation of objects of the extended type.
 
-## Generic type-bound procedures and operator overloading
+# Generic type-bound procedures and operator overloading
 
 As a convenience, use of an overloading for the comparison operator "\<"
 can be provided by creating a **generic** type-bound procedure:
 
-``` fortran
+```f90
 TYPE, ABSTRACT :: sortable
 CONTAINS
    PROCEDURE(compare), DEFERRED :: less_than
@@ -1413,7 +1408,7 @@ END TYPE
 
 which means that when a statement involving a comparison expression
 
-``` fortran
+```f90
 CLASS(sortable), ALLOCATABLE :: s1, s2
 
 s1 = sortable( ... )
@@ -1439,9 +1434,9 @@ polymorphic dummy arguments that are related by inheritance cannot be
 distinguished for the purpose of compile-time resolution to a specific
 procedure.
 
-## Completing the dependency inversion
+# Completing the dependency inversion
 
-### Discussion of structural dependencies
+## Discussion of structural dependencies
 
 When implementing the above concept, typically a separate module, say
 `mod_sortable_extensions`, is created for some or all of the extension
@@ -1462,7 +1457,7 @@ that depends on it must be able to call it. As a consequence, one would
 end up with a circular `USE` dependency between the two modules, which
 is prohibited.
 
-### Using submodules to break dependency cycles
+## Using submodules to break dependency cycles
 
 To deal with such a situation (among others), the concept of
 **submodule** is available. This is a type of program unit that serves
@@ -1475,7 +1470,7 @@ is an extension), the latter in the submodule itself.
 For the constructor function, the following interface block can be
 declared in `mod_sortable`:
 
-``` fortran
+```f90
 INTERFACE
    MODULE FUNCTION create_sortable(init) RESULT(r)
       CLASS(sortable), ALLOCATABLE :: r
@@ -1500,21 +1495,21 @@ submodule.
 - the type `initialize` is, again, a renamed version of the `any_object`
   type referred to earlier.
 
-### Implementation of the constructor
+## Implementation of the constructor
 
 The submodule containing the implementation then reads as follows:
 
-``` fortran
+```f90
 SUBMODULE (mod_sortable) smod_constructor
 CONTAINS
    MODULE PROCEDURE create_sortable
       USE mod_sortable_extensions, ONLY : sortable_string
-      
+
       IF ( allocated(init%description) .AND. allocated(init%value) ) THEN
          SELECT CASE (init%description)
          CASE ('sortable_string')
             SELECT TYPE ( value => init%value(1) )
-            TYPE IS (CHARACTER(len=*)) 
+            TYPE IS (CHARACTER(len=*))
                ALLOCATE( r, source=sortable_string(value) )
             END SELECT
          END SELECT
@@ -1542,13 +1537,20 @@ END SUBMODULE
   `SUBMODULE (`<parent module>`:`<parent submodule>`) `<submodule_name>
   and the names of submodules of a given module must be unique.
 
-### Diagramming the dependencies between program units
+<div style="page-break-after: always"></div>
+
+## Diagramming the dependencies between program units
 
 The following diagram shows the use and host association relationships
 between the modules (blue boxes), the submodule (green box), and a main
-program unit (orange box) for this example:![Dependencies between
+program unit (orange box) for this example:
+
+Dependencies between
 program units implementing and using an interface
-class](Dependency_inversion.svg "Dependencies between program units implementing and using an interface class")
+class
+
+![\ ](Dependency_inversion.svg.png){height=8cm}
+
 
 The small triangles in the diagram refer to use ("u") association and
 host ("h") association, respectively. The separation of the
@@ -1557,15 +1559,15 @@ circular `USE` references (the lower two "u" triangles in the diagram).
 
 The compilation order for separate files would be:
 
-1.  `mod_sortable`
-2.  `program` and `mod_sortable_extensions`, independently
-3.  `smod_constructor`
+1. `mod_sortable`
+2. `program` and `mod_sortable_extensions`, independently
+3. `smod_constructor`
 
 # Performance and ease of use
 
-## Functions with parameters
+# Functions with parameters
 
-### A type definition for invocation of a general function
+## A type definition for invocation of a general function
 
 In scientific applications, a commonly occurring requirement is the need
 to evaluate functions that depend on additional parameters, apart from
@@ -1581,7 +1583,7 @@ section presents a way for handling this programmatically, using the
 object-oriented features of Fortran. We start with the outline for a
 type definition of sufficient generality:
 
-``` fortran
+```f90
 TYPE, PUBLIC :: pfunc_type
    PRIVATE
    PROCEDURE(pfunc), POINTER, NOPASS :: fp => null()
@@ -1609,11 +1611,11 @@ It supplies
 Notionally, one could invoke a properly set up `pfunc_type` object
 through
 
-``` fortran
+```f90
 TYPE(pfunc_type) :: pfunc_obj
 REAL :: x
 
-pfunc_obj = pfunc_type(psin, 2) 
+pfunc_obj = pfunc_type(psin, 2)
 ! definitions of procedure and data object discussed further below
 x = ...
 
@@ -1632,12 +1634,12 @@ the supplied functions. On the other hand, the invocation needs to
 explicitly specify the `param` component, making it a bit unwieldy; the
 use of `pfunc_type` objects will be simplified as we go on.
 
-### Performance issues arising from object-oriented programming
+## Performance issues arising from object-oriented programming
 
 Let us look at a target function implementation, in form of a trivial
 example $\sin(\lambda x)$:
 
-``` fortran
+```f90
 PURE REAL FUNCTION psin(x, param)
    REAL, INTENT(in) :: x
    CLASS(*), INTENT(in), OPTIONAL :: param
@@ -1666,7 +1668,7 @@ The resulting performance impact is typical for object-oriented designs
 that operate in multitudes on small objects. Making use of an
 array-based version of the function
 
-``` fortran
+```f90
 PURE FUNCTION psin_array(x, param) RESULT(r)
    REAL, INTENT(in) :: x(:)
    REAL :: r(size(x))
@@ -1690,7 +1692,7 @@ the actual calculational code (marked "kernel" in the above box) is
 amenable to array-related compiler optimizations (the specifics of which
 depend on both hardware architecture and working set size).
 
-### Completing the function type definition
+## Completing the function type definition
 
 The aim now is to proceed to a framework that permits to use both the
 scalar and the array versions in a uniform way, thereby making life for
@@ -1700,7 +1702,7 @@ where it is needed.
 The full definition of `pfunc_type`, including its referenced abstract
 interfaces, reads
 
-``` fortran
+```f90
 TYPE, PUBLIC :: pfunc_type
    PRIVATE
    PROCEDURE(pfunc), POINTER, NOPASS :: fp => null()
@@ -1729,7 +1731,7 @@ which is used in each given object), it is advantageous to provide a
 generic type-bound procedure `f` as a front end for ease of use. The
 specifics `f_scalar` and `f_array` for this read
 
-``` fortran
+```f90
 REAL FUNCTION f_scalar(this, x)
    CLASS(pfunc_type), INTENT(in) :: this
    REAL, INTENT(in) :: x
@@ -1767,7 +1769,7 @@ extended. Disambiguation is by rank of `x`.
 
 The structure constructor for the type is overloaded
 
-``` fortran
+```f90
 INTERFACE pfunc_type
    MODULE PROCEDURE create_pfunc_type
    MODULE PROCEDURE create_pfunc_type_array
@@ -1776,7 +1778,7 @@ END INTERFACE pfunc_type
 
 with the following specific functions:
 
-``` fortran
+```f90
 TYPE(pfunc_type) FUNCTION create_pfunc_type(fp, param)
    PROCEDURE(pfunc) :: fp
    CLASS(*), INTENT(in), OPTIONAL :: param
@@ -1798,22 +1800,22 @@ END FUNCTION create_pfunc_type_array
 Disambiguation is possible due to the sufficiently different interfaces
 of the procedure arguments.
 
-### Using the function type
+## Using the function type
 
 With the already-shown implementations for the target functions `psin`
 and `psin_array`, using this framework is illustrated by the following:
 
-``` fortran
+```f90
 TYPE(pfunc_type) :: pfunc_obj
 REAL, PARAMETER :: piby4 = atan(1.0), &
     piby4_arr(4) = [ piby4, 2.*piby4, 3.*piby4, 4.*piby4 ]
 
 pfunc_obj = pfunc_type(psin, 2.)
 WRITE(*,*) pfunc_obj%f(piby4)
-  
+
 pfunc_obj = pfunc_type(psin)
 WRITE(*,*) pfunc_obj%f(piby4)
-  
+
 pfunc_obj = pfunc_type(psin_array, 2.)
 WRITE(*,*) pfunc_obj%f(piby4_arr)
 ```
@@ -1827,12 +1829,12 @@ is considered not present. Once conditional expressions are implemented
 in compilers, the code will be appropriately reworked, since use of this
 feature is recommended against.</small>
 
-## Arrays of structures versus structures of arrays
+# Arrays of structures versus structures of arrays
 
 Returning to our earlier example type body, the next idea would be to
 simulate the dynamics of a large ensemble of bodies. A procedure
 
-``` fortran
+```f90
 SUBROUTINE propagate(bodies, delta_t, force_field)
    TYPE(body), INTENT(inout) :: bodies(:)
    REAL, INTENT(in) :: delta_t
@@ -1844,15 +1846,15 @@ END SUBROUTINE
 might be supplied that modifies the components of all ensemble members,
 for example as follows:
 
-- `%pos `$\longrightarrow$` %pos + delta_t * %vel`
-- `%vel `$\longrightarrow$` %vel + delta_t * force / %mass`
+- `%pos` $\longrightarrow$ `%pos + delta_t * %vel`
+- `%vel` $\longrightarrow$ `%vel + delta_t * force / %mass`
 
 where `force` results from evaluating `force_field` at the position of
 the ensemble member.
 
-## Comments on further language features
+# Comments on further language features
 
-### Variations on the passed object
+## Variations on the passed object
 
 All examples for type-bound procedures given up to now have the property
 that the invoking object itself is passed as the first argument to the
@@ -1868,8 +1870,6 @@ programmer
 
 # References
 
-<references />
-
-[^MFE]: Metcalf, Michael; Reid, John; Cohen, Malcolm; Bader, Reinhold (2023). 
+[^MFE]: Metcalf, Michael; Reid, John; Cohen, Malcolm; Bader, Reinhold (2023).
 *Modern Fortran Explained.* Numerical Mathematics and Scientific Computation.
 Oxford University Press. [ISBN 978-0-19-887657-1](https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1).
