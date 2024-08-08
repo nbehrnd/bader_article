@@ -40,3 +40,8 @@ pandoc pandoc_md.md -s -o groff.pdf --pdf-engine=pdfroff
 A couple of edits are necessary to tidy up the GitHub flavored Markdown file
 (`github_md.md`) which from now on serves as default container of content.
 Future exports to other file formats (e.g., pdf) will start from there.
+
+At present, linting is incomplete.  So far, the conversion of the .md file
+into a .pdf via restructured text (rst) and `rst2pdf` (see file `ex_rst.pdf`)
+represents the content best in terms of completeness.  On the other hand, the
+conversions via pdfLaTeX or groff don't squeeze the two illustrations ...
