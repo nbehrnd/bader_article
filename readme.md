@@ -2,7 +2,7 @@
 title: readme.md
 author: Norwid Behrnd, nbehrnd@yahoo.com
 date: 2024-08-05 Mon
-edit: 2024-08-07 Wed
+edit: 2024-08-09 Fri
 ---
 
 ## purpose
@@ -15,7 +15,12 @@ was saved in the mediawiki format.  The rescue is complemented by saving two
 .png illustrations and a print to pdf of the document fetched from
 <https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo>
 
-## manipulations of the files initially saved
+## initial manipulations of the files initially saved
+
+In addition to the initial fetch of the data from Wikipedia,
+Pandoc assisted to convert the wikimedia source file into Pandoc
+and GitHub flavored markdown, and a complementary pdf written
+via Groff.  These are stored in the upstream branch of this project.
 
 - conversion into Pandoc flavored markdown by
 
@@ -35,7 +40,7 @@ pandoc source.mediawiki --from mediawiki --to gfm -o github_md.md
 pandoc pandoc_md.md -s -o groff.pdf --pdf-engine=pdfroff
 ```
 
-## further work (branch `edit`)
+## further work in private edit branches
 
 A couple of edits are necessary to tidy up the GitHub flavored Markdown file
 (`github_md.md`) which from now on serves as default container of content.
@@ -45,3 +50,6 @@ At present, linting is incomplete.  So far, the conversion of the .md file
 into a .pdf via restructured text (rst) and `rst2pdf` (see file `ex_rst.pdf`)
 represents the content best in terms of completeness.  On the other hand, the
 conversions via pdfLaTeX or groff don't squeeze the two illustrations ...
+
+Incremental updates of the markdown file as well as pdf obtained by either
+workflow based on this source file will be deposit in the main branch.
