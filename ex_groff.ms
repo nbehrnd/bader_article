@@ -224,7 +224,7 @@ coefficients:
 .IP
 .nf
 \f[C]
-\*[NormalTok "degree "]\*[KeywordTok "="]\*[NormalTok " ...  "]\*[CommentTok "! integer value known at run time only"]
+\*[NormalTok "degree "]\*[KeywordTok "="]\*[NormalTok " ... "]\*[CommentTok "! integer value known at run time only"]
 \*[KeywordTok "ALLOCATE"]\*[NormalTok "( p"]\*[OperatorTok "%"]\*[NormalTok "a("]\*[DecValTok "0"]\*[NormalTok ":degree) )"]
 \*[NormalTok "p"]\*[OperatorTok "%"]\*[NormalTok "a("]\*[DecValTok "0"]\*[NormalTok ":) "]\*[KeywordTok "="]\*[NormalTok " ..."]
 \f[]
@@ -264,8 +264,8 @@ functionality supplied with that type:
 \*[NormalTok "   "]\*[DataTypeTok "CHARACTER(len=:)"]\*[NormalTok ", "]\*[DataTypeTok "ALLOCATABLE"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " string"]
 \*[DataTypeTok "END TYPE"]
 
-\*[KeywordTok "INTERFACE"]\*[NormalTok " "]\*[KeywordTok "OPERATOR"]\*[NormalTok "("]\*[OperatorTok "<"]\*[NormalTok ")         "]\*[CommentTok "! compare two objects of type sortable"]
-\*[NormalTok "   "]\*[KeywordTok "MODULE PROCEDURE"]\*[NormalTok " less_than "]\*[CommentTok "! implementation not shown here"]
+\*[KeywordTok "INTERFACE"]\*[NormalTok " "]\*[KeywordTok "OPERATOR"]\*[NormalTok "("]\*[OperatorTok "<"]\*[NormalTok ")          "]\*[CommentTok "! compare two objects of type sortable"]
+\*[NormalTok "   "]\*[KeywordTok "MODULE PROCEDURE"]\*[NormalTok " less_than  "]\*[CommentTok "! implementation not shown here"]
 \*[KeywordTok "END INTERFACE"]
 \f[]
 .fi
@@ -293,7 +293,7 @@ executing the following statements:
 \*[DataTypeTok "TYPE(sortable)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " my_data"]
 \*[NormalTok ":"]
 \*[NormalTok "my_data "]\*[KeywordTok "="]\*[NormalTok " ..."]
-\*[NormalTok "my_list"]\*[OperatorTok "%"]\*[NormalTok "data "]\*[KeywordTok "="]\*[NormalTok " my_data  "]\*[CommentTok "! will only compile if type definition is accessible in host"]
+\*[NormalTok "my_list"]\*[OperatorTok "%"]\*[NormalTok "data "]\*[KeywordTok "="]\*[NormalTok " my_data  "]\*[CommentTok "! only compiles if type definition is accessible in host"]
 \f[]
 .fi
 .LP
@@ -322,7 +322,7 @@ statements in
 .fi
 .LP
 result in an object \f[CR]q\f[R] auto\-allocated to the value
-\f[CR]q%a(1:3) == [ 2., 3., 1.]\f[R], and an object \f[CR]r\f[R] with
+\f[CR]q%a(1:3) == [2., 3., 1.]\f[R], and an object \f[CR]r\f[R] with
 \f[CR]r%a\f[R] unallocated.
 .PP
 For the second example type from the last section, the executable
@@ -412,7 +412,6 @@ and the implementation of \f[CR]create_polynomial\f[R] (in the
 \f[C]
 \*[KeywordTok "PURE"]\*[NormalTok " "]\*[DataTypeTok "TYPE(polynomial)"]\*[NormalTok " "]\*[KeywordTok "FUNCTION"]\*[NormalTok " create_polynomial(a)"]
 \*[NormalTok "   "]\*[DataTypeTok "REAL"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(in)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " a("]\*[DecValTok "0"]\*[NormalTok ":)"]
-
 \*[NormalTok "   "]\*[DataTypeTok "INTEGER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " degree("]\*[DecValTok "1"]\*[NormalTok ")"]
 
 \*[NormalTok "   degree "]\*[KeywordTok "="]\*[NormalTok " "]\*[FunctionTok "findloc"]\*[NormalTok "( a "]\*[OperatorTok "/="]\*[NormalTok " "]\*[FloatTok "0.0"]\*[NormalTok ", "]\*[DataTypeTok "value"]\*[KeywordTok "="]\*[ConstantTok ".true."]\*[NormalTok ", back"]\*[KeywordTok "="]\*[ConstantTok ".true."]\*[NormalTok " ) "]\*[KeywordTok "\-"]\*[NormalTok " "]\*[DecValTok "1"]
@@ -446,7 +445,6 @@ with the implementation of \f[CR]create_sorted_list\f[R] as follows:
 \*[KeywordTok "PURE"]\*[NormalTok " "]\*[KeywordTok "FUNCTION"]\*[NormalTok " create_sorted_list(item_array) "]\*[KeywordTok "RESULT"]\*[NormalTok "(head)"]
 \*[NormalTok "   "]\*[DataTypeTok "TYPE(sortable)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(in)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " item_array(:)"]
 \*[NormalTok "   "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " head"]
-
 \*[NormalTok "   "]\*[DataTypeTok "INTEGER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " i"]
 
 \*[NormalTok "   "]\*[KeywordTok "DO"]\*[NormalTok " i "]\*[KeywordTok "="]\*[NormalTok " "]\*[DecValTok "1"]\*[NormalTok ", "]\*[FunctionTok "size"]\*[NormalTok "(item_array)"]
@@ -515,7 +513,7 @@ produces the same result as
 The terms \f[B]deep copy\f[R] and \f[B]shallow copy\f[R] (neither are
 Fortran terms) are sometimes used to describe the above behaviour for
 \f[CR]ALLOCATABLE\f[R] and \f[CR]POINTER\f[R] components, respectively.
-Note that \-\- different from the default structure constructor \-\-
+Note that \[en] different from the default structure constructor \[en]
 having \f[CR]PRIVATE\f[R] components does not affect the use of default
 assigment.
 However, the semantics of default assignment might not be what is needed
@@ -548,9 +546,9 @@ The downside of this is that in code like
 \f[]
 .fi
 .LP
-\- with the overloaded concatenation operator meaning that the argument
-lists are joined \- multiple deep copies need to be done (the
-implementation of the module procedure \f[CR]join_lists\f[R] that
+\[rs]\[en] with the overloaded concatenation operator meaning that the
+argument lists are joined \[en] multiple deep copies need to be done
+(the implementation of the module procedure \f[CR]join_lists\f[R] that
 supplies the necessary specific for \f[CR]//\f[R] is not shown here; see
 the source \f[CR]code sorted_list.f90\f[R] for details).
 It turns out that some of these exist only intermediately.
@@ -562,9 +560,8 @@ assignment of \f[CR]sorted_list\f[R] objects:
 \f[C]
 \*[KeywordTok "SUBROUTINE"]\*[NormalTok " assign_sorted_list("]\*[KeywordTok "to"]\*[NormalTok ", from)"]
 \*[NormalTok "   "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(in)"]\*[NormalTok ", "]\*[DataTypeTok "TARGET"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " from"]
-\*[NormalTok "   "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(out)"]\*[NormalTok ", "]\*[DataTypeTok "TARGET"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " "]\*[KeywordTok "to"]\*[NormalTok "   "]\*[CommentTok "! finalizer is executed on entry,"]
-\*[NormalTok "                                                  "]\*[CommentTok "! see below for discussion of this."]
-
+\*[NormalTok "   "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(out)"]\*[NormalTok ", "]\*[DataTypeTok "TARGET"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " "]\*[KeywordTok "to"]\*[NormalTok "  "]\*[CommentTok "! finalizer is executed on entry,"]
+\*[NormalTok "                                                 "]\*[CommentTok "! see below for discussion of this."]
 \*[NormalTok "   "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ", "]\*[DataTypeTok "POINTER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " p, q"]
 
 \*[NormalTok "   p "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok " from; q "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok " "]\*[KeywordTok "to"]
@@ -622,7 +619,7 @@ The module procedure\[aq]s implementation might then be as follows:
 \*[NormalTok "   "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(inout)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " list"]
 
 \*[NormalTok "   "]\*[KeywordTok "IF"]\*[NormalTok " ( "]\*[FunctionTok "associated"]\*[NormalTok "(list"]\*[OperatorTok "%"]\*[NormalTok "next) ) "]\*[KeywordTok "THEN"]
-\*[NormalTok "      "]\*[KeywordTok "DEALLOCATE"]\*[NormalTok "( list"]\*[OperatorTok "%"]\*[NormalTok "next )    "]\*[CommentTok "! invokes the finalizer recursively"]
+\*[NormalTok "      "]\*[KeywordTok "DEALLOCATE"]\*[NormalTok "( list"]\*[OperatorTok "%"]\*[NormalTok "next )  "]\*[CommentTok "! invokes the finalizer recursively"]
 \*[NormalTok "   "]\*[KeywordTok "END IF"]
 \*[KeywordTok "END SUBROUTINE"]
 \f[]
@@ -666,8 +663,16 @@ a single function call to the \f[CR]create_sorted_list()\f[R] function
 shown earlier) will result in a mutilated left\-hand side, because the
 finalizer will be executed on the function that overloads the
 constructor, resulting in \f[CR]slq%next\f[R] being disassociated.
-For this reason, the following guideline applies: See also the article
-\[dq]\c
+For this reason, the following guideline applies:
+.QS
+.LP
+Recommendation:
+.br
+Finalizers, overloads for the default constructor, and overload of the
+assignment operation should usually be jointly implemented.
+.QE
+.LP
+See also the article \[dq]\c
 .pdfhref W -D "https://en.wikipedia.org/wiki/Rule_of_three_(C%2B%2B_programming)" -A "\c" \
  -- "Rule of three"
 \&\[dq] for the analogous situation in C++.
@@ -829,7 +834,6 @@ multiplication of two polynomials:
 \f[C]
 \*[KeywordTok "PURE"]\*[NormalTok " "]\*[DataTypeTok "TYPE(polynomial)"]\*[NormalTok " "]\*[KeywordTok "FUNCTION"]\*[NormalTok " multiply_polynomial(p1, p2)"]
 \*[NormalTok "   "]\*[DataTypeTok "TYPE(polynomial)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(in)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " p1, p2"]
-
 \*[NormalTok "   "]\*[DataTypeTok "INTEGER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " j, l, lmax"]
 
 \*[NormalTok "   lmax "]\*[KeywordTok "="]\*[NormalTok " "]\*[FunctionTok "ubound"]\*[NormalTok "(p1"]\*[OperatorTok "%"]\*[NormalTok "a,"]\*[DecValTok "1"]\*[NormalTok ") "]\*[KeywordTok "+"]\*[NormalTok " "]\*[FunctionTok "ubound"]\*[NormalTok "(p2"]\*[OperatorTok "%"]\*[NormalTok "a,"]\*[DecValTok "1"]\*[NormalTok ")"]
@@ -848,8 +852,6 @@ multiplication of two polynomials:
 \f[]
 .fi
 .LP
-\  \  \  \  \  \  \ 
-.PP
 For the duration of execution of the construct, the associate names can
 be used to refer to their selectors (i.e., the right\-hand sides in the
 association list).
@@ -878,7 +880,6 @@ For objects of container\-like type, a data transfer statement
 .nf
 \f[C]
 \*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " my_list"]
-
 \*[NormalTok ": "]\*[CommentTok "! set up my_list"]
 \*[FunctionTok "WRITE(*"]\*[NormalTok ", "]\*[FunctionTok "*)"]\*[NormalTok " my_list"]
 \f[]
@@ -929,9 +930,8 @@ interfaces\[aq] characteristics, which are described in the following:
 .IP
 .nf
 \f[C]
-\*[KeywordTok "SUBROUTINE"]\*[NormalTok " "]\*[OperatorTok "<"]\*[NormalTok "formatted_io"]\*[OperatorTok ">"]\*[NormalTok "    (dtv, unit, iotype, v_list, iostat, iomsg)"]
-
-\*[KeywordTok "SUBROUTINE"]\*[NormalTok " "]\*[OperatorTok "<"]\*[NormalTok "unformatted_io"]\*[OperatorTok ">"]\*[NormalTok "  (dtv, unit,                 iostat, iomsg)"]
+\*[KeywordTok "SUBROUTINE"]\*[NormalTok " "]\*[OperatorTok "<"]\*[NormalTok "formatted_io"]\*[OperatorTok ">"]\*[NormalTok "   (dtv, unit, iotype, v_list, iostat, iomsg)"]
+\*[KeywordTok "SUBROUTINE"]\*[NormalTok " "]\*[OperatorTok "<"]\*[NormalTok "unformatted_io"]\*[OperatorTok ">"]\*[NormalTok " (dtv, unit,                 iostat, iomsg)"]
 \f[]
 .fi
 .LP
@@ -941,8 +941,8 @@ name referenced in the generic interface.
 .PP
 The dummy arguments\[aq] declarations and meaning are:
 .IP \[bu] 3
-\f[B]\f[CB]dtv\f[B]\f[R]: Must be declared to be a nonpointer
-nonallocatable scalar of the type in question.
+\f[CR]dtv\f[R]: Must be declared to be a nonpointer nonallocatable
+scalar of the type in question.
 If the type is extensible (to be explained later), the declaration must
 be polymorphic (i.e.
 using \f[CR]CLASS\f[R]), otherwise non\-polymorphic (using
@@ -952,18 +952,21 @@ and \[dq]\f[CR]out\f[R]\[dq] or \[dq]\f[CR]inout\f[R]\[dq] for
 \f[CR]READ(...)\f[R].
 It represents the object on which data transfer statements are to be
 executed.
+.RS 3
+.PP
 Note: For the examples in this chapter, we need to use \f[CR]CLASS\f[R],
 but the behaviour is as if \f[CR]TYPE\f[R] were used, as long as the
 actual arguments are non\-polymorphic and the procedure\-based interface
 is used for the invocation.
+.RE
 .IP \[bu] 3
-\f[B]\f[CB]unit\f[B]\f[R]: An \f[CR]INTEGER\f[R] scalar with
+\f[CR]unit\f[R]: An \f[CR]INTEGER\f[R] scalar with
 \f[CR]INTENT(in)\f[R].
 Its value is that of the unit used for data transfer statements.
 Use of other unit values is not permitted (except, perhaps,
 \f[CR]error_unit\f[R] for debugging purposes).
 .IP \[bu] 3
-\f[B]\f[CB]iotype\f[B]\f[R]: A \f[CR]CHARACTER(len=*)\f[R] string with
+\f[CR]iotype\f[R]: A \f[CR]CHARACTER(len=*)\f[R] string with
 \f[CR]INTENT(in)\f[R].
 This can only appear in procedures for formatted I/O.
 The following table describes how the incoming value relates to the
@@ -1006,18 +1009,18 @@ T}
 .TE
 .ad
 .IP \[bu] 3
-\f[B]\f[CB]v_list\f[B]\f[R]: A rank\-1 assumed\-shape \f[CR]INTEGER\f[R]
-array with \f[CR]INTENT(in)\f[R] .
+\f[CR]v_list\f[R]: A rank\-1 assumed\-shape \f[CR]INTEGER\f[R] array
+with \f[CR]INTENT(in)\f[R] .
 This can only appear in procedures for formatted I/O.
 The incoming value is taken from the final part of the \f[CR]DT\f[R]
 edit descriptor; in the example from the table above it would have the
-value [10,2].
+value \f[CR][10,2]\f[R].
 Free use can be made of the value for the disposition (formatting,
 controlling) of I/O transfer statements inside the procedure.
 The array\[aq]s size may be zero; specifically, it will be of size zero
 for the listdirected or namelist cases.
 .IP \[bu] 3
-\f[B]\f[CB]iostat\f[B]\f[R]: An \f[CR]INTEGER\f[R] scalar with
+\f[CR]iostat\f[R]: An \f[CR]INTEGER\f[R] scalar with
 \f[CR]INTENT(out)\f[R].
 It must be given a value consistent with those produced by non\-UDTTIO
 statements in case of an error.
@@ -1026,7 +1029,7 @@ Unsuccessful execution must result in either a positive value, or one of
 the values \f[CR]iostat_end\f[R] or \f[CR]iostat_eor\f[R] from the
 \f[CR]iso_fortran_env\f[R] intrinsic module.
 .IP \[bu] 3
-\f[B]\f[CB]iomsg\f[B]\f[R]: A \f[CR]CHARACTER(len=*)\f[R] string with
+\f[CR]iomsg\f[R]: A \f[CR]CHARACTER(len=*)\f[R] string with
 \f[CR]INTENT(inout)\f[R].
 It must be given a value if a non\-zero \f[CR]iostat\f[R] is returned.
 .LP
@@ -1051,7 +1054,6 @@ on \f[CR]sorted_list\f[R] objects:
 \*[NormalTok "   "]\*[DataTypeTok "CHARACTER(len=*)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(in)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " iotype"]
 \*[NormalTok "   "]\*[DataTypeTok "INTEGER"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(out)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " iostat"]
 \*[NormalTok "   "]\*[DataTypeTok "CHARACTER(len=*)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(inout)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " iomsg"]
-
 \*[NormalTok "   "]\*[DataTypeTok "CHARACTER(len=2)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " next_component"]
 
 \*[NormalTok "   "]\*[KeywordTok "IF"]\*[NormalTok " ( "]\*[FunctionTok "associated"]\*[NormalTok "(dtv"]\*[OperatorTok "%"]\*[NormalTok "next) ) "]\*[KeywordTok "THEN"]
@@ -1084,7 +1086,7 @@ The namelist itself is inaccessible from the procedure; it is not needed
 since the procedure only needs to write the list values in a suitably
 formatted way.
 Termination of the list is indicated by a final logical value of
-\[aq]F\[aq] in the list entry of the namelist file; the termination
+\f[CR]F\f[R] in the list entry of the namelist file; the termination
 information must be appropriately processed in the corresponding
 namelist case of the read procedure.
 .IP \[bu] 3
@@ -1207,7 +1209,6 @@ structure constructor can be used to create a defined value:
 .nf
 \f[C]
 \*[DataTypeTok "TYPE(body)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " a_mutilated_proton"]
-
 \*[CommentTok "! Construct a_proton"]
 \*[NormalTok "a_proton "]\*[KeywordTok "="]\*[NormalTok " charged_body(mass"]\*[KeywordTok "="]\*[FloatTok "1.672"]\*[NormalTok "E"]\*[KeywordTok "\-"]\*[DecValTok "27"]\*[NormalTok ", pos"]\*[KeywordTok "=["]\*[FloatTok "0.0"]\*[NormalTok ", "]\*[FloatTok "0.0"]\*[NormalTok ", "]\*[FloatTok "0.0"]\*[KeywordTok "]"]\*[NormalTok ", "]\*[KeywordTok "&"]
 \*[NormalTok "                        vel"]\*[KeywordTok "=["]\*[FloatTok "0.0"]\*[NormalTok " ,"]\*[FloatTok "0.0"]\*[NormalTok ", "]\*[FloatTok "0.0"]\*[KeywordTok "]"]\*[NormalTok "), charge"]\*[KeywordTok "="]\*[FloatTok "1.602"]\*[NormalTok "E"]\*[KeywordTok "\-"]\*[DecValTok "19"]\*[NormalTok ")"]
@@ -1402,7 +1403,7 @@ Accessing the object\[aq]s data \f[I]always\f[R] needs a
 this case might not only refer to extensible types, but also to
 intrinsic types.
 However, for \f[CR]SEQUENCE\f[R] or \f[CR]BIND(C)\f[R] derived types, no
-type resolution is possible \- these always fall through to a
+type resolution is possible \[en] these always fall through to a
 \f[CR]CLASS default\f[R] guard, if present; use of unlimited polymorphic
 objects to store values of such types is therefore considered unsafe.
 .PP
@@ -1461,7 +1462,6 @@ for setting components of a structure:
 \*[NormalTok "      "]\*[CommentTok "! in\-place setting to avoid memory bursts for large objects"]
 \*[NormalTok "      "]\*[DataTypeTok "TYPE(wtype)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(inout)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " a_wtype"]
 \*[NormalTok "      "]\*[DataTypeTok "TYPE(initialize)"]\*[NormalTok ", "]\*[DataTypeTok "INTENT(in)"]\*[NormalTok ", "]\*[DataTypeTok "TARGET"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " a_component"]
-
 \*[NormalTok "      "]\*[DataTypeTok "INTEGER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " wsize"]
 \*[NormalTok "      "]\*[DataTypeTok "REAL"]\*[NormalTok ", "]\*[DataTypeTok "POINTER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " pw(:,:)"]
 
@@ -1532,21 +1532,21 @@ follows, to set up a \f[CR]wtype\f[R] object:
 .IP
 .nf
 \f[C]
-\*[NormalTok "   "]\*[KeywordTok "USE"]\*[NormalTok " mod_wtype"]
-\*[NormalTok "   "]\*[DataTypeTok "TYPE(initialize)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " c_nz, c_w"]
-\*[NormalTok "   "]\*[DataTypeTok "TYPE(wtype)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " my_wtype"]
-\*[NormalTok "   "]\*[DataTypeTok "INTEGER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " i, j"]
-\*[NormalTok "   "]\*[DataTypeTok "INTEGER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " ndim"]
+\*[KeywordTok "USE"]\*[NormalTok " mod_wtype"]
+\*[DataTypeTok "TYPE(initialize)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " c_nz, c_w"]
+\*[DataTypeTok "TYPE(wtype)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " my_wtype"]
+\*[DataTypeTok "INTEGER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " i, j"]
+\*[DataTypeTok "INTEGER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " ndim"]
 
-\*[NormalTok "   ndim "]\*[KeywordTok "="]\*[NormalTok " ..."]
+\*[NormalTok "ndim "]\*[KeywordTok "="]\*[NormalTok " ..."]
 
-\*[NormalTok "   "]\*[KeywordTok "ASSOCIATE"]\*[NormalTok " ( my_data "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok " "]\*[KeywordTok "["]\*[NormalTok " (("]\*[DataTypeTok "real (max(0, min(i\-j+2, j\-i+2)))"]\*[NormalTok ", j"]\*[KeywordTok "="]\*[DecValTok "1"]\*[NormalTok ", ndim), i"]\*[KeywordTok "="]\*[DecValTok "1"]\*[NormalTok ", ndim) "]\*[KeywordTok "]"]\*[NormalTok " )"]
-\*[NormalTok "      c_nz "]\*[KeywordTok "="]\*[NormalTok " initialize("]\*[StringTok "\[dq]nonzeros\[dq]"]\*[NormalTok ", "]\*[FunctionTok "count"]\*[NormalTok "(my_data "]\*[OperatorTok "/="]\*[NormalTok " "]\*[DecValTok "0"]\*[NormalTok "))"]
-\*[NormalTok "      c_w "]\*[KeywordTok "="]\*[NormalTok " initialize("]\*[StringTok "\[dq]w\[dq]"]\*[NormalTok ", my_data, "]\*[KeywordTok "["]\*[NormalTok " ndim, ndim "]\*[KeywordTok "]"]\*[NormalTok " )"]
-\*[NormalTok "   "]\*[KeywordTok "END ASSOCIATE"]
+\*[KeywordTok "ASSOCIATE"]\*[NormalTok " ( my_data "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok " "]\*[KeywordTok "["]\*[NormalTok " (("]\*[DataTypeTok "real (max(0, min(i\-j+2, j\-i+2)))"]\*[NormalTok ", j"]\*[KeywordTok "="]\*[DecValTok "1"]\*[NormalTok ", ndim), i"]\*[KeywordTok "="]\*[DecValTok "1"]\*[NormalTok ", ndim) "]\*[KeywordTok "]"]\*[NormalTok " )"]
+\*[NormalTok "   c_nz "]\*[KeywordTok "="]\*[NormalTok " initialize("]\*[StringTok "\[dq]nonzeros\[dq]"]\*[NormalTok ", "]\*[FunctionTok "count"]\*[NormalTok "(my_data "]\*[OperatorTok "/="]\*[NormalTok " "]\*[DecValTok "0"]\*[NormalTok "))"]
+\*[NormalTok "   c_w "]\*[KeywordTok "="]\*[NormalTok " initialize("]\*[StringTok "\[dq]w\[dq]"]\*[NormalTok ", my_data, "]\*[KeywordTok "["]\*[NormalTok " ndim, ndim "]\*[KeywordTok "]"]\*[NormalTok " )"]
+\*[KeywordTok "END ASSOCIATE"]
 
-\*[NormalTok "   "]\*[KeywordTok "CALL"]\*[NormalTok " setup_wtype(my_wtype, c_nz)"]
-\*[NormalTok "   "]\*[KeywordTok "CALL"]\*[NormalTok " setup_wtype(my_wtype, c_w)"]
+\*[KeywordTok "CALL"]\*[NormalTok " setup_wtype(my_wtype, c_nz)"]
+\*[KeywordTok "CALL"]\*[NormalTok " setup_wtype(my_wtype, c_w)"]
 \f[]
 .fi
 .SH 1
@@ -1561,6 +1561,7 @@ polymorphic object.
 This can be achieved by binding a procedure to a type in the type
 definition via a \f[CR]PROCEDURE\f[R] statement in the type\[aq]s
 \f[CR]CONTAINS\f[R] part.
+.PP
 For the type \f[CR]body\f[R], the augmented type definition reads
 .IP
 .nf
@@ -1717,7 +1718,7 @@ update from \f[CR]update_charged_body\f[R].
 Without this, changes that impact the parent object would not be done.
 By implementing this consistency of behaviour, the programmer assures
 that the inheritance hierarchy adheres to the \c
-.pdfhref W -D "Liskov_substitution_principle" -A "\c" \
+.pdfhref W -D "https://en.wikipedia.org/wiki/Liskov_substitution_principle" -A "\c" \
  -- "Liskov substitution principle"
 \&;
 .IP \[bu] 3
@@ -1802,16 +1803,12 @@ adapted to read
 .nf
 \f[C]
 \*[DataTypeTok "TYPE"]\*[NormalTok ", "]\*[DataTypeTok "PUBLIC"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " sorted_list"]
-
-\*[DataTypeTok "PRIVATE"]
-\*[CommentTok "CLASS(sortable), ALLOCATABLE :: data"]
-\*[NormalTok "\ \ "]\*[CommentTok "!\ changed\ to\ refer\ to\ abstract\ type"]
-\*[NormalTok "\ \ "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ",\ POINTER\ "]\*[DataTypeTok "::"]\*[NormalTok "\ next\ "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok "\ null()"]
-
-\*[CommentTok "CONTAINS"]
-
-\*[NormalTok "\ \ FINAL\ "]\*[DataTypeTok "::"]\*[NormalTok "\ delete_sorted_list"]
-
+\*[NormalTok "   "]\*[DataTypeTok "PRIVATE"]
+\*[NormalTok "   "]\*[DataTypeTok "CLASS(sortable)"]\*[NormalTok ", "]\*[DataTypeTok "ALLOCATABLE"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " data"]
+\*[NormalTok "   "]\*[CommentTok "!\ changed\ to\ refer\ to\ abstract\ type"]
+\*[NormalTok "\ \  "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ",\ POINTER\ "]\*[DataTypeTok "::"]\*[NormalTok "\ next\ "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok "\ null()"]
+\*[KeywordTok "CONTAINS"]
+\*[NormalTok "\ \  FINAL\ "]\*[DataTypeTok "::"]\*[NormalTok "\ delete_sorted_list"]
 \*[DataTypeTok "END TYPE"]
 \f[]
 .fi
@@ -1821,21 +1818,17 @@ The advantage of this is that no change to the preexisting machinery
 will be needed whenever a programmer decides to add an extension type as
 outlined in 2.
 below.
-.IP " 1." 4
+.IP " 2." 4
 For a concrete realization of a \f[CR]sortable\f[R] object, the
 programmer needs to create a type extension, for example
 .RS 4
 .IP
 .nf
 \f[C]
-\*[DataTypeTok "TYPE"]\*[NormalTok ", "]\*[DataTypeTok "PUBLIC"]\*[NormalTok ", EXTENDS(sortable) "]\*[DataTypeTok "::"]\*[NormalTok " sortable_string"]
-
-\*[NormalTok "\ \ "]\*[DataTypeTok "CHARACTER(len=:)"]\*[NormalTok ",\ ALLOCATABLE\ "]\*[DataTypeTok "::"]\*[NormalTok "\ string"]
-
-\*[CommentTok "CONTAINS"]
-
-\*[NormalTok "\ \ PROCEDURE\ "]\*[DataTypeTok "::"]\*[NormalTok "\ less_than\ "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok "\ less_than_string"]
-
+\*[DataTypeTok "TYPE"]\*[NormalTok ", "]\*[DataTypeTok "PUBLIC"]\*[NormalTok ", "]\*[DataTypeTok "EXTENDS(sortable)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " sortable_string"]
+\*[NormalTok " \ \ "]\*[DataTypeTok "CHARACTER(len=:)"]\*[NormalTok ",\ ALLOCATABLE\ "]\*[DataTypeTok "::"]\*[NormalTok "\ string"]
+\*[KeywordTok "CONTAINS"]
+\*[NormalTok " \ \ "]\*[DataTypeTok "PROCEDURE"]\*[NormalTok "\ "]\*[DataTypeTok "::"]\*[NormalTok "\ less_than\ "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok "\ less_than_string"]
 \*[DataTypeTok "END TYPE"]
 \f[]
 .fi
@@ -1889,7 +1882,7 @@ procedure.
 Named generic type\-bound procedures that do not overload existing
 operations can also be defined; an example for this is given in the
 section \[dq]\c
-.pdfhref W -D "User:RBaSc/draft_ftnoo#Functions_with_parameters" -A "\c" \
+.pdfhref W -D "https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo#Functions_with_parameters" -A "\c" \
  -- "Functions with parameters"
 \&\[dq].
 The rules for generic resolution work similar as for nonpolymorphic
@@ -2025,8 +2018,8 @@ submodules, if any);
 .IP \[bu] 3
 the naming scheme for a submodule always references the direct parent.
 For submodules of submodules, the scheme is
-\f[CR]SUBMODULE (\f[R]\f[CR]:\f[R]\f[CR]) \f[R]<submodule_name> and the
-names of submodules of a given module must be unique.
+\f[CR]SUBMODULE (<parent module>:<parent submodule>) <submodule_name>\f[R]
+and the names of submodules of a given module must be unique.
 .SH 2
 Diagramming the dependencies between program units
 .pdfhref O 2 "Diagramming the dependencies between program units"
@@ -2339,7 +2332,7 @@ illustrated by the following:
 \f[C]
 \*[DataTypeTok "TYPE(pfunc_type)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " pfunc_obj"]
 \*[DataTypeTok "REAL"]\*[NormalTok ", "]\*[DataTypeTok "PARAMETER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " piby4 "]\*[KeywordTok "="]\*[NormalTok " "]\*[BuiltInTok "atan"]\*[NormalTok "("]\*[FloatTok "1.0"]\*[NormalTok "), "]\*[KeywordTok "&"]
-\*[NormalTok "    piby4_arr("]\*[DecValTok "4"]\*[NormalTok ") "]\*[KeywordTok "="]\*[NormalTok " "]\*[KeywordTok "["]\*[NormalTok " piby4, "]\*[FloatTok "2."]\*[KeywordTok "*"]\*[NormalTok "piby4, "]\*[FloatTok "3."]\*[KeywordTok "*"]\*[NormalTok "piby4, "]\*[FloatTok "4."]\*[KeywordTok "*"]\*[NormalTok "piby4 "]\*[KeywordTok "]"]
+\*[NormalTok "   piby4_arr("]\*[DecValTok "4"]\*[NormalTok ") "]\*[KeywordTok "="]\*[NormalTok " "]\*[KeywordTok "["]\*[NormalTok " piby4, "]\*[FloatTok "2."]\*[KeywordTok "*"]\*[NormalTok "piby4, "]\*[FloatTok "3."]\*[KeywordTok "*"]\*[NormalTok "piby4, "]\*[FloatTok "4."]\*[KeywordTok "*"]\*[NormalTok "piby4 "]\*[KeywordTok "]"]
 
 \*[NormalTok "pfunc_obj "]\*[KeywordTok "="]\*[NormalTok " pfunc_type(psin, "]\*[FloatTok "2."]\*[NormalTok ")"]
 \*[FunctionTok "WRITE(*"]\*[NormalTok ","]\*[FunctionTok "*)"]\*[NormalTok " pfunc_obj"]\*[OperatorTok "%"]\*[NormalTok "f(piby4)"]

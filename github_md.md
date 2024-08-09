@@ -70,7 +70,7 @@ once it has been created and subsequently supplied with values of the
 coefficients:
 
 ```f90
-degree = ...  ! integer value known at run time only
+degree = ... ! integer value known at run time only
 ALLOCATE( p%a(0:degree) )
 p%a(0:) = ...
 ```
@@ -102,8 +102,8 @@ TYPE, PUBLIC :: sortable
    CHARACTER(len=:), ALLOCATABLE :: string
 END TYPE
 
-INTERFACE OPERATOR(<)         ! compare two objects of type sortable
-   MODULE PROCEDURE less_than ! implementation not shown here
+INTERFACE OPERATOR(<)          ! compare two objects of type sortable
+   MODULE PROCEDURE less_than  ! implementation not shown here
 END INTERFACE
 ```
 
@@ -126,7 +126,7 @@ the object is done by executing the following statements:
 TYPE(sortable) :: my_data
 :
 my_data = ...
-my_list%data = my_data  ! will only compile if type definition is accessible in host
+my_list%data = my_data  ! only compiles if type definition is accessible in host
 ```
 
 However, as we shall see below, setting up a complete and valid
@@ -149,7 +149,7 @@ r = polynomial( null() )
 ```
 
 result in an object `q` auto-allocated to the value
-`q%a(1:3) == [ 2., 3., 1.]`, and an object `r` with `r%a` unallocated.
+`q%a(1:3) == [2., 3., 1.]`, and an object `r` with `r%a` unallocated.
 
 For the second example type from the last section, the executable
 statements in
@@ -225,7 +225,6 @@ the module) might read
 ```f90
 PURE TYPE(polynomial) FUNCTION create_polynomial(a)
    REAL, INTENT(in) :: a(0:)
-
    INTEGER :: degree(1)
 
    degree = findloc( a /= 0.0, value=.true., back=.true. ) - 1
@@ -255,7 +254,6 @@ with the implementation of `create_sorted_list` as follows:
 PURE FUNCTION create_sorted_list(item_array) RESULT(head)
    TYPE(sortable), INTENT(in) :: item_array(:)
    TYPE(sorted_list) :: head
-
    INTEGER :: i
 
    DO i = 1, size(item_array)
@@ -310,8 +308,8 @@ slq%next => slp%next  ! creates a reference between list objects without copying
 
 The terms **deep copy** and **shallow copy** (neither are Fortran terms)
 are sometimes used to describe the above behaviour for `ALLOCATABLE` and
-`POINTER` components, respectively. Note that -- different from the
-default structure constructor -- having `PRIVATE` components does not
+`POINTER` components, respectively. Note that – different from the
+default structure constructor – having `PRIVATE` components does not
 affect the use of default assigment. However, the semantics of default
 assignment might not be what is needed from the programmer's point of
 view.
@@ -321,7 +319,8 @@ previously been set up by invoking the overloaded constructor. The
 assignment above would then have the following effects:
 
 1. The list elements of the original `slq`, beginning with `slq%next`,
-   would become inaccessible ("orphaned"), effectively causing a memory leak;
+   would become inaccessible ("orphaned"), effectively causing a memory
+   leak;
 2. after the assignment statement, `slq%next` references into
    `slp%next`, resulting in aliasing.
 
@@ -337,8 +336,8 @@ this is that in code like
 slq = slp // slq
 ```
 
-\- with the overloaded concatenation operator meaning that the argument
-lists are joined - multiple deep copies need to be done (the
+\ – with the overloaded concatenation operator meaning that the argument
+lists are joined – multiple deep copies need to be done (the
 implementation of the module procedure `join_lists` that supplies the
 necessary specific for `//` is not shown here; see the source
 `code sorted_list.f90` for details). It turns out that some of these
@@ -350,9 +349,8 @@ assignment of `sorted_list` objects:
 ```f90
 SUBROUTINE assign_sorted_list(to, from)
    TYPE(sorted_list), INTENT(in), TARGET :: from
-   TYPE(sorted_list), INTENT(out), TARGET :: to   ! finalizer is executed on entry,
-                                                  ! see below for discussion of this.
-
+   TYPE(sorted_list), INTENT(out), TARGET :: to  ! finalizer is executed on entry,
+                                                 ! see below for discussion of this.
    TYPE(sorted_list), POINTER :: p, q
 
    p => from; q => to
@@ -402,7 +400,7 @@ PURE RECURSIVE SUBROUTINE delete_sorted_list(list)
    TYPE(sorted_list), INTENT(inout) :: list
 
    IF ( associated(list%next) ) THEN
-      DEALLOCATE( list%next )    ! invokes the finalizer recursively
+      DEALLOCATE( list%next )  ! invokes the finalizer recursively
    END IF
 END SUBROUTINE
 ```
@@ -440,6 +438,11 @@ call to the `create_sorted_list()` function shown earlier) will result
 in a mutilated left-hand side, because the finalizer will be executed on
 the function that overloads the constructor, resulting in `slq%next`
 being disassociated. For this reason, the following guideline applies:
+
+> Recommendation: \
+> Finalizers, overloads for the default constructor, and overload of the
+> assignment operation should usually be jointly implemented.
+
 See also the article "[Rule of
 three](https://en.wikipedia.org/wiki/Rule_of_three_(C%2B%2B_programming))"
 for the analogous situation in C++.
@@ -571,7 +574,6 @@ implement the multiplication of two polynomials:
 ```f90
 PURE TYPE(polynomial) FUNCTION multiply_polynomial(p1, p2)
    TYPE(polynomial), INTENT(in) :: p1, p2
-
    INTEGER :: j, l, lmax
 
    lmax = ubound(p1%a,1) + ubound(p2%a,1)
@@ -588,8 +590,6 @@ PURE TYPE(polynomial) FUNCTION multiply_polynomial(p1, p2)
    END ASSOCIATE
 END FUNCTION
 ```
-
-             
 
 For the duration of execution of the construct, the associate names can
 be used to refer to their selectors (i.e., the right-hand sides in the
@@ -611,7 +611,6 @@ For objects of container-like type, a data transfer statement
 
 ```f90
 TYPE(sorted_list) :: my_list
-
 : ! set up my_list
 WRITE(*, *) my_list
 ```
@@ -652,9 +651,8 @@ The self-defined procedure is restricted with respect to its interfaces'
 characteristics, which are described in the following:
 
 ```f90
-SUBROUTINE <formatted_io>    (dtv, unit, iotype, v_list, iostat, iomsg)
-
-SUBROUTINE <unformatted_io>  (dtv, unit,                 iostat, iomsg)
+SUBROUTINE <formatted_io>   (dtv, unit, iotype, v_list, iostat, iomsg)
+SUBROUTINE <unformatted_io> (dtv, unit,                 iostat, iomsg)
 ```
 
 The placeholders `<formatted_io>` and `<unformatted_io>` must be replaced by
@@ -662,21 +660,23 @@ a specific procedure name referenced in the generic interface.
 
 The dummy arguments' declarations and meaning are:
 
-- **`dtv`**: Must be declared to be a nonpointer nonallocatable scalar
+- `dtv`: Must be declared to be a nonpointer nonallocatable scalar
   of the type in question. If the type is extensible (to be explained
   later), the declaration must be polymorphic (i.e. using `CLASS`),
   otherwise non-polymorphic (using `TYPE`). Its `INTENT` must be `in`
   for `WRITE(...)`, and "`out`" or "`inout`" for `READ(...)`. It
   represents the object on which data transfer statements are to be
-  executed. <small>Note: For the examples in this chapter, we need to
+  executed.
+
+  <small>Note: For the examples in this chapter, we need to
   use `CLASS`, but the behaviour is as if `TYPE` were used, as long as
   the actual arguments are non-polymorphic and the procedure-based
   interface is used for the invocation.</small>
-- **`unit`**: An `INTEGER` scalar with `INTENT(in)`. Its value is that
+- `unit`: An `INTEGER` scalar with `INTENT(in)`. Its value is that
   of the unit used for data transfer statements. Use of other unit
   values is not permitted (except, perhaps, `error_unit` for debugging
   purposes).
-- **`iotype`**: A `CHARACTER(len=*)` string with `INTENT(in)`. This can
+- `iotype`: A `CHARACTER(len=*)` string with `INTENT(in)`. This can
   only appear in procedures for formatted I/O. The following table
   describes how the incoming value relates to the parent I/O transfer
   statement:
@@ -687,21 +687,21 @@ The dummy arguments' declarations and meaning are:
 | `"NAMELIST"` | `WRITE(unit, nml=my_namelist)` **Note:** Referring to the example, at least one `sorted_list` object must be a member of `my_namelist`. |
 | `"DTsorted_list_fmt"` | `WRITE(unit, fmt='(DT"sorted_list_fmt"(10,2))') my_list` **Note:** `DT` is the "derived type" edit descriptor that is needed in format-driven editing to trigger execution of the UDDTIO routine. The string following the `DT` edit descriptor can be freely chosen (even to be zero length); it is recommended that the UDDTIO procedure pay attention to any possible values supplied in the parent I/O statement if it supports DT editing. |
 
-- **`v_list`**: A rank-1 assumed-shape `INTEGER` array with `INTENT(in)`
+- `v_list`: A rank-1 assumed-shape `INTEGER` array with `INTENT(in)`
   . This can only appear in procedures for formatted I/O. The incoming
   value is taken from the final part of the `DT` edit descriptor; in the
-  example from the table above it would have the value \[10,2\]. Free
+  example from the table above it would have the value `[10,2]`. Free
   use can be made of the value for the disposition (formatting,
   controlling) of I/O transfer statements inside the procedure. The
   array's size may be zero; specifically, it will be of size zero for
   the listdirected or namelist cases.
-- **`iostat`**: An `INTEGER` scalar with `INTENT(out)`. It must be given
+- `iostat`: An `INTEGER` scalar with `INTENT(out)`. It must be given
   a value consistent with those produced by non-UDTTIO statements in
   case of an error. Successful execution of the I/O must result in a
   zero value. Unsuccessful execution must result in either a positive
   value, or one of the values `iostat_end` or `iostat_eor` from the
   `iso_fortran_env` intrinsic module.
-- **`iomsg`**: A `CHARACTER(len=*)` string with `INTENT(inout)`. It must
+- `iomsg`: A `CHARACTER(len=*)` string with `INTENT(inout)`. It must
   be given a value if a non-zero `iostat` is returned.
 
 Additional properties and restrictions for UDDTIO are:
@@ -722,7 +722,6 @@ RECURSIVE SUBROUTINE write_fmt_list(dtv, unit, iotype, v_list, iostat, iomsg)
    CHARACTER(len=*), INTENT(in) :: iotype
    INTEGER, INTENT(out) :: iostat
    CHARACTER(len=*), INTENT(inout) :: iomsg
-
    CHARACTER(len=2) :: next_component
 
    IF ( associated(dtv%next) ) THEN
@@ -753,7 +752,7 @@ END SUBROUTINE
 - The namelist itself is inaccessible from the procedure; it is not
   needed since the procedure only needs to write the list values in a
   suitably formatted way. Termination of the list is indicated by a
-  final logical value of 'F' in the list entry of the namelist file; the
+  final logical value of `F` in the list entry of the namelist file; the
   termination information must be appropriately processed in the
   corresponding namelist case of the read procedure.
 - The example implementation does not support `DT` editing; invoking the
@@ -852,7 +851,6 @@ structure constructor can be used to create a defined value:
 
 ```f90
 TYPE(body) :: a_mutilated_proton
-
 ! Construct a_proton
 a_proton = charged_body(mass=1.672E-27, pos=[0.0, 0.0, 0.0], &
                         vel=[0.0 ,0.0, 0.0]), charge=1.602E-19)
@@ -1012,7 +1010,7 @@ END SELECT
 Accessing the object's data *always* needs a `SELECT TYPE` construct;
 type guards in the construct can in this case might not only refer to
 extensible types, but also to intrinsic types. However, for `SEQUENCE`
-or `BIND(C)` derived types, no type resolution is possible - these
+or `BIND(C)` derived types, no type resolution is possible – these
 always fall through to a `CLASS default` guard, if present; use of
 unlimited polymorphic objects to store values of such types is therefore
 considered unsafe.
@@ -1065,7 +1063,6 @@ CONTAINS
       ! in-place setting to avoid memory bursts for large objects
       TYPE(wtype), INTENT(inout) :: a_wtype
       TYPE(initialize), INTENT(in), TARGET :: a_component
-
       INTEGER :: wsize
       REAL, POINTER :: pw(:,:)
 
@@ -1125,21 +1122,21 @@ The program invoking the `setup_wtype` procedure might do so as follows,
 to set up a `wtype` object:
 
 ```f90
-   USE mod_wtype
-   TYPE(initialize) :: c_nz, c_w
-   TYPE(wtype) :: my_wtype
-   INTEGER :: i, j
-   INTEGER :: ndim
+USE mod_wtype
+TYPE(initialize) :: c_nz, c_w
+TYPE(wtype) :: my_wtype
+INTEGER :: i, j
+INTEGER :: ndim
 
-   ndim = ...
+ndim = ...
 
-   ASSOCIATE ( my_data => [ ((real (max(0, min(i-j+2, j-i+2))), j=1, ndim), i=1, ndim) ] )
-      c_nz = initialize("nonzeros", count(my_data /= 0))
-      c_w = initialize("w", my_data, [ ndim, ndim ] )
-   END ASSOCIATE
+ASSOCIATE ( my_data => [ ((real (max(0, min(i-j+2, j-i+2))), j=1, ndim), i=1, ndim) ] )
+   c_nz = initialize("nonzeros", count(my_data /= 0))
+   c_w = initialize("w", my_data, [ ndim, ndim ] )
+END ASSOCIATE
 
-   CALL setup_wtype(my_wtype, c_nz)
-   CALL setup_wtype(my_wtype, c_w)
+CALL setup_wtype(my_wtype, c_nz)
+CALL setup_wtype(my_wtype, c_w)
 ```
 
 # Type-bound procedures (TBP)
@@ -1149,8 +1146,9 @@ objects, one needs a language mechanism for making a run-time decision
 on a procedure invocation that depends on the dynamic type of a
 polymorphic object. This can be achieved by binding a procedure to a
 type in the type definition via a `PROCEDURE` statement in the type's
-`CONTAINS` part. For the type `body`, the augmented type definition
-reads
+`CONTAINS` part.
+
+For the type `body`, the augmented type definition reads
 
 ```f90
 TYPE :: body
@@ -1287,7 +1285,7 @@ CALL my_polymorphic_body%update(dp)
   the parent object would not be done. By implementing this consistency
   of behaviour, the programmer assures that the inheritance hierarchy
   adheres to the [Liskov substitution
-  principle](Liskov_substitution_principle "wikilink");
+  principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle);
 - to enforce using the TBP calls in a use association context, the
   module procedures that implement them can be made `PRIVATE`. The
   accessibility of the TBP itself is determined by the attribute for it
@@ -1327,7 +1325,6 @@ ABSTRACT INTERFACE
       ! dispatch is via the first argument
    END FUNCTION
 END INTERFACE
-
 ```
 
 The `IMPORT` statement is required to give the interface access to the
@@ -1354,37 +1351,29 @@ programming technique, which is also known as **dependency inversion**
    made to only refer to the above abstractions. For example, the
    definition of the `sorted_list` type could be adapted to read
 
-   ``` fortran
+   ```f90
    TYPE, PUBLIC :: sorted_list
-
-   PRIVATE
-   CLASS(sortable), ALLOCATABLE :: data
-     ! changed to refer to abstract type
-     TYPE(sorted_list), POINTER :: next => null()
-
+      PRIVATE
+      CLASS(sortable), ALLOCATABLE :: data
+      ! changed to refer to abstract type
+      TYPE(sorted_list), POINTER :: next => null()
    CONTAINS
-
-     FINAL :: delete_sorted_list
-
+      FINAL :: delete_sorted_list
    END TYPE
    ```
 
 The advantage of this is that no change to the preexisting machinery
-will be needed whenever a programmer decides to add an extension type as
-outlined in 2. below.
+will be needed whenever a programmer decides to add an extension type
+as outlined in 2. below.
 
-1. For a concrete realization of a `sortable` object, the programmer
+2. For a concrete realization of a `sortable` object, the programmer
    needs to create a type extension, for example
 
-   ``` fortran
+   ```f90
    TYPE, PUBLIC, EXTENDS(sortable) :: sortable_string
-
-     CHARACTER(len=:), ALLOCATABLE :: string
-
+      CHARACTER(len=:), ALLOCATABLE :: string
    CONTAINS
-
-     PROCEDURE :: less_than => less_than_string
-
+      PROCEDURE :: less_than => less_than_string
    END TYPE
    ```
 
@@ -1427,7 +1416,7 @@ will automatically select the overridden procedure.
 Named generic type-bound procedures that do not overload existing
 operations can also be defined; an example for this is given in the
 section "[Functions with
-parameters](User:RBaSc/draft_ftnoo#Functions_with_parameters "wikilink")".
+parameters](https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo#Functions_with_parameters)".
 The rules for generic resolution work similar as for nonpolymorphic
 generic procedure interfaces, with the additional restriction that
 polymorphic dummy arguments that are related by inheritance cannot be
@@ -1534,7 +1523,7 @@ END SUBMODULE
   submodules, if any);
 - the naming scheme for a submodule always references the direct parent.
   For submodules of submodules, the scheme is
-  `SUBMODULE (`<parent module>`:`<parent submodule>`) `<submodule_name>
+  `SUBMODULE (<parent module>:<parent submodule>) <submodule_name>`
   and the names of submodules of a given module must be unique.
 
 <div style="page-break-after: always"></div>
@@ -1808,7 +1797,7 @@ and `psin_array`, using this framework is illustrated by the following:
 ```f90
 TYPE(pfunc_type) :: pfunc_obj
 REAL, PARAMETER :: piby4 = atan(1.0), &
-    piby4_arr(4) = [ piby4, 2.*piby4, 3.*piby4, 4.*piby4 ]
+   piby4_arr(4) = [ piby4, 2.*piby4, 3.*piby4, 4.*piby4 ]
 
 pfunc_obj = pfunc_type(psin, 2.)
 WRITE(*,*) pfunc_obj%f(piby4)

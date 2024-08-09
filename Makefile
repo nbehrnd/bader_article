@@ -27,16 +27,17 @@ rst:
 tex:
 	pandoc github_md.md --from gfm -s -o ex_pdflatex.tex
 	sed -i 's/hidelinks//' ex_pdflatex.tex
+	sed -i 's/height=8cm//' ex_pdflatex.tex
 
 # manually replace `article` of letter format by `scrartcl` for ISO A4 format
 # additional edits:
 #%\usepackage{lmodern}
-#\usepackage{libertine}
+#\usepackage{libertine, libertinust1math}
 #\usepackage[scaled=0.8]{beramono}
 #\usepackage{microtype}
 #\usepackage[USenglish]{babel}
 #\usepackage{color,xcolor}
-#\usepackage[linkcolor=true,allcolors=blue]{hyperref}
+#\usepackage[colorlinks=true,linkcolor=true,allcolors=blue]{hyperref}
 #
 # Pandoc's default setup of hypersetup includes a line `hidelinks`; to request
 # sed the substitution allows for the less intrusive blue links to appear.
