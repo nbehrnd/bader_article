@@ -2,7 +2,7 @@
 title: readme.md
 author: Norwid Behrnd, nbehrnd@yahoo.com
 date: 2024-08-05 Mon
-edit: 2024-08-09 Fri
+edit: 2024-08-15 Thu
 ---
 
 ## purpose
@@ -42,9 +42,11 @@ pandoc pandoc_md.md -s -o groff.pdf --pdf-engine=pdfroff
 
 ## further work in private edit branches
 
-A couple of edits are necessary to tidy up the GitHub flavored Markdown file
-(`github_md.md`) which from now on serves as default container of content.
-Future exports to other file formats (e.g., pdf) will start from there.
+Initially, the container format of the very source file was GitHub
+flavored markdown instead of the original mediawiki format.  Since
+Bader's draft contains crosslinks to indicate sections within the
+same document as the source, Pandoc flavored markdown appears more
+suitable for the workflows ahead.
 
 At present, linting is incomplete.  So far, the conversion of the .md file
 into a .pdf via restructured text (rst) and `rst2pdf` (see file `ex_rst.pdf`)
