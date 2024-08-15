@@ -27,7 +27,7 @@ rst:
 tex:
 	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.tex
 	sed -i 's/hidelinks//' ex_pdflatex.tex
-	sed -i 's/height=8cm//' ex_pdflatex.tex
+	sed -i 's/width=8cm//' ex_pdflatex.tex
 
 # manually replace `article` of letter format by `scrartcl` for ISO A4 format
 # additional edits:
@@ -65,4 +65,10 @@ g:
 	# 6. A `-P-pa4` instructs the post processor the use ISO A4 format instead of
 	#    default letter paper in step 5.  Perhaps useful for future work.
 
+# export to pdf with pdfLaTeX managed by pandoc and a style file eisvogel
+# found on https://github.com/topics/pandoc-template. 
+pdflatex:
+	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.pdf \
+	  --number-sections --toc \
+	  --template ./eisvogel.tex
 # END
