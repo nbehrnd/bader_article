@@ -2,7 +2,8 @@
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 %
-\documentclass[]{scrartcl}
+\documentclass[
+]{article}
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
 \ifPDFTeX
@@ -14,13 +15,7 @@
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-%\usepackage{lmodern}
-\usepackage{libertine, libertinust1math}
-\usepackage[scaled=0.8]{beramono}
-\usepackage{microtype}
-\usepackage[USenglish]{babel}
-\usepackage{color,xcolor}
-\usepackage[colorlinks=true, linkcolor=true,allcolors=blue]{hyperref}
+\usepackage{lmodern}
 \ifPDFTeX\else
   % xetex/luatex font selection
 \fi
@@ -112,13 +107,12 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Putting Fortran\textquotesingle s object-related features to practical use},
+  pdftitle={Putting Fortran's object-related features to practical use},
   pdfauthor={Reinhold Bader (1966 - 2024)},
   ,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Putting Fortran\textquotesingle s object-related features to
-practical use}
+\title{Putting Fortran's object-related features to practical use}
 \author{Reinhold Bader (1966 - 2024)}
 \date{2024}
 
@@ -140,30 +134,29 @@ Bader.\footnote{Metcalf, Michael; Reid, John; Cohen, Malcolm; Bader,
   \href{https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1}{ISBN
   978-0-19-887657-1}.} See also
 \href{https://en.wikipedia.org/wiki/Fortran_95_language_features}{Fortran
-95 language features} for the language\textquotesingle s fundamentals;
-the prerequisite for understanding this article is that features
-explained there are well understood.
+95 language features} for the language's fundamentals; the prerequisite
+for understanding this article is that features explained there are well
+understood.
 
 Boldface will be used where term definitions are introduced. They are
-additionally annotated by "(not a Fortran term)" or similar if the term
-is not used in the Fortran standard itself, but is in general use in the
-technical literature.
+additionally annotated by ``(not a Fortran term)'' or similar if the
+term is not used in the Fortran standard itself, but is in general use
+in the technical literature.
 
 Compilable and runnable example code is available from an external
 \href{https://github.com/reinh-bader/object_fortran}{Github repository}.
 
-\section{Object-based programming
-techniques}\label{object-based-programming-techniques}
+\section{Object-based programming techniques}\label{sec:oop_techniques}
 
 \section{Introduction: Container-like
 types}\label{introduction-container-like-types}
 
-The word "Container-like" is not a Fortran term, but used in the context
-of this article to designate types with components whose size (or type,
-to be discussed later) is not known when the type is declared. For
-deferred sizing of array objects, this can be achieved by using either
-the \texttt{POINTER} or the \texttt{ALLOCATABLE} attribute for the
-component\textquotesingle s specification.
+The word ``Container-like'' is not a Fortran term, but used in the
+context of this article to designate types with components whose size
+(or type, to be discussed later) is not known when the type is declared.
+For deferred sizing of array objects, this can be achieved by using
+either the \texttt{POINTER} or the \texttt{ALLOCATABLE} attribute for
+the component's specification.
 
 The language features and programming techniques will be shown using two
 examples introduced in the following section. The demonstration codes
@@ -230,7 +223,7 @@ Note that referencing the type itself when declaring a component is
 permitted if that component has the \texttt{POINTER} or
 \texttt{ALLOCATABLE} attribute; such types are generally known as
 \textbf{recursive}. They are used to represent information structures
-(lists, trees, ...), often with specific relationships between the
+(lists, trees, \ldots), often with specific relationships between the
 individual data entries stored in each node. In this example, the
 assumption is that entries of type \texttt{data} in subsequent list
 items fulfill an ordering condition, based on the functionality supplied
@@ -322,8 +315,8 @@ have either the \texttt{POINTER} or the \texttt{TARGET} attribute. Also,
 \textbf{keyword notation} can be used in structure constructors in the
 same manner as for procedure arguments.
 
-The default constructor\textquotesingle s behaviour has some properties
-that one needs to be aware of:
+The default constructor's behaviour has some properties that one needs
+to be aware of:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -404,9 +397,9 @@ and the implementation of \texttt{create\_polynomial} (in the
 \end{Highlighting}
 \end{Shaded}
 
-Because its signature matches the default structure
-constructor\textquotesingle s, the function actually overrides the
-default constructor, making it generally unavailable.
+Because its signature matches the default structure constructor's, the
+function actually overrides the default constructor, making it generally
+unavailable.
 
 For the \texttt{sorted\_list} type the interface block might read
 
@@ -498,7 +491,7 @@ Fortran terms) are sometimes used to describe the above behaviour for
 that -- different from the default structure constructor -- having
 \texttt{PRIVATE} components does not affect the use of default
 assigment. However, the semantics of default assignment might not be
-what is needed from the programmer\textquotesingle s point of view.
+what is needed from the programmer's point of view.
 
 Specifically, consider the case where the object \texttt{slq} above has
 previously been set up by invoking the overloaded constructor. The
@@ -509,7 +502,7 @@ assignment above would then have the following effects:
 \tightlist
 \item
   The list elements of the original \texttt{slq}, beginning with
-  \texttt{slq\%next}, would become inaccessible ("orphaned"),
+  \texttt{slq\%next}, would become inaccessible (``orphaned''),
   effectively causing a memory leak;
 \item
   after the assignment statement, \texttt{slq\%next} references into
@@ -521,8 +514,8 @@ To avoid 2., it is possible to
 the assignment operator} for reference containers to create a deep copy.
 Note that in the case where defined unary or binary operations are
 introduced, the functions that define these need to create deep copies
-to create the result variable anyway, otherwise things simply
-don\textquotesingle t work. The downside of this is that in code like
+to create the result variable anyway, otherwise things simply don't
+work. The downside of this is that in code like
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -530,12 +523,12 @@ don\textquotesingle t work. The downside of this is that in code like
 \end{Highlighting}
 \end{Shaded}
 
-\textbackslash{} -- with the overloaded concatenation operator meaning
-that the argument lists are joined -- multiple deep copies need to be
-done (the implementation of the module procedure \texttt{join\_lists}
-that supplies the necessary specific for \texttt{//} is not shown here;
-see the source \texttt{code\ sorted\_list.f90} for details). It turns
-out that some of these exist only intermediately.
+~-- with the overloaded concatenation operator meaning that the argument
+lists are joined -- multiple deep copies need to be done (the
+implementation of the module procedure \texttt{join\_lists} that
+supplies the necessary specific for \texttt{//} is not shown here; see
+the source \texttt{code\ sorted\_list.f90} for details). It turns out
+that some of these exist only intermediately.
 
 Here an implementation of the specific procedure for the overloaded
 assignment of \texttt{sorted\_list} objects:
@@ -573,10 +566,10 @@ resource leaks).
 conclusions}\label{finalization-and-conclusions}
 
 To deal with resource leaks that are otherwise not within the
-programmer\textquotesingle s means to avoid, a type definition can be
-connected with a user-defined \textbf{final procedure} that is
-automatically invoked in certain situations. For the
-\texttt{sorted\_list} type, this would look like
+programmer's means to avoid, a type definition can be connected with a
+user-defined \textbf{final procedure} that is automatically invoked in
+certain situations. For the \texttt{sorted\_list} type, this would look
+like
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -593,8 +586,7 @@ automatically invoked in certain situations. For the
 Note that the \texttt{FINAL} statement appears after a \texttt{CONTAINS}
 statement in the type definition; this implies that
 \texttt{delete\_sorted\_list} is not a regular type component. The
-module procedure\textquotesingle s implementation might then be as
-follows:
+module procedure's implementation might then be as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -619,8 +611,8 @@ reflect the specific needs for the \texttt{sorted\_list} type and its
 associated procedures. The \texttt{RECURSIVE} specification is optional
 (i.e., procedures can be called recursively by default), but a
 \texttt{NON\_RECURSIVE} specification can be supplied if the
-implementation\textquotesingle s semantics does not permit correct
-behaviour in recursive calls.
+implementation's semantics does not permit correct behaviour in
+recursive calls.
 
 The finalizer will be automatically invoked on an object if
 
@@ -659,8 +651,8 @@ assignment operation should usually be jointly implemented.
 \end{quote}
 
 See also the article
-"\href{https://en.wikipedia.org/wiki/Rule_of_three_(C\%2B\%2B_programming)}{Rule
-of three}" for the analogous situation in C++.
+``\href{https://en.wikipedia.org/wiki/Rule_of_three_(C\%2B\%2B_programming)}{Rule
+of three}'' for the analogous situation in C++.
 
 \section{Further language features useful for object-based
 programming}\label{further-language-features-useful-for-object-based-programming}
@@ -735,9 +727,9 @@ original. The simplest way of doing this is to make use of allocatable
 \end{Highlighting}
 \end{Shaded}
 
-After \texttt{your\_list} has been set up, the object\textquotesingle s
-content can then be transferred to \texttt{my\_list} by using the
-\texttt{move\_alloc} intrinsic,
+After \texttt{your\_list} has been set up, the object's content can then
+be transferred to \texttt{my\_list} by using the \texttt{move\_alloc}
+intrinsic,
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -790,10 +782,10 @@ therefore are finalized at this point, if applicable. Named variables
 declared outside the construct are accessible inside it, unless a
 block-local declaration with the same name exists.
 
-Note that the construct\textquotesingle s execution flow can be modified
-by executing an \texttt{EXIT} statement in its body; this can, for
-example, be used for structured error handling and finally permits
-sending \texttt{GO\ TO} to retirement.
+Note that the construct's execution flow can be modified by executing an
+\texttt{EXIT} statement in its body; this can, for example, be used for
+structured error handling and finally permits sending \texttt{GO\ TO} to
+retirement.
 
 \subsection{\texorpdfstring{The \texttt{ASSOCIATE}
 construct}{The ASSOCIATE construct}}\label{the-associate-construct}
@@ -895,9 +887,8 @@ interpretation:
   \texttt{READ(unformatted)}
 \end{itemize}
 
-The self-defined procedure is restricted with respect to its
-interfaces\textquotesingle{} characteristics, which are described in the
-following:
+The self-defined procedure is restricted with respect to its interfaces'
+characteristics, which are described in the following:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -910,16 +901,16 @@ The placeholders \texttt{\textless{}formatted\_io\textgreater{}} and
 \texttt{\textless{}unformatted\_io\textgreater{}} must be replaced by a
 specific procedure name referenced in the generic interface.
 
-The dummy arguments\textquotesingle{} declarations and meaning are:
+The dummy arguments' declarations and meaning are:
 
 \begin{itemize}
 \item
   \texttt{dtv}: Must be declared to be a nonpointer nonallocatable
   scalar of the type in question. If the type is extensible (to be
-  explained later), the declaration must be polymorphic (i.e. using
+  explained later), the declaration must be polymorphic (i.e.~using
   \texttt{CLASS}), otherwise non-polymorphic (using \texttt{TYPE}). Its
   \texttt{INTENT} must be \texttt{in} for \texttt{WRITE(...)}, and
-  "\texttt{out}" or "\texttt{inout}" for \texttt{READ(...)}. It
+  ``\texttt{out}'' or ``\texttt{inout}'' for \texttt{READ(...)}. It
   represents the object on which data transfer statements are to be
   executed.
 
@@ -939,9 +930,15 @@ The dummy arguments\textquotesingle{} declarations and meaning are:
   the parent I/O transfer statement:
 \end{itemize}
 
-\begin{longtable}[]{@{}ll@{}}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
 \toprule\noalign{}
-Value & Caused by parent I/O statement \\
+\begin{minipage}[b]{\linewidth}\raggedright
+Value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Caused by parent I/O statement
+\end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
@@ -953,8 +950,8 @@ Value & Caused by parent I/O statement \\
 \texttt{my\_namelist}. \\
 \texttt{"DTsorted\_list\_fmt"} &
 \texttt{WRITE(unit,\ fmt=\textquotesingle{}(DT"sorted\_list\_fmt"(10,2))\textquotesingle{})\ my\_list}
-\textbf{Note:} \texttt{DT} is the "derived type" edit descriptor that is
-needed in format-driven editing to trigger execution of the UDDTIO
+\textbf{Note:} \texttt{DT} is the ``derived type'' edit descriptor that
+is needed in format-driven editing to trigger execution of the UDDTIO
 routine. The string following the \texttt{DT} edit descriptor can be
 freely chosen (even to be zero length); it is recommended that the
 UDDTIO procedure pay attention to any possible values supplied in the
@@ -970,9 +967,9 @@ parent I/O statement if it supports DT editing. \\
   \texttt{DT} edit descriptor; in the example from the table above it
   would have the value \texttt{{[}10,2{]}}. Free use can be made of the
   value for the disposition (formatting, controlling) of I/O transfer
-  statements inside the procedure. The array\textquotesingle s size may
-  be zero; specifically, it will be of size zero for the listdirected or
-  namelist cases.
+  statements inside the procedure. The array's size may be zero;
+  specifically, it will be of size zero for the listdirected or namelist
+  cases.
 \item
   \texttt{iostat}: An \texttt{INTEGER} scalar with \texttt{INTENT(out)}.
   It must be given a value consistent with those produced by non-UDTTIO
@@ -1188,10 +1185,14 @@ structure constructor can be used to create a defined value:
 Any derived type that does not have the \texttt{SEQUENCE} or
 \texttt{BIND(C)} attributes can be extended in the above manner;
 specifically, an extension type can itself be extended. For any given
-"base" type this gives rise to a potential hierarchy of types that can
+``base'' type this gives rise to a potential hierarchy of types that can
 be represented by a directed acyclical graph:
 
-\pandocbounded{\includegraphics[keepaspectratio]{Inheritance_diagram.svg.png}}\{\}
+\begin{figure}
+\centering
+\includegraphics[,height=\textheight,keepaspectratio]{Inheritance_diagram.svg.png}
+\caption{~}
+\end{figure}
 
 An object of type \texttt{body} is \textbf{type compatible} with both
 \texttt{a\_proton} and \texttt{a\_mutilated\_proton}, so any of these
@@ -1234,7 +1235,7 @@ allocatable object
 causes the object \texttt{a\_polymorphic\_body} that has the
 \textbf{declared} type \texttt{body} to be allocated with the
 \textbf{dynamic} type \texttt{charged\_body}; in Fortran nomenclature,
-the latter term denotes what was referred to above as "actual" type.
+the latter term denotes what was referred to above as ``actual'' type.
 
 For an unallocated allocatable or a disassociated pointer the dynamic
 type is considered to be the same as the declared type, although this is
@@ -1244,12 +1245,12 @@ allocated or associated.
 \subsection{Run-time type and class
 identification}\label{run-time-type-and-class-identification}
 
-Within the scope of the object\textquotesingle s declaration, only the
-components of its declared type are accessible. Also, I/O operations on
-a polymorphic object are not permitted, unless UDDTIO routines have been
-defined. One way to obtain access to the complete object is to use a
-construct that permits \textbf{run-time type identification} (not a
-Fortran term), \texttt{SELECT\ TYPE}. For example, the I/O statements in
+Within the scope of the object's declaration, only the components of its
+declared type are accessible. Also, I/O operations on a polymorphic
+object are not permitted, unless UDDTIO routines have been defined. One
+way to obtain access to the complete object is to use a construct that
+permits \textbf{run-time type identification} (not a Fortran term),
+\texttt{SELECT\ TYPE}. For example, the I/O statements in
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1266,11 +1267,11 @@ Fortran term), \texttt{SELECT\ TYPE}. For example, the I/O statements in
 
 are permitted, since inside the block for each \textbf{type guard} the
 object is non-polymorphic and of the specified type. At most one type
-guard can match the object\textquotesingle s type, and the corresponding
-statements are executed; otherwise the \texttt{CLASS\ default} section
-is executed (and the object remains polymorphic there). A disadvantage
-of using \texttt{SELECT\ TYPE} is that it needs to be appropriately
-updated whenever an additional type extension is defined; apart from the
+guard can match the object's type, and the corresponding statements are
+executed; otherwise the \texttt{CLASS\ default} section is executed (and
+the object remains polymorphic there). A disadvantage of using
+\texttt{SELECT\ TYPE} is that it needs to be appropriately updated
+whenever an additional type extension is defined; apart from the
 maintenance effort this also requires access to all source code that
 contain a relevant instance of the construct. For this reason,
 type-bound procedures (to be discussed) should be preferably used to
@@ -1292,11 +1293,11 @@ object, one now could consider the following:
 
 However, invoking this subroutine in the usual Fortran 95 style will not
 work for the variable \texttt{a\_polymorphic\_body}, since it violates
-the rule that the dummy argument\textquotesingle s declared type must be
-type compatible with the actual argument\textquotesingle s declared
-type. One can work around this by using a \texttt{SELECT\ TYPE}
-construct with \textbf{run-time class identification} (not a Fortran
-term), based on writing \textbf{class guards} instead of type guards:
+the rule that the dummy argument's declared type must be type compatible
+with the actual argument's declared type. One can work around this by
+using a \texttt{SELECT\ TYPE} construct with \textbf{run-time class
+identification} (not a Fortran term), based on writing \textbf{class
+guards} instead of type guards:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1313,7 +1314,7 @@ The \texttt{recharge} procedure will then be invoked if the dynamic type
 of \texttt{a\_polymorphic\_body} is \texttt{charged\_body} or an
 extension of it. The object remains polymorphic inside the class guard,
 only its declared type changes to that specified in the guard. Unless
-the "lifted" declared type of interest is already otherwise known from
+the ``lifted'' declared type of interest is already otherwise known from
 the context, or handling the \texttt{CLASS\ default} fall-through is
 straightforward, this is not in general a desirable way of dealing with
 class mismatches.
@@ -1353,22 +1354,20 @@ type), as illustrated by the following statements:
 \end{Highlighting}
 \end{Shaded}
 
-Accessing the object\textquotesingle s data \emph{always} needs a
-\texttt{SELECT\ TYPE} construct; type guards in the construct can in
-this case might not only refer to extensible types, but also to
-intrinsic types. However, for \texttt{SEQUENCE} or \texttt{BIND(C)}
-derived types, no type resolution is possible -- these always fall
-through to a \texttt{CLASS\ default} guard, if present; use of unlimited
-polymorphic objects to store values of such types is therefore
-considered unsafe.
+Accessing the object's data \emph{always} needs a \texttt{SELECT\ TYPE}
+construct; type guards in the construct can in this case might not only
+refer to extensible types, but also to intrinsic types. However, for
+\texttt{SEQUENCE} or \texttt{BIND(C)} derived types, no type resolution
+is possible -- these always fall through to a \texttt{CLASS\ default}
+guard, if present; use of unlimited polymorphic objects to store values
+of such types is therefore considered unsafe.
 
 In this context, allocation with \texttt{source=} allocates the target
-object to the source object\textquotesingle s dynamic type before
-copying its value to the target object. If the source
-object\textquotesingle s data is not needed, \texttt{mold=} can be used
-instead. Sourced allocation becomes a powerful tool, since the dynamic
-type of the source object need not be known in the scoping unit within
-which the allocation is executed.
+object to the source object's dynamic type before copying its value to
+the target object. If the source object's data is not needed,
+\texttt{mold=} can be used instead. Sourced allocation becomes a
+powerful tool, since the dynamic type of the source object need not be
+known in the scoping unit within which the allocation is executed.
 
 Type components with the \texttt{POINTER} or \texttt{ALLOCATABLE}
 attribute can be unlimited polymorphic, enabling the construction of
@@ -1452,8 +1451,7 @@ interface for setting components of a structure:
   setup code might at first sight appear frivolous; however, once type
   extension is used on a larger scale, setting or modifying further
   components in the conventional way becomes rather irksome without a
-  concept like that above, especially if
-  \href{User:RBaSc/draft_ftnoo\#Type-bound_procedures_(TBP)}{type-bound
+  concept like that above, especially if \hyperref[sec:tbp]{type-bound
   procedures} with a simple \emph{and} uniform interface must be
   implemented;
 \item
@@ -1504,14 +1502,14 @@ follows, to set up a \texttt{wtype} object:
 \end{Highlighting}
 \end{Shaded}
 
-\section{Type-bound procedures (TBP)}\label{type-bound-procedures-tbp}
+\section{Type-bound procedures (TBP)}\label{sec:tbp}
 
 To resolve the class mismatch issues arising from the use of polymorphic
 objects, one needs a language mechanism for making a run-time decision
 on a procedure invocation that depends on the dynamic type of a
 polymorphic object. This can be achieved by binding a procedure to a
 type in the type definition via a \texttt{PROCEDURE} statement in the
-type\textquotesingle s \texttt{CONTAINS} part.
+type's \texttt{CONTAINS} part.
 
 For the type \texttt{body}, the augmented type definition reads
 
@@ -1595,8 +1593,7 @@ So far this is not particularly interesting; the key thing is what
 happens once we turn to type extensions. For example, to enable
 modification of the \texttt{charge} component (in addition to that of
 other components) of an object of dynamic type \texttt{charged\_body},
-it is possible to \textbf{override} the parent type\textquotesingle s
-bound procedure:
+it is possible to \textbf{override} the parent type's bound procedure:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1688,11 +1685,11 @@ interfaces}\label{abstract-types-and-interfaces}
 
 The \texttt{sortable} type used for demonstrating the
 \texttt{sortable\_list} functionality in the
-\href{https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo\#Object-based_features_and_programming_techniques}{object-based
-chapter\textquotesingle s} example was set up as a fixed container-like
-type. It is desirable to be able to use the list machinery more flexibly
-i.e., for any type that supports the "less-than" comparison. This can be
-achieved by introducing an \textbf{abstract type}
+\hyperref[sec:oop_techniques]{object-based chapter's} example was set up
+as a fixed container-like type. It is desirable to be able to use the
+list machinery more flexibly i.e., for any type that supports the
+``less-than'' comparison. This can be achieved by introducing an
+\textbf{abstract type}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1796,8 +1793,8 @@ extended type.
 overloading}\label{generic-type-bound-procedures-and-operator-overloading}
 
 As a convenience, use of an overloading for the comparison operator
-"\textless" can be provided by creating a \textbf{generic} type-bound
-procedure:
+``\textless{}'' can be provided by creating a \textbf{generic}
+type-bound procedure:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1831,9 +1828,8 @@ dispatch will automatically select the overridden procedure.
 
 Named generic type-bound procedures that do not overload existing
 operations can also be defined; an example for this is given in the
-section
-"\href{https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo\#Functions_with_parameters}{Functions
-with parameters}". The rules for generic resolution work similar as for
+section ``\hyperref[sec:functions_with_parameters]{Functions with
+parameters}''. The rules for generic resolution work similar as for
 nonpolymorphic generic procedure interfaces, with the additional
 restriction that polymorphic dummy arguments that are related by
 inheritance cannot be distinguished for the purpose of compile-time
@@ -1982,13 +1978,18 @@ program unit (orange box) for this example:
 Dependencies between program units implementing and using an interface
 class
 
-\pandocbounded{\includegraphics[keepaspectratio]{Dependency_inversion.svg.png}}\{\}
+\begin{figure}
+\centering
+\includegraphics[,height=\textheight,keepaspectratio]{Dependency_inversion.svg.png}
+\caption{Dependencies between program units implementing and using an
+interface class}
+\end{figure}
 
-The small triangles in the diagram refer to use ("u") association and
-host ("h") association, respectively. The separation of the
-constructor\textquotesingle s interface from its implementation leads to
-avoidance of circular \texttt{USE} references (the lower two "u"
-triangles in the diagram).
+The small triangles in the diagram refer to use (``u'') association and
+host (``h'') association, respectively. The separation of the
+constructor's interface from its implementation leads to avoidance of
+circular \texttt{USE} references (the lower two ``u'' triangles in the
+diagram).
 
 The compilation order for separate files would be:
 
@@ -2005,7 +2006,7 @@ The compilation order for separate files would be:
 
 \section{Performance and ease of use}\label{performance-and-ease-of-use}
 
-\section{Functions with parameters}\label{functions-with-parameters}
+\section{Functions with parameters}\label{sec:functions_with_parameters}
 
 \subsection{A type definition for invocation of a general
 function}\label{a-type-definition-for-invocation-of-a-general-function}
@@ -2149,7 +2150,7 @@ array-based version of the function
 \end{Shaded}
 
 is desirable, since the overheads specified above only arise
-\emph{once}, and the actual calculational code (marked "kernel" in the
+\emph{once}, and the actual calculational code (marked ``kernel'' in the
 above box) is amenable to array-related compiler optimizations (the
 specifics of which depend on both hardware architecture and working set
 size).
@@ -2295,14 +2296,13 @@ illustrated by the following:
 \end{Shaded}
 
 Omitting a \texttt{param} in a constructor is fine, as long as the
-target functions cater for the dummy argument\textquotesingle s
-non-presence.
+target functions cater for the dummy argument's non-presence.
 
-The framework\textquotesingle s implementation makes use of the fact
-that an unallocated actual argument associated with an \texttt{OPTIONAL}
-dummy argument is considered not present. Once conditional expressions
-are implemented in compilers, the code will be appropriately reworked,
-since use of this feature is recommended against.
+The framework's implementation makes use of the fact that an unallocated
+actual argument associated with an \texttt{OPTIONAL} dummy argument is
+considered not present. Once conditional expressions are implemented in
+compilers, the code will be appropriately reworked, since use of this
+feature is recommended against.
 
 \section{Arrays of structures versus structures of
 arrays}\label{arrays-of-structures-versus-structures-of-arrays}

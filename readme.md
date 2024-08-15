@@ -48,10 +48,8 @@ Bader's draft contains crosslinks to indicate sections within the
 same document as the source, Pandoc flavored markdown appears more
 suitable for the workflows ahead.
 
-At present, linting is incomplete.  So far, the conversion of the .md file
-into a .pdf via restructured text (rst) and `rst2pdf` (see file `ex_rst.pdf`)
-represents the content best in terms of completeness.  On the other hand, the
-conversions via pdfLaTeX or groff don't squeeze the two illustrations ...
+At present, linting is incomplete.  Updates of the pdf created by one
+of the pdfengines used (pdfLaTeX, groff; rst2pdf after an intermediate
+conversion to restructured text [rst]) will be provided incrementally.
+So far, the one via pdfLaTeX is the most advanced version.
 
-Incremental updates of the markdown file as well as pdf obtained by either
-workflow based on this source file will be deposit in the main branch.

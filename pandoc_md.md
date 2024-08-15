@@ -64,7 +64,7 @@ TYPE(polynomial) :: p
 
 is suitable for characterization of a polynomial
 
-$p(x) = \sum_{k=0}^{degree} a_{k} \cdot x^k \quad (x \in \Re)$
+$p(x) = \sum_{k=0}^{\text{degree}} a_{k} \cdot x^k \quad (x \in \Re)$
 
 once it has been created and subsequently supplied with values of the
 coefficients:
@@ -868,7 +868,7 @@ extension type can itself be extended. For any given "base" type this
 gives rise to a potential hierarchy of types that can be represented by
 a directed acyclical graph:
 
-![\ ](Inheritance_diagram.svg.png){height=8cm}
+![\ ](Inheritance_diagram.svg.png){width=8cm}
 
 An object of type `body` is **type compatible** with both `a_proton` and
 `a_mutilated_proton`, so any of these two can, for example, appear in a
@@ -1538,7 +1538,8 @@ Dependencies between
 program units implementing and using an interface
 class
 
-![\ ](Dependency_inversion.svg.png){height=8cm}
+![Dependencies between program units implementing and using
+an interface class](Dependency_inversion.svg.png){width=8cm}
 
 
 The small triangles in the diagram refer to use ("u") association and
