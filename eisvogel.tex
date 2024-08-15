@@ -134,7 +134,8 @@ $else$
 % Use setspace anyway because we change the default line spacing.
 % The spacing is changed early to affect the titlepage and the TOC.
 \usepackage{setspace}
-\setstretch{1.2}
+%\setstretch{1.2}
+\setstretch{1.0}
 $endif$
 \usepackage{iftex}
 \ifPDFTeX
@@ -551,10 +552,10 @@ $if(colorlinks)$
   citecolor={$if(citecolor)$$citecolor$$else$default-citecolor$endif$},
   urlcolor={$if(urlcolor)$$urlcolor$$else$default-urlcolor$endif$},
 $else$
-  hidelinks,
+  % hidelinks,
 $endif$
   breaklinks=true,
-  pdfcreator={LaTeX via pandoc with the Eisvogel template}}
+  pdfcreator={LaTeX via pandoc with an edited Eisvogel template}}
 $if(title)$
 \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
 $endif$
@@ -650,8 +651,11 @@ $endif$
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   $if(fontfamily)$
   $else$
-  \usepackage[default]{sourcesanspro}
-  \usepackage{sourcecodepro}
+  % \usepackage[default]{sourcesanspro}
+  % \usepackage{sourcecodepro}
+  \usepackage{libertine}
+  \usepackage{libertinust1math}
+  \usepackage[scaled=0.84]{beramono}
   $endif$
 \else % if not pdftex
   $if(mainfont)$
