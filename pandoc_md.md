@@ -26,7 +26,7 @@ technical literature.
 Compilable and runnable example code is available from an external
 [Github repository](https://github.com/reinh-bader/object_fortran).
 
-# Object-based programming techniques
+# Object-based programming techniques  {#sec:oop_techniques}
 
 # Introduction: Container-like types
 
@@ -1097,8 +1097,8 @@ END MODULE
   setup code might at first sight appear frivolous; however, once type
   extension is used on a larger scale, setting or modifying further
   components in the conventional way becomes rather irksome without a
-  concept like that above, especially if [type-bound
-  procedures](User:RBaSc/draft_ftnoo#Type-bound_procedures_(TBP) "wikilink")
+  concept like that above, especially if
+  [type-bound procedures](#sec:tbp)
   with a simple *and* uniform interface must be implemented;
 - The object `a_wtype` remains unchanged in case an unsuitable value is
   provided for `a_component`. One could add explicit error handling, but
@@ -1139,7 +1139,7 @@ CALL setup_wtype(my_wtype, c_nz)
 CALL setup_wtype(my_wtype, c_w)
 ```
 
-# Type-bound procedures (TBP)
+# Type-bound procedures (TBP)  {#sec:tbp}
 
 To resolve the class mismatch issues arising from the use of polymorphic
 objects, one needs a language mechanism for making a run-time decision
@@ -1297,8 +1297,8 @@ CALL my_polymorphic_body%update(dp)
 # Abstract types and interfaces
 
 The `sortable` type used for demonstrating the `sortable_list`
-functionality in the [object-based
-chapter's](https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo#Object-based_features_and_programming_techniques)
+functionality in the
+[object-based chapter's](#sec:oop_techniques)
 example was set up as a fixed container-like type. It is desirable to be
 able to use the list machinery more flexibly i.e., for any type that
 supports the "less-than" comparison. This can be achieved by introducing
@@ -1415,8 +1415,8 @@ will automatically select the overridden procedure.
 
 Named generic type-bound procedures that do not overload existing
 operations can also be defined; an example for this is given in the
-section "[Functions with
-parameters](https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo#Functions_with_parameters)".
+section
+"[Functions with parameters](#sec:functions_with_parameters)".
 The rules for generic resolution work similar as for nonpolymorphic
 generic procedure interfaces, with the additional restriction that
 polymorphic dummy arguments that are related by inheritance cannot be
@@ -1554,7 +1554,7 @@ The compilation order for separate files would be:
 
 # Performance and ease of use
 
-# Functions with parameters
+# Functions with parameters  {#sec:functions_with_parameters}
 
 ## A type definition for invocation of a general function
 

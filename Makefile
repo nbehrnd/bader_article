@@ -4,12 +4,12 @@
 
 # default rendering of .html (local update by F5), can include png
 phony:
-	pandoc github_md.md --from gfm -s -o test.html --mathml
+	pandoc pandoc_md.md --from markdown -s -o test.html --mathml
 
 # optionally write a pdf with groff (for being faster than pdfLaTeX
 # though for obvious reasons without the illustrations)
 p:
-	pandoc github_md.md --from markdown -s -o test.pdf --pdf-engine pdfroff
+	pandoc pandoc_md.md --from markdown -s -o test.pdf --pdf-engine pdfroff
 	zathura test.pdf &
 
 # recipes for visually more appealing layout
@@ -17,7 +17,7 @@ p:
 # pdf via bypass rst
 # the display of the mathematical equations relies on Python's `matplotlib`
 rst:
-	pandoc github_md.md  -s -o ex_rst.rst --number-sections --toc
+	pandoc pandoc_md.md  -s -o ex_rst.rst --number-sections --toc
 	rst2pdf -s serif ex_rst.rst --footer=###Page### --smart-quotes=1 \
 		--disable-splittables --repeat-table-rows --date-invariant
 	rm ex_rst.rst
@@ -25,7 +25,7 @@ rst:
 # export to tex
 # requires subsequent manual edit and compilation to yield a pdf
 tex:
-	pandoc github_md.md --from gfm -s -o ex_pdflatex.tex
+	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.tex
 	sed -i 's/hidelinks//' ex_pdflatex.tex
 	sed -i 's/height=8cm//' ex_pdflatex.tex
 
@@ -44,7 +44,7 @@ tex:
 
 # export to groff ms
 g:
-	pandoc github_md.md --from gfm -s -o ex_groff.ms
+	pandoc pandoc_md.md --from markdown -s -o ex_groff.ms
 
 	# manually continue with this sequence
 	#
