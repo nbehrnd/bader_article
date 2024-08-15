@@ -64,7 +64,7 @@ TYPE(polynomial) :: p
 
 is suitable for characterization of a polynomial
 
-$p(x) = \sum_{k=0}^{degree} a_{k} \cdot x^k \quad (x \in \Re)$
+$p(x) = \sum_{k=0}^{\text{degree}} a_{k} \cdot x^k \quad (x \in \Re)$
 
 once it has been created and subsequently supplied with values of the
 coefficients:
