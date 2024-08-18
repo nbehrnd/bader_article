@@ -1532,10 +1532,6 @@ The following diagram shows the use and host association relationships
 between the modules (blue boxes), the submodule (green box), and a main
 program unit (orange box) for this example:
 
-Dependencies between
-program units implementing and using an interface
-class
-
 ![Dependencies between program units implementing and using
 an interface class](Dependency_inversion.svg.png){width=8cm}
 
