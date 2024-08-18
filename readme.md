@@ -2,7 +2,7 @@
 title: readme.md
 author: Norwid Behrnd, nbehrnd@yahoo.com
 date: 2024-08-05 Mon
-edit: 2024-08-15 Thu
+edit: 2024-08-18 Sun
 ---
 
 ## purpose
