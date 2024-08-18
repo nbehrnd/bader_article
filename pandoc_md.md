@@ -308,8 +308,8 @@ slq%next => slp%next  ! creates a reference between list objects without copying
 
 The terms **deep copy** and **shallow copy** (neither are Fortran terms)
 are sometimes used to describe the above behaviour for `ALLOCATABLE` and
-`POINTER` components, respectively. Note that – different from the
-default structure constructor – having `PRIVATE` components does not
+`POINTER` components, respectively. Note that - different from the
+default structure constructor - having `PRIVATE` components does not
 affect the use of default assigment. However, the semantics of default
 assignment might not be what is needed from the programmer's point of
 view.
@@ -336,8 +336,8 @@ this is that in code like
 slq = slp // slq
 ```
 
-\ – with the overloaded concatenation operator meaning that the argument
-lists are joined – multiple deep copies need to be done (the
+\ - with the overloaded concatenation operator meaning that the argument
+lists are joined - multiple deep copies need to be done (the
 implementation of the module procedure `join_lists` that supplies the
 necessary specific for `//` is not shown here; see the source
 `code sorted_list.f90` for details). It turns out that some of these
@@ -1010,7 +1010,7 @@ END SELECT
 Accessing the object's data *always* needs a `SELECT TYPE` construct;
 type guards in the construct can in this case might not only refer to
 extensible types, but also to intrinsic types. However, for `SEQUENCE`
-or `BIND(C)` derived types, no type resolution is possible – these
+or `BIND(C)` derived types, no type resolution is possible - these
 always fall through to a `CLASS default` guard, if present; use of
 unlimited polymorphic objects to store values of such types is therefore
 considered unsafe.
@@ -1355,10 +1355,10 @@ programming technique, which is also known as **dependency inversion**
    TYPE, PUBLIC :: sorted_list
       PRIVATE
       CLASS(sortable), ALLOCATABLE :: data
-      ! changed to refer to abstract type
-      TYPE(sorted_list), POINTER :: next => null()
+      ! changed to refer to abstract type
+      TYPE(sorted_list), POINTER :: next => null()
    CONTAINS
-      FINAL :: delete_sorted_list
+      FINAL :: delete_sorted_list
    END TYPE
    ```
 
@@ -1371,9 +1371,9 @@ as outlined in 2. below.
 
    ```f90
    TYPE, PUBLIC, EXTENDS(sortable) :: sortable_string
-      CHARACTER(len=:), ALLOCATABLE :: string
+      CHARACTER(len=:), ALLOCATABLE :: string
    CONTAINS
-      PROCEDURE :: less_than => less_than_string
+      PROCEDURE :: less_than => less_than_string
    END TYPE
    ```
 
