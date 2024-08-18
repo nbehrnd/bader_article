@@ -25,9 +25,10 @@ rst:
 # export to tex
 # requires subsequent manual edit and compilation to yield a pdf
 tex:
-	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.tex
-	sed -i 's/hidelinks//' ex_pdflatex.tex
-	sed -i 's/width=8cm//' ex_pdflatex.tex
+	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.tex \
+	  --number-sections --toc \
+	  --template ./eisvogel.tex \
+	  --listings -V listings-no-page-break -V listings-disable-line-numbers
 
 # manually replace `article` of letter format by `scrartcl` for ISO A4 format
 # additional edits:
@@ -70,5 +71,6 @@ g:
 pdflatex:
 	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.pdf \
 	  --number-sections --toc \
-	  --template ./eisvogel.tex
+	  --template ./eisvogel.tex \
+	  --listings -V listings-no-page-break -V listings-disable-line-numbers
 # END
