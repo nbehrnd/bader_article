@@ -1526,8 +1526,6 @@ END SUBMODULE
   `SUBMODULE (<parent module>:<parent submodule>) <submodule_name>`
   and the names of submodules of a given module must be unique.
 
-<div style="page-break-after: always"></div>
-
 ## Diagramming the dependencies between program units
 
 The following diagram shows the use and host association relationships
@@ -1540,7 +1538,6 @@ class
 
 ![Dependencies between program units implementing and using
 an interface class](Dependency_inversion.svg.png){width=8cm}
-
 
 The small triangles in the diagram refer to use ("u") association and
 host ("h") association, respectively. The separation of the
