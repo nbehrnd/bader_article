@@ -1,7 +1,11 @@
 ---
 title:  Putting Fortran's object-related features to practical use
-author: Reinhold Bader (1966 - 2024)
+author: Reinhold Bader (1966--2024)
 date:   2024
+keywords: [Fortran, OOP]
+colorlinks: true
+allcolors: blue
+linkcolor: blue
 ---
 
 This article describes how advanced Fortran language features can be
@@ -336,8 +340,8 @@ this is that in code like
 slq = slp // slq
 ```
 
-\ - with the overloaded concatenation operator meaning that the argument
-lists are joined - multiple deep copies need to be done (the
+\ -- with the overloaded concatenation operator meaning that the argument
+lists are joined -- multiple deep copies need to be done (the
 implementation of the module procedure `join_lists` that supplies the
 necessary specific for `//` is not shown here; see the source
 `code sorted_list.f90` for details). It turns out that some of these
@@ -1851,8 +1855,7 @@ programmer
   object is not (implicitly) passed to the procedure at all in a TBP
   invocation.
 
-# References
-
 [^MFE]: Metcalf, Michael; Reid, John; Cohen, Malcolm; Bader, Reinhold (2023).
 *Modern Fortran Explained.* Numerical Mathematics and Scientific Computation.
-Oxford University Press. [ISBN 978-0-19-887657-1](https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1).
+Oxford University Press.
+[ISBN 978-0-19-887657-1](https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1).
