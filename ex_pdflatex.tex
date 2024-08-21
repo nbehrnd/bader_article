@@ -91,13 +91,57 @@
 \definecolor{default-citecolor}{HTML}{4077C0}
 \definecolor{default-urlcolor}{HTML}{4077C0}
 \usepackage[margin=2.5cm,includehead=true,includefoot=true,centering,]{geometry}
-\usepackage{listings}
-\newcommand{\passthrough}[1]{#1}
-\lstset{defaultdialect=[5.3]Lua}
-\lstset{defaultdialect=[x86masm]Assembler}
-\usepackage{etoolbox}
-\BeforeBeginEnvironment{lstlisting}{\par\noindent\begin{minipage}{\linewidth}}
-\AfterEndEnvironment{lstlisting}{\end{minipage}\par\addvspace{\topskip}}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+
+% Workaround/bugfix from jannick0.
+% See https://github.com/jgm/pandoc/issues/4302#issuecomment-360669013)
+% or https://github.com/Wandmalfarbe/pandoc-latex-template/issues/2
+%
+% Redefine the verbatim environment 'Highlighting' to break long lines (with
+% the help of fvextra). Redefinition is necessary because it is unlikely that
+% pandoc includes fvextra in the default template.
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,fontsize=\small,commandchars=\\\{\}}
+
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -138,12 +182,17 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Putting Fortran's object-related features to practical use},
-  pdfauthor={Reinhold Bader (1966 - 2024)},
-  % hidelinks,
+  pdfauthor={Reinhold Bader (1966--2024)},
+  pdfkeywords={Fortran, OOP},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={default-filecolor},
+  citecolor={default-citecolor},
+  urlcolor={default-urlcolor},
   breaklinks=true,
   pdfcreator={LaTeX via pandoc with an edited Eisvogel template}}
 \title{Putting Fortran's object-related features to practical use}
-\author{Reinhold Bader (1966 - 2024)}
+\author{Reinhold Bader (1966--2024)}
 \date{2024}
 
 
@@ -237,7 +286,7 @@
 %
 \usepackage{titling}
 \title{Putting Fortran's object-related features to practical use}
-\author{Reinhold Bader (1966 - 2024)}
+\author{Reinhold Bader (1966--2024)}
 \date{2024}
 
 %
@@ -268,118 +317,6 @@
 
 
 %
-% general listing colors
-%
-\definecolor{listing-background}{HTML}{F7F7F7}
-\definecolor{listing-rule}{HTML}{B3B2B3}
-\definecolor{listing-numbers}{HTML}{B3B2B3}
-\definecolor{listing-text-color}{HTML}{000000}
-\definecolor{listing-keyword}{HTML}{435489}
-\definecolor{listing-keyword-2}{HTML}{1284CA} % additional keywords
-\definecolor{listing-keyword-3}{HTML}{9137CB} % additional keywords
-\definecolor{listing-identifier}{HTML}{435489}
-\definecolor{listing-string}{HTML}{00999A}
-\definecolor{listing-comment}{HTML}{8E8E8E}
-
-\lstdefinestyle{eisvogel_listing_style}{
-  language         = java,
-  xleftmargin      = 0.6em,
-  framexleftmargin = 0.4em,
-  backgroundcolor  = \color{listing-background},
-  basicstyle       = \color{listing-text-color}\linespread{1.0}%
-                      \lst@ifdisplaystyle%
-                      \small%
-                      \fi\ttfamily{},
-  breaklines       = true,
-  frame            = single,
-  framesep         = 0.19em,
-  rulecolor        = \color{listing-rule},
-  frameround       = ffff,
-  tabsize          = 4,
-  numberstyle      = \color{listing-numbers},
-  aboveskip        = 1.0em,
-  belowskip        = 0.1em,
-  abovecaptionskip = 0em,
-  belowcaptionskip = 1.0em,
-  keywordstyle     = {\color{listing-keyword}\bfseries},
-  keywordstyle     = {[2]\color{listing-keyword-2}\bfseries},
-  keywordstyle     = {[3]\color{listing-keyword-3}\bfseries\itshape},
-  sensitive        = true,
-  identifierstyle  = \color{listing-identifier},
-  commentstyle     = \color{listing-comment},
-  stringstyle      = \color{listing-string},
-  showstringspaces = false,
-  escapeinside     = {/*@}{@*/}, % Allow LaTeX inside these special comments
-  literate         =
-  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
-  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
-  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
-  {À}{{\`A}}1 {È}{{\`E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
-  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
-  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
-  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
-  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
-  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
-  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
-  {€}{{\EUR}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
-  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
-  {…}{{\ldots}}1 {≥}{{>=}}1 {≤}{{<=}}1 {„}{{\glqq}}1 {“}{{\grqq}}1
-  {”}{{''}}1
-}
-\lstset{style=eisvogel_listing_style}
-
-%
-% Java (Java SE 12, 2019-06-22)
-%
-\lstdefinelanguage{Java}{
-  morekeywords={
-    % normal keywords (without data types)
-    abstract,assert,break,case,catch,class,continue,default,
-    do,else,enum,exports,extends,final,finally,for,if,implements,
-    import,instanceof,interface,module,native,new,package,private,
-    protected,public,requires,return,static,strictfp,super,switch,
-    synchronized,this,throw,throws,transient,try,volatile,while,
-    % var is an identifier
-    var
-  },
-  morekeywords={[2] % data types
-    % primitive data types
-    boolean,byte,char,double,float,int,long,short,
-    % String
-    String,
-    % primitive wrapper types
-    Boolean,Byte,Character,Double,Float,Integer,Long,Short
-    % number types
-    Number,AtomicInteger,AtomicLong,BigDecimal,BigInteger,DoubleAccumulator,DoubleAdder,LongAccumulator,LongAdder,Short,
-    % other
-    Object,Void,void
-  },
-  morekeywords={[3] % literals
-    % reserved words for literal values
-    null,true,false,
-  },
-  sensitive,
-  morecomment  = [l]//,
-  morecomment  = [s]{/*}{*/},
-  morecomment  = [s]{/**}{*/},
-  morestring   = [b]",
-  morestring   = [b]',
-}
-
-\lstdefinelanguage{XML}{
-  morestring      = [b]",
-  moredelim       = [s][\bfseries\color{listing-keyword}]{<}{\ },
-  moredelim       = [s][\bfseries\color{listing-keyword}]{</}{>},
-  moredelim       = [l][\bfseries\color{listing-keyword}]{/>},
-  moredelim       = [l][\bfseries\color{listing-keyword}]{>},
-  morecomment     = [s]{<?}{?>},
-  morecomment     = [s]{<!--}{-->},
-  commentstyle    = \color{listing-comment},
-  stringstyle     = \color{listing-string},
-  identifierstyle = \color{listing-identifier}
-}
-
-%
 % header and footer
 %
 \usepackage[headsepline,footsepline]{scrlayer-scrpage}
@@ -389,7 +326,7 @@
   \ihead*{Putting Fortran's object-related features to practical use}
   \chead*{}
   \ohead*{2024}
-  \ifoot*{Reinhold Bader (1966 - 2024)}
+  \ifoot*{Reinhold Bader (1966--2024)}
   \cfoot*{}
   \ofoot*{\thepage}
   \addtokomafont{pageheadfoot}{\upshape}
@@ -416,6 +353,7 @@
 
 
 {
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
@@ -455,15 +393,14 @@ The word ``Container-like'' is not a Fortran term, but used in the
 context of this article to designate types with components whose size
 (or type, to be discussed later) is not known when the type is declared.
 For deferred sizing of array objects, this can be achieved by using
-either the \passthrough{\lstinline!POINTER!} or the
-\passthrough{\lstinline!ALLOCATABLE!} attribute for the component's
-specification.
+either the \texttt{POINTER} or the \texttt{ALLOCATABLE} attribute for
+the component's specification.
 
 The language features and programming techniques will be shown using two
 examples introduced in the following section. The demonstration codes
-for this chapter can be found in the
-\passthrough{\lstinline!object\_based!} folder of the
-\href{https://github.com/reinh-bader/object_fortran}{Github repository}.
+for this chapter can be found in the \texttt{object\_based} folder of
+the \href{https://github.com/reinh-bader/object_fortran}{Github
+repository}.
 
 \section{Examples for definitions of container-like
 types}\label{examples-for-definitions-of-container-like-types}
@@ -471,21 +408,24 @@ types}\label{examples-for-definitions-of-container-like-types}
 \subsection{Allocatable components}\label{allocatable-components}
 
 As an example for the type definition of a \textbf{value container} (not
-a Fortran term) with an \passthrough{\lstinline!ALLOCATABLE!} component
-consider
+a Fortran term) with an \texttt{ALLOCATABLE} component consider
 
-\begin{lstlisting}
-TYPE :: polynomial
-   PRIVATE
-   REAL, ALLOCATABLE :: a(:)
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ polynomial}
+   \DataTypeTok{PRIVATE}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ a(:)}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
 An object declared to be of this type
 
-\begin{lstlisting}
-TYPE(polynomial) :: p
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(polynomial)} \DataTypeTok{::}\NormalTok{ p}
+\end{Highlighting}
+\end{Shaded}
 
 is suitable for characterization of a polynomial
 
@@ -494,120 +434,125 @@ is suitable for characterization of a polynomial
 once it has been created and subsequently supplied with values of the
 coefficients:
 
-\begin{lstlisting}
-degree = ... ! integer value known at run time only
-ALLOCATE( p%a(0:degree) )
-p%a(0:) = ...
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{degree }\KeywordTok{=}\NormalTok{ ... }\CommentTok{! integer value known at run time only}
+\KeywordTok{ALLOCATE}\NormalTok{( p}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:degree) )}
+\NormalTok{p}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:) }\KeywordTok{=}\NormalTok{ ...}
+\end{Highlighting}
+\end{Shaded}
 
 \subsection{Pointer components}\label{pointer-components}
 
 As an example for the type definition of a \textbf{reference container}
-(not a Fortran term) with a \passthrough{\lstinline!POINTER!} component
-consider
+(not a Fortran term) with a \texttt{POINTER} component consider
 
-\begin{lstlisting}
-TYPE :: sorted_list
-   PRIVATE
-   TYPE(sortable) :: data
-   TYPE(sorted_list), POINTER :: next => null()
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ sorted\_list}
+   \DataTypeTok{PRIVATE}
+   \DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ data}
+   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
 Note that referencing the type itself when declaring a component is
-permitted if that component has the \passthrough{\lstinline!POINTER!} or
-\passthrough{\lstinline!ALLOCATABLE!} attribute; such types are
-generally known as \textbf{recursive}. They are used to represent
-information structures (lists, trees, \ldots), often with specific
-relationships between the individual data entries stored in each node.
-In this example, the assumption is that entries of type
-\passthrough{\lstinline!data!} in subsequent list items fulfill an
-ordering condition, based on the functionality supplied with that type:
+permitted if that component has the \texttt{POINTER} or
+\texttt{ALLOCATABLE} attribute; such types are generally known as
+\textbf{recursive}. They are used to represent information structures
+(lists, trees, \ldots), often with specific relationships between the
+individual data entries stored in each node. In this example, the
+assumption is that entries of type \texttt{data} in subsequent list
+items fulfill an ordering condition, based on the functionality supplied
+with that type:
 
-\begin{lstlisting}
-TYPE, PUBLIC :: sortable
-   CHARACTER(len=:), ALLOCATABLE :: string
-END TYPE
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC} \DataTypeTok{::}\NormalTok{ sortable}
+   \DataTypeTok{CHARACTER(len=:)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ string}
+\DataTypeTok{END TYPE}
 
-INTERFACE OPERATOR(<)          ! compare two objects of type sortable
-   MODULE PROCEDURE less_than  ! implementation not shown here
-END INTERFACE
-\end{lstlisting}
+\KeywordTok{INTERFACE} \KeywordTok{OPERATOR}\NormalTok{(}\OperatorTok{\textless{}}\NormalTok{)          }\CommentTok{! compare two objects of type sortable}
+   \KeywordTok{MODULE PROCEDURE}\NormalTok{ less\_than  }\CommentTok{! implementation not shown here}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
-Given that Fortran supports arrays, use of simple linked lists is in
-most cases inappropriate. The example is presented here as being the
-simplest that permits illustrating the language features of interest.
+\emph{Hint:} Given that Fortran supports arrays, use of simple linked
+lists is in most cases inappropriate. The example is presented here as
+being the simplest that permits illustrating the language features of
+interest.
 
 An object declared to be
 
-\begin{lstlisting}
-TYPE(sorted_list) :: my_list
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list}
+\end{Highlighting}
+\end{Shaded}
 
 is suitable as starting point for building a linked list with node
-entries of type \passthrough{\lstinline!data!}. In the simplest case,
-inserting a data item into the object is done by executing the following
-statements:
+entries of type \texttt{data}. In the simplest case, inserting a data
+item into the object is done by executing the following statements:
 
-\begin{lstlisting}
-TYPE(sortable) :: my_data
-:
-my_data = ...
-my_list%data = my_data  ! only compiles if type definition is accessible in host
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ my\_data}
+\NormalTok{:}
+\NormalTok{my\_data }\KeywordTok{=}\NormalTok{ ...}
+\NormalTok{my\_list}\OperatorTok{\%}\NormalTok{data }\KeywordTok{=}\NormalTok{ my\_data  }\CommentTok{! only compiles if type definition is accessible in host}
+\end{Highlighting}
+\end{Shaded}
 
 However, as we shall see below, setting up a complete and valid
-\passthrough{\lstinline!sorted\_list!} object in a reliable manner needs
-additional work.
+\texttt{sorted\_list} object in a reliable manner needs additional work.
 
 \section{Constructing objects of container-like
 type}\label{constructing-objects-of-container-like-type}
 
 The semantics of the default structure constructor for container-like
-objects needs to account for any additional
-\passthrough{\lstinline!POINTER!} or
-\passthrough{\lstinline!ALLOCATABLE!} attribute specified for type
-components.
+objects needs to account for any additional \texttt{POINTER} or
+\texttt{ALLOCATABLE} attribute specified for type components.
 
 For the first example type from the last section, the executable
 statements in
 
-\begin{lstlisting}
-TYPE(polynomial) :: q, r
-:
-q = polynomial( [2., 3., 1.] )
-r = polynomial( null() )
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(polynomial)} \DataTypeTok{::}\NormalTok{ q, r}
+\NormalTok{:}
+\NormalTok{q }\KeywordTok{=}\NormalTok{ polynomial( }\KeywordTok{[}\FloatTok{2.}\NormalTok{, }\FloatTok{3.}\NormalTok{, }\FloatTok{1.}\KeywordTok{]}\NormalTok{ )}
+\NormalTok{r }\KeywordTok{=}\NormalTok{ polynomial( null() )}
+\end{Highlighting}
+\end{Shaded}
 
-result in an object \passthrough{\lstinline!q!} auto-allocated to the
-value \passthrough{\lstinline!q\%a(1:3) == [2., 3., 1.]!}, and an object
-\passthrough{\lstinline!r!} with \passthrough{\lstinline!r\%a!}
-unallocated.
+result in an object \texttt{q} auto-allocated to the value
+\texttt{q\%a(1:3)\ ==\ {[}2.,\ 3.,\ 1.{]}}, and an object \texttt{r}
+with \texttt{r\%a} unallocated.
 
 For the second example type from the last section, the executable
 statements in
 
-\begin{lstlisting}
-TYPE(sorted_list) :: sl1
-TYPE(sorted_list), target :: sl2
-TYPE(sortable) :: d1, d2
-:
-sl1 = sorted_list( data=d1, next=sl2 )  ! use keyword notation
-sl2 = sorted_list( d2, null() )
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ sl1}
+\DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{target} \DataTypeTok{::}\NormalTok{ sl2}
+\DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ d1, d2}
+\NormalTok{:}
+\NormalTok{sl1 }\KeywordTok{=}\NormalTok{ sorted\_list( data}\KeywordTok{=}\NormalTok{d1, next}\KeywordTok{=}\NormalTok{sl2 )  }\CommentTok{! use keyword notation}
+\NormalTok{sl2 }\KeywordTok{=}\NormalTok{ sorted\_list( d2, null() )}
+\end{Highlighting}
+\end{Shaded}
 
-result in an object \passthrough{\lstinline!sl1!} with
-\passthrough{\lstinline!sl1\%next!} pointer associated with
-\passthrough{\lstinline!sl2!}, and an object
-\passthrough{\lstinline!sl2!} with \passthrough{\lstinline!sl2\%next!}
-disassociated; the \passthrough{\lstinline!data!} components of both
-objects have values, \passthrough{\lstinline!d1!} and
-\passthrough{\lstinline!d2!}, respectively. Note that an argument that
-matches with a \passthrough{\lstinline!POINTER!} component must have
-either the \passthrough{\lstinline!POINTER!} or the
-\passthrough{\lstinline!TARGET!} attribute. Also, \textbf{keyword
-notation} can be used in structure constructors in the same manner as
-for procedure arguments.
+result in an object \texttt{sl1} with \texttt{sl1\%next} pointer
+associated with \texttt{sl2}, and an object \texttt{sl2} with
+\texttt{sl2\%next} disassociated; the \texttt{data} components of both
+objects have values, \texttt{d1} and \texttt{d2}, respectively. Note
+that an argument that matches with a \texttt{POINTER} component must
+have either the \texttt{POINTER} or the \texttt{TARGET} attribute. Also,
+\textbf{keyword notation} can be used in structure constructors in the
+same manner as for procedure arguments.
 
 The default constructor's behaviour has some properties that one needs
 to be aware of:
@@ -616,11 +561,10 @@ to be aware of:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  If all type components have the \passthrough{\lstinline!PRIVATE!}
-  attribute i.e., the type is \textbf{opaque} (not a Fortran term), it
-  can only be used if the type declaration is accessed by host
-  association (this is the same as for nonallocatable/nonpointer
-  components);
+  If all type components have the \texttt{PRIVATE} attribute i.e., the
+  type is \textbf{opaque} (not a Fortran term), it can only be used if
+  the type declaration is accessed by host association (this is the same
+  as for nonallocatable/nonpointer components);
 \item
   especially for container-like types, its semantics may be incompatible
   with the programmers intentions for how the objects should be used.
@@ -631,21 +575,19 @@ Item 2 is illustrated by the above object setups, specifically:
 \begin{itemize}
 \tightlist
 \item
-  In the \passthrough{\lstinline!polynomial!} example given above, the
-  lower bound of \passthrough{\lstinline!q\%a!} is set to 1, contrary to
-  the expectation that it should be 0. One could account for this by
-  calculating index offsets in any module procedures that process
-  \passthrough{\lstinline!polynomial!} objects, but this makes the code
-  harder to understand and maintain. Also, the degree of the polynomial
-  should be determined by the last nonzero entry of the coefficient
-  array, but the language can of course not be aware of this.
+  In the \texttt{polynomial} example given above, the lower bound of
+  \texttt{q\%a} is set to 1, contrary to the expectation that it should
+  be 0. One could account for this by calculating index offsets in any
+  module procedures that process \texttt{polynomial} objects, but this
+  makes the code harder to understand and maintain. Also, the degree of
+  the polynomial should be determined by the last nonzero entry of the
+  coefficient array, but the language can of course not be aware of
+  this.
 \item
-  In the \passthrough{\lstinline!sorted\_list!} example given above, the
-  ordering requirement for entries in subsequent nodes is not checked,
-  so will usually be not fulfilled. Also, if
-  \passthrough{\lstinline!sl2!} goes out of scope before
-  \passthrough{\lstinline!sl1!} does, the list structure is torn to
-  bits.
+  In the \texttt{sorted\_list} example given above, the ordering
+  requirement for entries in subsequent nodes is not checked, so will
+  usually be not fulfilled. Also, if \texttt{sl2} goes out of scope
+  before \texttt{sl1} does, the list structure is torn to bits.
 \end{itemize}
 
 The programmer can enforce appropriate semantics by overloading the
@@ -664,69 +606,73 @@ Overloading the structure constructor is done by
   permitted), usually returning a scalar result of the type of interest.
 \end{itemize}
 
-For the \passthrough{\lstinline!polynomial!} type the interface block
-(placed in the specification section of the module containing the type
-definition) might read
+For the \texttt{polynomial} type the interface block (placed in the
+specification section of the module containing the type definition)
+might read
 
-\begin{lstlisting}
-INTERFACE polynomial
-! overload to assure correct lower bound when creating a polynomial object
-   MODULE PROCEDURE :: create_polynomial
-   ... ! further specifics as needed
-END INTERFACE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{INTERFACE}\NormalTok{ polynomial}
+\CommentTok{! overload to assure correct lower bound when creating a polynomial object}
+   \KeywordTok{MODULE PROCEDURE} \DataTypeTok{::}\NormalTok{ create\_polynomial}
+\NormalTok{   ... }\CommentTok{! further specifics as needed}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
-and the implementation of \passthrough{\lstinline!create\_polynomial!}
-(in the \passthrough{\lstinline!CONTAINS!} part of the module) might
-read
+and the implementation of \texttt{create\_polynomial} (in the
+\texttt{CONTAINS} part of the module) might read
 
-\begin{lstlisting}
-PURE TYPE(polynomial) FUNCTION create_polynomial(a)
-   REAL, INTENT(in) :: a(0:)
-   INTEGER :: degree(1)
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{PURE} \DataTypeTok{TYPE(polynomial)} \KeywordTok{FUNCTION}\NormalTok{ create\_polynomial(a)}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ a(}\DecValTok{0}\NormalTok{:)}
+   \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ degree(}\DecValTok{1}\NormalTok{)}
 
-   degree = findloc( a /= 0.0, value=.true., back=.true. ) - 1
-   ALLOCATE( create_polynomial%a(0:degree(1)) )
-   create_polynomial%a(0:) = a(0:degree(1))
-END FUNCTION
-\end{lstlisting}
+\NormalTok{   degree }\KeywordTok{=} \FunctionTok{findloc}\NormalTok{( a }\OperatorTok{/=} \FloatTok{0.0}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=}\ConstantTok{.true.}\NormalTok{, back}\KeywordTok{=}\ConstantTok{.true.}\NormalTok{ ) }\KeywordTok{{-}} \DecValTok{1}
+   \KeywordTok{ALLOCATE}\NormalTok{( create\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:degree(}\DecValTok{1}\NormalTok{)) )}
+\NormalTok{   create\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:) }\KeywordTok{=}\NormalTok{ a(}\DecValTok{0}\NormalTok{:degree(}\DecValTok{1}\NormalTok{))}
+\KeywordTok{END FUNCTION}
+\end{Highlighting}
+\end{Shaded}
 
 Because its signature matches the default structure constructor's, the
 function actually overrides the default constructor, making it generally
 unavailable.
 
-For the \passthrough{\lstinline!sorted\_list!} type the interface block
-might read
+For the \texttt{sorted\_list} type the interface block might read
 
-\begin{lstlisting}
-INTERFACE sorted_list
-! the default constructor is unavailable because the type is opaque
-! the specific has a different signature than the structure constructor
-   MODULE PROCEDURE :: create_sorted_list
-   ... ! further specifics as needed
-END INTERFACE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{INTERFACE}\NormalTok{ sorted\_list}
+\CommentTok{! the default constructor is unavailable because the type is opaque}
+\CommentTok{! the specific has a different signature than the structure constructor}
+   \KeywordTok{MODULE PROCEDURE} \DataTypeTok{::}\NormalTok{ create\_sorted\_list}
+\NormalTok{   ... }\CommentTok{! further specifics as needed}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
-with the implementation of
-\passthrough{\lstinline!create\_sorted\_list!} as follows:
+with the implementation of \texttt{create\_sorted\_list} as follows:
 
-\begin{lstlisting}
-PURE FUNCTION create_sorted_list(item_array) RESULT(head)
-   TYPE(sortable), INTENT(in) :: item_array(:)
-   TYPE(sorted_list) :: head
-   INTEGER :: i
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{PURE} \KeywordTok{FUNCTION}\NormalTok{ create\_sorted\_list(item\_array) }\KeywordTok{RESULT}\NormalTok{(head)}
+   \DataTypeTok{TYPE(sortable)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ item\_array(:)}
+   \DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ head}
+   \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ i}
 
-   DO i = 1, size(item_array)
-      CALL add_to_sorted_list(head, item_array(i))
-      ! handles tedious details of pointer fiddling
-   END DO
-END FUNCTION
-\end{lstlisting}
+   \KeywordTok{DO}\NormalTok{ i }\KeywordTok{=} \DecValTok{1}\NormalTok{, }\FunctionTok{size}\NormalTok{(item\_array)}
+      \KeywordTok{CALL}\NormalTok{ add\_to\_sorted\_list(head, item\_array(i))}
+      \CommentTok{! handles tedious details of pointer fiddling}
+   \KeywordTok{END DO}
+\KeywordTok{END FUNCTION}
+\end{Highlighting}
+\end{Shaded}
 
 The constructor has a signature that differs from that of the default
 one, but the latter is unavailable outside the host scope of the type
-definition anyway, due to the opacity of
-\passthrough{\lstinline!sorted\_list!}.
+definition anyway, due to the opacity of \texttt{sorted\_list}.
 
 \section{Copying objects of container-like
 type}\label{copying-objects-of-container-like-type}
@@ -734,65 +680,72 @@ type}\label{copying-objects-of-container-like-type}
 Default assignment extends to container-like objects. For objects
 declared as
 
-\begin{lstlisting}
-TYPE(polynomial) :: p, q
-TYPE(sorted_list) :: slp, slq
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(polynomial)} \DataTypeTok{::}\NormalTok{ p, q}
+\DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ slp, slq}
 
-... ! code that defines p, slp
-\end{lstlisting}
+\NormalTok{... }\CommentTok{! code that defines p, slp}
+\end{Highlighting}
+\end{Shaded}
 
 and after defining values for prospective right-hand sides, execution of
 the statement
 
-\begin{lstlisting}
-q = p
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{q }\KeywordTok{=}\NormalTok{ p}
+\end{Highlighting}
+\end{Shaded}
 
 produces the same result as
 
-\begin{lstlisting}
-IF ( allocated(q%a) ) DEALLOCATE( q%a )
-q%a = p%a  ! performs auto-allocation using the RHS's bounds, then copies the value
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(q}\OperatorTok{\%}\NormalTok{a) ) }\KeywordTok{DEALLOCATE}\NormalTok{( q}\OperatorTok{\%}\NormalTok{a )}
+\NormalTok{q}\OperatorTok{\%}\NormalTok{a }\KeywordTok{=}\NormalTok{ p}\OperatorTok{\%}\NormalTok{a  }\CommentTok{! performs auto{-}allocation using the RHS\textquotesingle{}s bounds, then copies the value}
+\end{Highlighting}
+\end{Shaded}
 
 and execution of the statement
 
-\begin{lstlisting}
-slq = slp
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{slq }\KeywordTok{=}\NormalTok{ slp}
+\end{Highlighting}
+\end{Shaded}
 
 produces the same result as
 
-\begin{lstlisting}
-slq%data = slp%data
-slq%next => slp%next  ! creates a reference between list objects without copying any value
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{slq}\OperatorTok{\%}\NormalTok{data }\KeywordTok{=}\NormalTok{ slp}\OperatorTok{\%}\NormalTok{data}
+\NormalTok{slq}\OperatorTok{\%}\NormalTok{next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ slp}\OperatorTok{\%}\NormalTok{next  }\CommentTok{! creates a reference between list objects without copying any value}
+\end{Highlighting}
+\end{Shaded}
 
 The terms \textbf{deep copy} and \textbf{shallow copy} (neither are
 Fortran terms) are sometimes used to describe the above behaviour for
-\passthrough{\lstinline!ALLOCATABLE!} and
-\passthrough{\lstinline!POINTER!} components, respectively. Note that -
-different from the default structure constructor - having
-\passthrough{\lstinline!PRIVATE!} components does not affect the use of
-default assigment. However, the semantics of default assignment might
-not be what is needed from the programmer's point of view.
+\texttt{ALLOCATABLE} and \texttt{POINTER} components, respectively. Note
+that - different from the default structure constructor - having
+\texttt{PRIVATE} components does not affect the use of default
+assigment. However, the semantics of default assignment might not be
+what is needed from the programmer's point of view.
 
-Specifically, consider the case where the object
-\passthrough{\lstinline!slq!} above has previously been set up by
-invoking the overloaded constructor. The assignment above would then
-have the following effects:
+Specifically, consider the case where the object \texttt{slq} above has
+previously been set up by invoking the overloaded constructor. The
+assignment above would then have the following effects:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  The list elements of the original \passthrough{\lstinline!slq!},
-  beginning with \passthrough{\lstinline!slq\%next!}, would become
-  inaccessible (``orphaned''), effectively causing a memory leak;
+  The list elements of the original \texttt{slq}, beginning with
+  \texttt{slq\%next}, would become inaccessible (``orphaned''),
+  effectively causing a memory leak;
 \item
-  after the assignment statement, \passthrough{\lstinline!slq\%next!}
-  references into \passthrough{\lstinline!slp\%next!}, resulting in
-  aliasing.
+  after the assignment statement, \texttt{slq\%next} references into
+  \texttt{slp\%next}, resulting in aliasing.
 \end{enumerate}
 
 To avoid 2., it is possible to
@@ -803,47 +756,50 @@ introduced, the functions that define these need to create deep copies
 to create the result variable anyway, otherwise things simply don't
 work. The downside of this is that in code like
 
-\begin{lstlisting}
-slq = slp // slq
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{slq }\KeywordTok{=}\NormalTok{ slp }\KeywordTok{//}\NormalTok{ slq}
+\end{Highlighting}
+\end{Shaded}
 
-~- with the overloaded concatenation operator meaning that the argument
-lists are joined - multiple deep copies need to be done (the
-implementation of the module procedure
-\passthrough{\lstinline!join\_lists!} that supplies the necessary
-specific for \passthrough{\lstinline!//!} is not shown here; see the
-source \passthrough{\lstinline!code sorted\_list.f90!} for details). It
-turns out that some of these exist only intermediately.
+~-- with the overloaded concatenation operator meaning that the argument
+lists are joined -- multiple deep copies need to be done (the
+implementation of the module procedure \texttt{join\_lists} that
+supplies the necessary specific for \texttt{//} is not shown here; see
+the source \texttt{code\ sorted\_list.f90} for details). It turns out
+that some of these exist only intermediately.
 
 Here an implementation of the specific procedure for the overloaded
-assignment of \passthrough{\lstinline!sorted\_list!} objects:
+assignment of \texttt{sorted\_list} objects:
 
-\begin{lstlisting}
-SUBROUTINE assign_sorted_list(to, from)
-   TYPE(sorted_list), INTENT(in), TARGET :: from
-   TYPE(sorted_list), INTENT(out), TARGET :: to  ! finalizer is executed on entry,
-                                                 ! see below for discussion of this.
-   TYPE(sorted_list), POINTER :: p, q
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SUBROUTINE}\NormalTok{ assign\_sorted\_list(}\KeywordTok{to}\NormalTok{, from)}
+   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{TARGET} \DataTypeTok{::}\NormalTok{ from}
+   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{INTENT(out)}\NormalTok{, }\DataTypeTok{TARGET} \DataTypeTok{::} \KeywordTok{to}  \CommentTok{! finalizer is executed on entry,}
+                                                 \CommentTok{! see below for discussion of this.}
+   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ p, q}
 
-   p => from; q => to
+\NormalTok{   p }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ from; q }\KeywordTok{=}\OperatorTok{\textgreater{}} \KeywordTok{to}
 
-   deep_copy : DO
-      IF ( associated(p) ) THEN
-         q%data = p%data
-      ELSE
-         EXIT deep_copy
-      END IF
-      p => p%next
-      IF ( associated(p) ) ALLOCATE( q%next )
-      q => q%next
-   END DO deep_copy
-END SUBROUTINE
-\end{lstlisting}
+\NormalTok{   deep\_copy : }\KeywordTok{DO}
+      \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(p) ) }\KeywordTok{THEN}
+\NormalTok{         q}\OperatorTok{\%}\NormalTok{data }\KeywordTok{=}\NormalTok{ p}\OperatorTok{\%}\NormalTok{data}
+      \KeywordTok{ELSE}
+         \KeywordTok{EXIT}\NormalTok{ deep\_copy}
+      \KeywordTok{END IF}
+\NormalTok{      p }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p}\OperatorTok{\%}\NormalTok{next}
+      \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(p) ) }\KeywordTok{ALLOCATE}\NormalTok{( q}\OperatorTok{\%}\NormalTok{next )}
+\NormalTok{      q }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ q}\OperatorTok{\%}\NormalTok{next}
+   \KeywordTok{END DO}\NormalTok{ deep\_copy}
+\KeywordTok{END SUBROUTINE}
+\end{Highlighting}
+\end{Shaded}
 
 Avoiding 1. is usually done by means of finalizers, to be discussed in
 the next section. This is because assignment is not the only possible
-cause for orphaning of \passthrough{\lstinline!POINTER!}-related memory
-(or indeed other resource leaks).
+cause for orphaning of \texttt{POINTER}-related memory (or indeed other
+resource leaks).
 
 \section{Finalization and
 conclusions}\label{finalization-and-conclusions}
@@ -851,34 +807,37 @@ conclusions}\label{finalization-and-conclusions}
 To deal with resource leaks that are otherwise not within the
 programmer's means to avoid, a type definition can be connected with a
 user-defined \textbf{final procedure} that is automatically invoked in
-certain situations. For the \passthrough{\lstinline!sorted\_list!} type,
-this would look like
+certain situations. For the \texttt{sorted\_list} type, this would look
+like
 
-\begin{lstlisting}
-TYPE :: sorted_list
-   PRIVATE
-   TYPE(sortable) :: data
-   TYPE(sorted_list), POINTER :: next => null()
-CONTAINS
-   FINAL :: delete_sorted_list
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ sorted\_list}
+   \DataTypeTok{PRIVATE}
+   \DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ data}
+   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+\KeywordTok{CONTAINS}
+   \DataTypeTok{FINAL} \DataTypeTok{::}\NormalTok{ delete\_sorted\_list}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
-Note that the \passthrough{\lstinline!FINAL!} statement appears after a
-\passthrough{\lstinline!CONTAINS!} statement in the type definition;
-this implies that \passthrough{\lstinline!delete\_sorted\_list!} is not
-a regular type component. The module procedure's implementation might
-then be as follows:
+Note that the \texttt{FINAL} statement appears after a \texttt{CONTAINS}
+statement in the type definition; this implies that
+\texttt{delete\_sorted\_list} is not a regular type component. The
+module procedure's implementation might then be as follows:
 
-\begin{lstlisting}
-PURE RECURSIVE SUBROUTINE delete_sorted_list(list)
-   TYPE(sorted_list), INTENT(inout) :: list
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{PURE} \KeywordTok{RECURSIVE} \KeywordTok{SUBROUTINE}\NormalTok{ delete\_sorted\_list(list)}
+   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ list}
 
-   IF ( associated(list%next) ) THEN
-      DEALLOCATE( list%next )  ! invokes the finalizer recursively
-   END IF
-END SUBROUTINE
-\end{lstlisting}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(list}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{THEN}
+      \KeywordTok{DEALLOCATE}\NormalTok{( list}\OperatorTok{\%}\NormalTok{next )  }\CommentTok{! invokes the finalizer recursively}
+   \KeywordTok{END IF}
+\KeywordTok{END SUBROUTINE}
+\end{Highlighting}
+\end{Shaded}
 
 It must be a subroutine that takes a single argument of the type to be
 finalized. Most additional attributes are not permitted for that dummy
@@ -886,14 +845,13 @@ argument; for the case of finalizing array arguments it is possible to
 have a set of finalizers (all listed in the type definition), each of
 which declares the dummy argument with an appropriate rank.
 
-The \passthrough{\lstinline!PURE!} and
-\passthrough{\lstinline!RECURSIVE!} properties specified above reflect
-the specific needs for the \passthrough{\lstinline!sorted\_list!} type
-and its associated procedures. The \passthrough{\lstinline!RECURSIVE!}
-specification is optional (i.e., procedures can be called recursively by
-default), but a \passthrough{\lstinline!NON\_RECURSIVE!} specification
-can be supplied if the implementation's semantics does not permit
-correct behaviour in recursive calls.
+\emph{Hint:} The \texttt{PURE} and \texttt{RECURSIVE} properties
+specified above reflect the specific needs for the \texttt{sorted\_list}
+type and its associated procedures. The \texttt{RECURSIVE} specification
+is optional (i.e., procedures can be called recursively by default), but
+a \texttt{NON\_RECURSIVE} specification can be supplied if the
+implementation's semantics does not permit correct behaviour in
+recursive calls.
 
 The finalizer will be automatically invoked on an object if
 
@@ -905,7 +863,7 @@ The finalizer will be automatically invoked on an object if
   (before the assignment is performed),
 \item
   on invocation of a procedure call where it is argument associated with
-  an \passthrough{\lstinline!INTENT(out)!} dummy,
+  an \texttt{INTENT(out)} dummy,
 \item
   it is a non-saved variable and program execution ends its scope, or
 \item
@@ -918,13 +876,12 @@ constructor.
 
 Note that if a finalizer is defined and the constructor is overloaded,
 but the assignment operator is \emph{not}, then the assignment statement
-\passthrough{\lstinline!slq = sorted\_list(...)!} (which then translates
-into a single function call to the
-\passthrough{\lstinline!create\_sorted\_list()!} function shown earlier)
-will result in a mutilated left-hand side, because the finalizer will be
-executed on the function that overloads the constructor, resulting in
-\passthrough{\lstinline!slq\%next!} being disassociated. For this
-reason, the following guideline applies:
+\texttt{slq\ =\ sorted\_list(...)} (which then translates into a single
+function call to the \texttt{create\_sorted\_list()} function shown
+earlier) will result in a mutilated left-hand side, because the
+finalizer will be executed on the function that overloads the
+constructor, resulting in \texttt{slq\%next} being disassociated. For
+this reason, the following guideline applies:
 
 \begin{quote}
 Recommendation:\\
@@ -942,21 +899,25 @@ programming}\label{further-language-features-useful-for-object-based-programming
 \subsection{Extended semantics for allocatable
 objects}\label{extended-semantics-for-allocatable-objects}
 
-Scalars can have the \passthrough{\lstinline!ALLOCATABLE!} attribute:
+Scalars can have the \texttt{ALLOCATABLE} attribute:
 
-\begin{lstlisting}
-CHARACTER(len=:), ALLOCATABLE :: my_string
-TYPE(sorted_list), ALLOCATABLE :: my_list
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{CHARACTER(len=:)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ my\_string}
+\DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ my\_list}
+\end{Highlighting}
+\end{Shaded}
 
 Allocation then can be done explicitly; the following examples
-illustrate applications of the \passthrough{\lstinline!ALLOCATE!}
-statement that are useful or even necessary in this context:
+illustrate applications of the \texttt{ALLOCATE} statement that are
+useful or even necessary in this context:
 
-\begin{lstlisting}
-ALLOCATE( CHARACTER(len=13) :: my_string )                  ! typed allocation
-ALLOCATE( my_list, source=sorted_list(array_of_sortable) )  ! sourced allocation
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ALLOCATE}\NormalTok{( }\DataTypeTok{CHARACTER(len=13)} \DataTypeTok{::}\NormalTok{ my\_string )                  }\CommentTok{! typed allocation}
+\KeywordTok{ALLOCATE}\NormalTok{( my\_list, source}\KeywordTok{=}\NormalTok{sorted\_list(array\_of\_sortable) )  }\CommentTok{! sourced allocation}
+\end{Highlighting}
+\end{Shaded}
 
 \textbf{Typed allocation} is necessary for the string variable, because
 the length parameter of a string is part of its type; we will later see
@@ -968,12 +929,14 @@ Alternatively, allocatable objects (be they scalar or arrays) can be
 auto-allocated by appearing on the left-hand side of an \emph{intrinsic}
 assignment statement:
 
-\begin{lstlisting}
-my_string = "anything goes"  ! auto-allocated to RHS length before value is transferred
-! my_list = sorted_list(array_of_sortable)
-! the above statement would fail for an unallocated object, because the assignment
-! has been overloaded using a nonallocatable first dummy argument
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_string }\KeywordTok{=} \StringTok{"anything goes"}  \CommentTok{! auto{-}allocated to RHS length before value is transferred}
+\CommentTok{! my\_list = sorted\_list(array\_of\_sortable)}
+\CommentTok{! the above statement would fail for an unallocated object, because the assignment}
+\CommentTok{! has been overloaded using a nonallocatable first dummy argument}
+\end{Highlighting}
+\end{Shaded}
 
 A caveat is that for \emph{overloaded} assignment, this will usually not
 work - either one needs to explicitly allocate the object before
@@ -985,9 +948,9 @@ strings, arrays) a non-conformable left-hand side in an assignment
 statement will be deallocated before being allocated to the right length
 or shape, respectively.
 
-The features discussed in this subsection are also useful for
-object-oriented programming, with additional semantics applying for the
-case of polymorphic objects.
+\emph{Hint:} The features discussed in this subsection are also useful
+for object-oriented programming, with additional semantics applying for
+the case of polymorphic objects.
 
 \subsection{Implementing move
 semantics}\label{implementing-move-semantics}
@@ -997,130 +960,130 @@ semantics i.e., create a copy of an object and then getting rid of the
 original. The simplest way of doing this is to make use of allocatable
 (scalar or array) objects,
 
-\begin{lstlisting}
-TYPE(sorted_list), ALLOCATABLE :: my_list, your_list
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ my\_list, your\_list}
+\end{Highlighting}
+\end{Shaded}
 
-After \passthrough{\lstinline!your\_list!} has been set up, the object's
-content can then be transferred to \passthrough{\lstinline!my\_list!} by
-using the \passthrough{\lstinline!move\_alloc!} intrinsic,
+After \texttt{your\_list} has been set up, the object's content can then
+be transferred to \texttt{my\_list} by using the \texttt{move\_alloc}
+intrinsic,
 
-\begin{lstlisting}
-CALL move_alloc(your_list, my_list)
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{CALL}\NormalTok{ move\_alloc(your\_list, my\_list)}
+\end{Highlighting}
+\end{Shaded}
 
-which will deallocate \passthrough{\lstinline!my\_list!} if necessary,
-before doing the transfer. After the invocation,
-\passthrough{\lstinline!my\_list!} will have the value formerly stored
-in \passthrough{\lstinline!your\_list!}, and
-\passthrough{\lstinline!your\_list!} will end up in the deallocated
-state. Note that the latter does not involve a regular object
-deallocation (effectively, a descriptor for the object is moved), so any
-existing finalizer will not be invoked.
+which will deallocate \texttt{my\_list} if necessary, before doing the
+transfer. After the invocation, \texttt{my\_list} will have the value
+formerly stored in \texttt{your\_list}, and \texttt{your\_list} will end
+up in the deallocated state. Note that the latter does not involve a
+regular object deallocation (effectively, a descriptor for the object is
+moved), so any existing finalizer will not be invoked.
 
 \subsection{\texorpdfstring{The \texttt{BLOCK}
 construct}{The BLOCK construct}}\label{the-block-construct}
 
 The above rules on finalization imply that variables declared in the
 specification part of the main program are not finalizable, since they
-by default have the \passthrough{\lstinline!SAVE!} attribute. One could
-argue this is not necessary since all assigned memory is reclaimed when
-program execution ends. However, excessive memory consumption or the use
-of other resources may cause issues for reliable program execution. To
-work around these, the \passthrough{\lstinline!BLOCK!} construct can be
-used:
+by default have the \texttt{SAVE} attribute. One could argue this is not
+necessary since all assigned memory is reclaimed when program execution
+ends. However, excessive memory consumption or the use of other
+resources may cause issues for reliable program execution. To work
+around these, the \texttt{BLOCK} construct can be used:
 
-\begin{lstlisting}
-PROGRAM test_sorted_list
-   USE mod_sortable
-   USE mod_sorted_list
-   IMPLICIT none
-   :
-   work : BLOCK
-      TYPE(sortable) :: array(items)
-      TYPE(sorted_list) :: my_list, ...
-      : ! initialize array
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{PROGRAM}\NormalTok{ test\_sorted\_list}
+   \KeywordTok{USE}\NormalTok{ mod\_sortable}
+   \KeywordTok{USE}\NormalTok{ mod\_sorted\_list}
+   \KeywordTok{IMPLICIT} \KeywordTok{none}
+\NormalTok{   :}
+\NormalTok{   work : }\KeywordTok{BLOCK}
+      \DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ array(items)}
+      \DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list, ...}
+\NormalTok{      : }\CommentTok{! initialize array}
 
-      my_list = sorted_list(array)
-      :
-   END BLOCK work  ! finalizer is executed on my_list, ...
-   :
-END PROGRAM
-\end{lstlisting}
+\NormalTok{      my\_list }\KeywordTok{=}\NormalTok{ sorted\_list(array)}
+\NormalTok{      :}
+   \KeywordTok{END BLOCK}\NormalTok{ work  }\CommentTok{! finalizer is executed on my\_list, ...}
+\NormalTok{   :}
+\KeywordTok{END PROGRAM}
+\end{Highlighting}
+\end{Shaded}
 
 The construct (as the only one in Fortran) permits declaration of
 non-saved variables in its specification part. Their lifetime ends when
-program execution reaches the \passthrough{\lstinline!END BLOCK!}
-statement, and they therefore are finalized at this point, if
-applicable. Named variables declared outside the construct are
-accessible inside it, unless a block-local declaration with the same
-name exists.
+program execution reaches the \texttt{END\ BLOCK} statement, and they
+therefore are finalized at this point, if applicable. Named variables
+declared outside the construct are accessible inside it, unless a
+block-local declaration with the same name exists.
 
-Note that the construct's execution flow can be modified by executing an
-\passthrough{\lstinline!EXIT!} statement in its body; this can, for
-example, be used for structured error handling and finally permits
-sending \passthrough{\lstinline!GO TO!} to retirement.
+\emph{Hint:} Note that the construct's execution flow can be modified by
+executing an \texttt{EXIT} statement in its body; this can, for example,
+be used for structured error handling and finally permits sending
+\texttt{GO\ TO} to retirement.
 
 \subsection{\texorpdfstring{The \texttt{ASSOCIATE}
 construct}{The ASSOCIATE construct}}\label{the-associate-construct}
 
 With the introduction of deeply nested derived types, code that needs
 access to ultimate components can become quite hard to read. An
-\passthrough{\lstinline!ASSOCIATE!} block construct that enables the use
-of auto-typed aliases can be used. This is illustrated by a procedure
-that is used to implement the multiplication of two polynomials:
+\texttt{ASSOCIATE} block construct that enables the use of auto-typed
+aliases can be used. This is illustrated by a procedure that is used to
+implement the multiplication of two polynomials:
 
-\begin{lstlisting}
-PURE TYPE(polynomial) FUNCTION multiply_polynomial(p1, p2)
-   TYPE(polynomial), INTENT(in) :: p1, p2
-   INTEGER :: j, l, lmax
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{PURE} \DataTypeTok{TYPE(polynomial)} \KeywordTok{FUNCTION}\NormalTok{ multiply\_polynomial(p1, p2)}
+   \DataTypeTok{TYPE(polynomial)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ p1, p2}
+   \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ j, l, lmax}
 
-   lmax = ubound(p1%a,1) + ubound(p2%a,1)
-   ALLOCATE( multiply_polynomial%a(0:lmax) )
+\NormalTok{   lmax }\KeywordTok{=} \FunctionTok{ubound}\NormalTok{(p1}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{) }\KeywordTok{+} \FunctionTok{ubound}\NormalTok{(p2}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{)}
+   \KeywordTok{ALLOCATE}\NormalTok{( multiply\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:lmax) )}
 
-   ASSOCIATE( a => p1%a, b => p2%a, c => multiply_polynomial%a, &
-              jmax => ubound(p1%a,1), kmax => ubound(p2%a,1) )  ! association list
-      DO l = 0, lmax
-         c(l) = 0
-         DO j = max(0, l-kmax), min(jmax, l)
-            c(l) = c(l) + a(j) * b(l-j)
-         END DO
-      END DO
-   END ASSOCIATE
-END FUNCTION
-\end{lstlisting}
+   \KeywordTok{ASSOCIATE}\NormalTok{( a }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p1}\OperatorTok{\%}\NormalTok{a, b }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p2}\OperatorTok{\%}\NormalTok{a, c }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ multiply\_polynomial}\OperatorTok{\%}\NormalTok{a, }\KeywordTok{\&}
+\NormalTok{              jmax }\KeywordTok{=}\OperatorTok{\textgreater{}} \FunctionTok{ubound}\NormalTok{(p1}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{), kmax }\KeywordTok{=}\OperatorTok{\textgreater{}} \FunctionTok{ubound}\NormalTok{(p2}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{) )  }\CommentTok{! association list}
+      \KeywordTok{DO}\NormalTok{ l }\KeywordTok{=} \DecValTok{0}\NormalTok{, lmax}
+\NormalTok{         c(l) }\KeywordTok{=} \DecValTok{0}
+         \KeywordTok{DO}\NormalTok{ j }\KeywordTok{=} \BuiltInTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, l}\KeywordTok{{-}}\NormalTok{kmax), }\BuiltInTok{min}\NormalTok{(jmax, l)}
+\NormalTok{            c(l) }\KeywordTok{=}\NormalTok{ c(l) }\KeywordTok{+}\NormalTok{ a(j) }\KeywordTok{*}\NormalTok{ b(l}\KeywordTok{{-}}\NormalTok{j)}
+         \KeywordTok{END DO}
+      \KeywordTok{END DO}
+   \KeywordTok{END ASSOCIATE}
+\KeywordTok{END FUNCTION}
+\end{Highlighting}
+\end{Shaded}
 
 For the duration of execution of the construct, the associate names can
 be used to refer to their selectors (i.e., the right-hand sides in the
 association list). If the selectors are variables, so are the associate
-names (\passthrough{\lstinline!a!}, \passthrough{\lstinline!b!},
-\passthrough{\lstinline!c!} in the above example), and can be assigned
-to. If the selectors are expressions, so are the associate names
-(\passthrough{\lstinline!jmax!}, \passthrough{\lstinline!kmax!} in the
-above example).
+names (\texttt{a}, \texttt{b}, \texttt{c} in the above example), and can
+be assigned to. If the selectors are expressions, so are the associate
+names (\texttt{jmax}, \texttt{kmax} in the above example).
 
 Associated entities that refer to variables inherit the
-\passthrough{\lstinline!DIMENSION!},
-\passthrough{\lstinline!CODIMENSION!}, \passthrough{\lstinline!TARGET!},
-\passthrough{\lstinline!ASYNCHRONOUS!} and
-\passthrough{\lstinline!VOLATILE!} attributes from their selectors, but
-no others. An associate name can only refer to an
-\passthrough{\lstinline!OPTIONAL!} dummy argument if the latter is
-present. Associate names can also appear in other block constructs
-(\passthrough{\lstinline!SELECT TYPE!},
-\passthrough{\lstinline!CHANGE TEAM!}), which will be discussed where
-appropriate.
+\texttt{DIMENSION}, \texttt{CODIMENSION}, \texttt{TARGET},
+\texttt{ASYNCHRONOUS} and \texttt{VOLATILE} attributes from their
+selectors, but no others. An associate name can only refer to an
+\texttt{OPTIONAL} dummy argument if the latter is present. Associate
+names can also appear in other block constructs (\texttt{SELECT\ TYPE},
+\texttt{CHANGE\ TEAM}), which will be discussed where appropriate.
 
 \section{Performing I/O with objects of container-like
 type}\label{performing-io-with-objects-of-container-like-type}
 
 For objects of container-like type, a data transfer statement
 
-\begin{lstlisting}
-TYPE(sorted_list) :: my_list
-: ! set up my_list
-WRITE(*, *) my_list
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list}
+\NormalTok{: }\CommentTok{! set up my\_list}
+\FunctionTok{WRITE(*}\NormalTok{, }\FunctionTok{*)}\NormalTok{ my\_list}
+\end{Highlighting}
+\end{Shaded}
 
 would fail to compile, since the run-time library is incapable of
 dealing with the irregular structures that are hiding behind the
@@ -1130,11 +1093,13 @@ an appropriate manner. This is achieved by binding an I/O statement on a
 derived-type object to a user-defined procedure, for example through a
 suitably written named interface:
 
-\begin{lstlisting}
-INTERFACE WRITE(formatted)
-   MODULE PROCEDURE write_fmt_list
-END INTERFACE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{INTERFACE} \FunctionTok{WRITE(formatted)}
+   \KeywordTok{MODULE PROCEDURE}\NormalTok{ write\_fmt\_list}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
 Note that this also applies to data types for which the above
 stand-alone statement is permitted, and then overloads the default I/O
@@ -1152,60 +1117,56 @@ interpretation:
 \begin{itemize}
 \tightlist
 \item
-  \passthrough{\lstinline!WRITE(formatted)!}
+  \texttt{WRITE(formatted)}
 \item
-  \passthrough{\lstinline!READ(formatted)!}
+  \texttt{READ(formatted)}
 \item
-  \passthrough{\lstinline!WRITE(unformatted)!}
+  \texttt{WRITE(unformatted)}
 \item
-  \passthrough{\lstinline!READ(unformatted)!}
+  \texttt{READ(unformatted)}
 \end{itemize}
 
 The self-defined procedure is restricted with respect to its interfaces'
 characteristics, which are described in the following:
 
-\begin{lstlisting}
-SUBROUTINE <formatted_io>   (dtv, unit, iotype, v_list, iostat, iomsg)
-SUBROUTINE <unformatted_io> (dtv, unit,                 iostat, iomsg)
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SUBROUTINE} \OperatorTok{\textless{}}\NormalTok{formatted\_io}\OperatorTok{\textgreater{}}\NormalTok{   (dtv, unit, iotype, v\_list, iostat, iomsg)}
+\KeywordTok{SUBROUTINE} \OperatorTok{\textless{}}\NormalTok{unformatted\_io}\OperatorTok{\textgreater{}}\NormalTok{ (dtv, unit,                 iostat, iomsg)}
+\end{Highlighting}
+\end{Shaded}
 
-The placeholders \passthrough{\lstinline!<formatted\_io>!} and
-\passthrough{\lstinline!<unformatted\_io>!} must be replaced by a
+The placeholders \texttt{\textless{}formatted\_io\textgreater{}} and
+\texttt{\textless{}unformatted\_io\textgreater{}} must be replaced by a
 specific procedure name referenced in the generic interface.
 
 The dummy arguments' declarations and meaning are:
 
 \begin{itemize}
 \item
-  \passthrough{\lstinline!dtv!}: Must be declared to be a nonpointer
-  nonallocatable scalar of the type in question. If the type is
-  extensible (to be explained later), the declaration must be
-  polymorphic (i.e.~using \passthrough{\lstinline!CLASS!}), otherwise
-  non-polymorphic (using \passthrough{\lstinline!TYPE!}). Its
-  \passthrough{\lstinline!INTENT!} must be \passthrough{\lstinline!in!}
-  for \passthrough{\lstinline!WRITE(...)!}, and
-  ``\passthrough{\lstinline!out!}'' or
-  ``\passthrough{\lstinline!inout!}'' for
-  \passthrough{\lstinline!READ(...)!}. It represents the object on which
-  data transfer statements are to be executed.
+  \texttt{dtv}: Must be declared to be a nonpointer nonallocatable
+  scalar of the type in question. If the type is extensible (to be
+  explained later), the declaration must be polymorphic (i.e.~using
+  \texttt{CLASS}), otherwise non-polymorphic (using \texttt{TYPE}). Its
+  \texttt{INTENT} must be \texttt{in} for \texttt{WRITE(...)}, and
+  ``\texttt{out}'' or ``\texttt{inout}'' for \texttt{READ(...)}. It
+  represents the object on which data transfer statements are to be
+  executed.
 
-  Note: For the examples in this chapter, we need to use
-  \passthrough{\lstinline!CLASS!}, but the behaviour is as if
-  \passthrough{\lstinline!TYPE!} were used, as long as the actual
-  arguments are non-polymorphic and the procedure-based interface is
-  used for the invocation.
+  \emph{Hint:} Note: For the examples in this chapter, we need to use
+  \texttt{CLASS}, but the behaviour is as if \texttt{TYPE} were used, as
+  long as the actual arguments are non-polymorphic and the
+  procedure-based interface is used for the invocation.
 \item
-  \passthrough{\lstinline!unit!}: An \passthrough{\lstinline!INTEGER!}
-  scalar with \passthrough{\lstinline!INTENT(in)!}. Its value is that of
-  the unit used for data transfer statements. Use of other unit values
-  is not permitted (except, perhaps,
-  \passthrough{\lstinline!error\_unit!} for debugging purposes).
+  \texttt{unit}: An \texttt{INTEGER} scalar with \texttt{INTENT(in)}.
+  Its value is that of the unit used for data transfer statements. Use
+  of other unit values is not permitted (except, perhaps,
+  \texttt{error\_unit} for debugging purposes).
 \item
-  \passthrough{\lstinline!iotype!}: A
-  \passthrough{\lstinline!CHARACTER(len=*)!} string with
-  \passthrough{\lstinline!INTENT(in)!}. This can only appear in
-  procedures for formatted I/O. The following table describes how the
-  incoming value relates to the parent I/O transfer statement:
+  \texttt{iotype}: A \texttt{CHARACTER(len=*)} string with
+  \texttt{INTENT(in)}. This can only appear in procedures for formatted
+  I/O. The following table describes how the incoming value relates to
+  the parent I/O transfer statement:
 \end{itemize}
 
 \begin{longtable}[]{@{}
@@ -1221,52 +1182,45 @@ Caused by parent I/O statement
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\passthrough{\lstinline!"LISTDIRECTED"!} &
-\passthrough{\lstinline!WRITE(unit, fmt=*) my\_list!} \\
-\passthrough{\lstinline!"NAMELIST"!} &
-\passthrough{\lstinline!WRITE(unit, nml=my\_namelist)!} \textbf{Note:}
-Referring to the example, at least one
-\passthrough{\lstinline!sorted\_list!} object must be a member of
-\passthrough{\lstinline!my\_namelist!}. \\
-\passthrough{\lstinline!"DTsorted\_list\_fmt"!} &
-\passthrough{\lstinline!WRITE(unit, fmt='(DT"sorted\_list\_fmt"(10,2))') my\_list!}
-\textbf{Note:} \passthrough{\lstinline!DT!} is the ``derived type'' edit
-descriptor that is needed in format-driven editing to trigger execution
-of the UDDTIO routine. The string following the
-\passthrough{\lstinline!DT!} edit descriptor can be freely chosen (even
-to be zero length); it is recommended that the UDDTIO procedure pay
-attention to any possible values supplied in the parent I/O statement if
-it supports DT editing. \\
+\texttt{"LISTDIRECTED"} & \texttt{WRITE(unit,\ fmt=*)\ my\_list} \\
+\texttt{"NAMELIST"} & \texttt{WRITE(unit,\ nml=my\_namelist)}
+\textbf{Note:} Referring to the example, at least one
+\texttt{sorted\_list} object must be a member of
+\texttt{my\_namelist}. \\
+\texttt{"DTsorted\_list\_fmt"} &
+\texttt{WRITE(unit,\ fmt=\textquotesingle{}(DT"sorted\_list\_fmt"(10,2))\textquotesingle{})\ my\_list}
+\textbf{Note:} \texttt{DT} is the ``derived type'' edit descriptor that
+is needed in format-driven editing to trigger execution of the UDDTIO
+routine. The string following the \texttt{DT} edit descriptor can be
+freely chosen (even to be zero length); it is recommended that the
+UDDTIO procedure pay attention to any possible values supplied in the
+parent I/O statement if it supports DT editing. \\
 \end{longtable}
 
 \begin{itemize}
 \tightlist
 \item
-  \passthrough{\lstinline!v\_list!}: A rank-1 assumed-shape
-  \passthrough{\lstinline!INTEGER!} array with
-  \passthrough{\lstinline!INTENT(in)!} . This can only appear in
-  procedures for formatted I/O. The incoming value is taken from the
-  final part of the \passthrough{\lstinline!DT!} edit descriptor; in the
-  example from the table above it would have the value
-  \passthrough{\lstinline![10,2]!}. Free use can be made of the value
-  for the disposition (formatting, controlling) of I/O transfer
+  \texttt{v\_list}: A rank-1 assumed-shape \texttt{INTEGER} array with
+  \texttt{INTENT(in)} . This can only appear in procedures for formatted
+  I/O. The incoming value is taken from the final part of the
+  \texttt{DT} edit descriptor; in the example from the table above it
+  would have the value \texttt{{[}10,2{]}}. Free use can be made of the
+  value for the disposition (formatting, controlling) of I/O transfer
   statements inside the procedure. The array's size may be zero;
   specifically, it will be of size zero for the listdirected or namelist
   cases.
 \item
-  \passthrough{\lstinline!iostat!}: An \passthrough{\lstinline!INTEGER!}
-  scalar with \passthrough{\lstinline!INTENT(out)!}. It must be given a
-  value consistent with those produced by non-UDTTIO statements in case
-  of an error. Successful execution of the I/O must result in a zero
-  value. Unsuccessful execution must result in either a positive value,
-  or one of the values \passthrough{\lstinline!iostat\_end!} or
-  \passthrough{\lstinline!iostat\_eor!} from the
-  \passthrough{\lstinline!iso\_fortran\_env!} intrinsic module.
+  \texttt{iostat}: An \texttt{INTEGER} scalar with \texttt{INTENT(out)}.
+  It must be given a value consistent with those produced by non-UDTTIO
+  statements in case of an error. Successful execution of the I/O must
+  result in a zero value. Unsuccessful execution must result in either a
+  positive value, or one of the values \texttt{iostat\_end} or
+  \texttt{iostat\_eor} from the \texttt{iso\_fortran\_env} intrinsic
+  module.
 \item
-  \passthrough{\lstinline!iomsg!}: A
-  \passthrough{\lstinline!CHARACTER(len=*)!} string with
-  \passthrough{\lstinline!INTENT(inout)!}. It must be given a value if a
-  non-zero \passthrough{\lstinline!iostat!} is returned.
+  \texttt{iomsg}: A \texttt{CHARACTER(len=*)} string with
+  \texttt{INTENT(inout)}. It must be given a value if a non-zero
+  \texttt{iostat} is returned.
 \end{itemize}
 
 Additional properties and restrictions for UDDTIO are:
@@ -1275,7 +1229,7 @@ Additional properties and restrictions for UDDTIO are:
 \tightlist
 \item
   All data transfers are executed in non-advancing mode. Any
-  \passthrough{\lstinline!advance=!} specifier will be ignored;
+  \texttt{advance=} specifier will be ignored;
 \item
   asynchronous I/O is not supported;
 \item
@@ -1284,39 +1238,41 @@ Additional properties and restrictions for UDDTIO are:
 \end{itemize}
 
 The following demonstrates a partial implementation of formatted writing
-on \passthrough{\lstinline!sorted\_list!} objects:
+on \texttt{sorted\_list} objects:
 
-\begin{lstlisting}
-RECURSIVE SUBROUTINE write_fmt_list(dtv, unit, iotype, v_list, iostat, iomsg)
-   CLASS(sorted_list), INTENT(in) :: dtv
-   INTEGER, INTENT(in) :: unit, v_list(:)
-   CHARACTER(len=*), INTENT(in) :: iotype
-   INTEGER, INTENT(out) :: iostat
-   CHARACTER(len=*), INTENT(inout) :: iomsg
-   CHARACTER(len=2) :: next_component
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{RECURSIVE} \KeywordTok{SUBROUTINE}\NormalTok{ write\_fmt\_list(dtv, unit, iotype, v\_list, iostat, iomsg)}
+   \DataTypeTok{CLASS(sorted\_list)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ dtv}
+   \DataTypeTok{INTEGER}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ unit, v\_list(:)}
+   \DataTypeTok{CHARACTER(len=*)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ iotype}
+   \DataTypeTok{INTEGER}\NormalTok{, }\DataTypeTok{INTENT(out)} \DataTypeTok{::}\NormalTok{ iostat}
+   \DataTypeTok{CHARACTER(len=*)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ iomsg}
+   \DataTypeTok{CHARACTER(len=2)} \DataTypeTok{::}\NormalTok{ next\_component}
 
-   IF ( associated(dtv%next) ) THEN
-      WRITE(next_component, fmt='("T,")')
-   ELSE
-      WRITE(next_component, fmt='("F")')
-   END IF
-   SELECT CASE (iotype)
-   CASE ('LISTDIRECTED')
-      WRITE(unit, fmt=*, delim='quote', iostat=iostat, iomsg=iomsg) &
-            dtv%data%string
-   CASE ('NAMELIST')
-      WRITE(unit, fmt=*, iostat=iostat, iomsg=iomsg) '"', &
-            dtv%data%string, '",', trim(next_component)
-   CASE default
-      iostat = 129
-      iomsg = 'iotype ' // trim(iotype) // ' not implemented'
-      RETURN
-   END SELECT
-   IF ( associated(dtv%next) ) THEN
-      CALL write_fmt_list(dtv%next, unit, iotype, v_list, iostat, iomsg)
-   END IF
-END SUBROUTINE
-\end{lstlisting}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(dtv}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{THEN}
+      \FunctionTok{WRITE(}\NormalTok{next\_component, }\FunctionTok{fmt}\KeywordTok{=}\StringTok{\textquotesingle{}("T,")\textquotesingle{}}\FunctionTok{)}
+   \KeywordTok{ELSE}
+      \FunctionTok{WRITE(}\NormalTok{next\_component, }\FunctionTok{fmt}\KeywordTok{=}\StringTok{\textquotesingle{}("F")\textquotesingle{}}\FunctionTok{)}
+   \KeywordTok{END IF}
+   \KeywordTok{SELECT CASE}\NormalTok{ (iotype)}
+   \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}LISTDIRECTED\textquotesingle{}}\NormalTok{)}
+      \FunctionTok{WRITE(unit}\NormalTok{, }\FunctionTok{fmt}\KeywordTok{=}\FunctionTok{*}\NormalTok{, }\FunctionTok{delim}\KeywordTok{=}\StringTok{\textquotesingle{}quote\textquotesingle{}}\NormalTok{, }\FunctionTok{iostat}\KeywordTok{=}\FunctionTok{iostat}\NormalTok{, iomsg}\KeywordTok{=}\NormalTok{iomsg}\FunctionTok{)} \KeywordTok{\&}
+\NormalTok{            dtv}\OperatorTok{\%}\NormalTok{data}\OperatorTok{\%}\NormalTok{string}
+   \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}NAMELIST\textquotesingle{}}\NormalTok{)}
+      \FunctionTok{WRITE(unit}\NormalTok{, }\FunctionTok{fmt}\KeywordTok{=}\FunctionTok{*}\NormalTok{, }\FunctionTok{iostat}\KeywordTok{=}\FunctionTok{iostat}\NormalTok{, iomsg}\KeywordTok{=}\NormalTok{iomsg}\FunctionTok{)} \StringTok{\textquotesingle{}"\textquotesingle{}}\NormalTok{, }\KeywordTok{\&}
+\NormalTok{            dtv}\OperatorTok{\%}\NormalTok{data}\OperatorTok{\%}\NormalTok{string, }\StringTok{\textquotesingle{}",\textquotesingle{}}\NormalTok{, }\FunctionTok{trim}\NormalTok{(next\_component)}
+   \KeywordTok{CASE default}
+\NormalTok{      iostat }\KeywordTok{=} \DecValTok{129}
+\NormalTok{      iomsg }\KeywordTok{=} \StringTok{\textquotesingle{}iotype \textquotesingle{}} \KeywordTok{//} \FunctionTok{trim}\NormalTok{(iotype) }\KeywordTok{//} \StringTok{\textquotesingle{} not implemented\textquotesingle{}}
+      \KeywordTok{RETURN}
+   \KeywordTok{END SELECT}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(dtv}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{THEN}
+      \KeywordTok{CALL}\NormalTok{ write\_fmt\_list(dtv}\OperatorTok{\%}\NormalTok{next, unit, iotype, v\_list, iostat, iomsg)}
+   \KeywordTok{END IF}
+\KeywordTok{END SUBROUTINE}
+\end{Highlighting}
+\end{Shaded}
 
 \textbf{Notes:}
 
@@ -1326,15 +1282,14 @@ END SUBROUTINE
   The namelist itself is inaccessible from the procedure; it is not
   needed since the procedure only needs to write the list values in a
   suitably formatted way. Termination of the list is indicated by a
-  final logical value of \passthrough{\lstinline!F!} in the list entry
-  of the namelist file; the termination information must be
-  appropriately processed in the corresponding namelist case of the read
-  procedure.
+  final logical value of \texttt{F} in the list entry of the namelist
+  file; the termination information must be appropriately processed in
+  the corresponding namelist case of the read procedure.
 \item
-  The example implementation does not support
-  \passthrough{\lstinline!DT!} editing; invoking the parent I/O
-  statement from the above table would therefore cause error termination
-  unless an \passthrough{\lstinline!iostat=!} argument is added to it.
+  The example implementation does not support \texttt{DT} editing;
+  invoking the parent I/O statement from the above table would therefore
+  cause error termination unless an \texttt{iostat=} argument is added
+  to it.
 \end{itemize}
 
 \section{Object-oriented programming
@@ -1352,75 +1307,81 @@ maybe more) types can be established through language-defined
 mechanisms, on both the levels of type definition and object declaration
 and use. Fortran supports a \textbf{single inheritance} model, which
 will be outlined in the following sections; runnable example codes are
-supplied in the \passthrough{\lstinline!object\_oriented!} subfolder of
-the \href{https://github.com/reinh-bader/object_fortran}{Github
-repository}
+supplied in the \texttt{object\_oriented} subfolder of the
+\href{https://github.com/reinh-bader/object_fortran}{Github repository}
 
 \section{Extension types}\label{extension-types}
 
 As a starting point, consider the definition of a type, an object of
 which can quite generally represent a physical body:
 
-\begin{lstlisting}
-TYPE :: body
-   REAL :: mass
-   REAL :: pos(3), vel(3)
-END TYPE
-:
-TYPE(body) :: my_basketball = body(1.5, [0.0, 0.0, 2.0], [10.0, 0.0, 0.0])
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ body}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ mass}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ pos(}\DecValTok{3}\NormalTok{), vel(}\DecValTok{3}\NormalTok{)}
+\DataTypeTok{END TYPE}
+\NormalTok{:}
+\DataTypeTok{TYPE(body)} \DataTypeTok{::}\NormalTok{ my\_basketball }\KeywordTok{=}\NormalTok{ body(}\FloatTok{1.5}\NormalTok{, }\KeywordTok{[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{2.0}\KeywordTok{]}\NormalTok{, }\KeywordTok{[}\FloatTok{10.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 This might come along with procedures that impose a momentum change or a
-change of mass on a \passthrough{\lstinline!body!} object:
+change of mass on a \texttt{body} object:
 
-\begin{lstlisting}
-PURE SUBROUTINE kick(a_body, dp)
-   TYPE(body), INTENT(inout) :: a_body
-   REAL, intent(in) :: dp(3)
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{PURE} \KeywordTok{SUBROUTINE}\NormalTok{ kick(a\_body, dp)}
+   \DataTypeTok{TYPE(body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ dp(}\DecValTok{3}\NormalTok{)}
 
-   a_body%vel(:) = a_body%vel(:) + dp(:) / a_body%mass
-END SUBROUTINE
-PURE SUBROUTINE accrete(a_body, dm)
-   TYPE(body), INTENT(inout) :: a_body
-   REAL, intent(in) :: dm
+\NormalTok{   a\_body}\OperatorTok{\%}\NormalTok{vel(:) }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{vel(:) }\KeywordTok{+}\NormalTok{ dp(:) }\KeywordTok{/}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{mass}
+\KeywordTok{END SUBROUTINE}
+\KeywordTok{PURE} \KeywordTok{SUBROUTINE}\NormalTok{ accrete(a\_body, dm)}
+   \DataTypeTok{TYPE(body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ dm}
 
-   a_body%mass = a_body%mass + dm
-END SUBROUTINE accrete
-\end{lstlisting}
+\NormalTok{   a\_body}\OperatorTok{\%}\NormalTok{mass }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{mass }\KeywordTok{+}\NormalTok{ dm}
+\KeywordTok{END SUBROUTINE}\NormalTok{ accrete}
+\end{Highlighting}
+\end{Shaded}
 
 After writing lots of code that makes use of the above, imagine that you
 now want to deal with objects that have the additional property of
 electric charge. One could, of course, simply add another component to
-the original \passthrough{\lstinline!body!} type, but in most cases this
-would invalidate existing code which would need to be corrected,
-recompiled and retested. Furthermore, all \passthrough{\lstinline!body!}
-objects would require the extra memory, which for the existing codebase
-would simply be wasted. It is more convenient and less intrusive to
-create a new type that is an \textbf{extension} of the existing one (the
-\textbf{parent} type):
+the original \texttt{body} type, but in most cases this would invalidate
+existing code which would need to be corrected, recompiled and retested.
+Furthermore, all \texttt{body} objects would require the extra memory,
+which for the existing codebase would simply be wasted. It is more
+convenient and less intrusive to create a new type that is an
+\textbf{extension} of the existing one (the \textbf{parent} type):
 
-\begin{lstlisting}
-TYPE, EXTENDS(body) :: charged_body
-   REAL :: charge
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{EXTENDS(body)} \DataTypeTok{::}\NormalTok{ charged\_body}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ charge}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
 An object of this type
 
-\begin{lstlisting}
-TYPE(charged_body) :: a_proton
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(charged\_body)} \DataTypeTok{::}\NormalTok{ a\_proton}
+\end{Highlighting}
+\end{Shaded}
 
 would then have the following type components:
 
 \begin{itemize}
 \tightlist
 \item
-  \passthrough{\lstinline!a\_proton\%mass!}
+  \texttt{a\_proton\%mass}
 \item
-  \passthrough{\lstinline!a\_proton\%pos!}
+  \texttt{a\_proton\%pos}
 \item
-  \passthrough{\lstinline!a\_proton\%vel!}
+  \texttt{a\_proton\%vel}
 \end{itemize}
 
 that are \textbf{inherited} from the parent type, and the additional
@@ -1429,98 +1390,96 @@ type component
 \begin{itemize}
 \tightlist
 \item
-  \passthrough{\lstinline!a\_proton\%charge!}
+  \texttt{a\_proton\%charge}
 \end{itemize}
 
-that was added in the definition of
-\passthrough{\lstinline!charged\_body!}. Furthermore, it is also
-possible to reference that part of the object corresponding to the
-parent type, which is a subobject of just that type:
+that was added in the definition of \texttt{charged\_body}. Furthermore,
+it is also possible to reference that part of the object corresponding
+to the parent type, which is a subobject of just that type:
 
 \begin{itemize}
 \tightlist
 \item
-  \passthrough{\lstinline!a\_proton\%body!}
+  \texttt{a\_proton\%body}
 \end{itemize}
 
 Correspondingly, there are various manners in which the default
 structure constructor can be used to create a defined value:
 
-\begin{lstlisting}
-TYPE(body) :: a_mutilated_proton
-! Construct a_proton
-a_proton = charged_body(mass=1.672E-27, pos=[0.0, 0.0, 0.0], &
-                        vel=[0.0 ,0.0, 0.0]), charge=1.602E-19)
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(body)} \DataTypeTok{::}\NormalTok{ a\_mutilated\_proton}
+\CommentTok{! Construct a\_proton}
+\NormalTok{a\_proton }\KeywordTok{=}\NormalTok{ charged\_body(mass}\KeywordTok{=}\FloatTok{1.672}\NormalTok{E}\KeywordTok{{-}}\DecValTok{27}\NormalTok{, pos}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{, }\KeywordTok{\&}
+\NormalTok{                        vel}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{ ,}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{), charge}\KeywordTok{=}\FloatTok{1.602}\NormalTok{E}\KeywordTok{{-}}\DecValTok{19}\NormalTok{)}
 
-! Alternative construction with the same result
-a_mutilated_proton = body(mass=1.672E-27, pos=[0.0, 0.0, 0.0], &
-                          vel=[0.0, 0.0, 0.0])
+\CommentTok{! Alternative construction with the same result}
+\NormalTok{a\_mutilated\_proton }\KeywordTok{=}\NormalTok{ body(mass}\KeywordTok{=}\FloatTok{1.672}\NormalTok{E}\KeywordTok{{-}}\DecValTok{27}\NormalTok{, pos}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{, }\KeywordTok{\&}
+\NormalTok{                          vel}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
 
-a_proton = charged_body(body=a_mutilated_proton, charge=1.602E-19)
-\end{lstlisting}
+\NormalTok{a\_proton }\KeywordTok{=}\NormalTok{ charged\_body(body}\KeywordTok{=}\NormalTok{a\_mutilated\_proton, charge}\KeywordTok{=}\FloatTok{1.602}\NormalTok{E}\KeywordTok{{-}}\DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-Any derived type that does not have the
-\passthrough{\lstinline!SEQUENCE!} or \passthrough{\lstinline!BIND(C)!}
-attributes can be extended in the above manner; specifically, an
-extension type can itself be extended. For any given ``base'' type this
-gives rise to a potential hierarchy of types that can be represented by
-a directed acyclical graph:
+Any derived type that does not have the \texttt{SEQUENCE} or
+\texttt{BIND(C)} attributes can be extended in the above manner;
+specifically, an extension type can itself be extended. For any given
+``base'' type this gives rise to a potential hierarchy of types that can
+be represented by a directed acyclical graph:
 
 \begin{figure}
 \centering
-\includegraphics[width=8cm,height=\textheight,keepaspectratio]{Inheritance_diagram.svg.png}
+\includegraphics[width=12cm,height=\textheight,keepaspectratio]{Inheritance_diagram.svg.png}
 \caption{~}
 \end{figure}
 
-An object of type \passthrough{\lstinline!body!} is \textbf{type
-compatible} with both \passthrough{\lstinline!a\_proton!} and
-\passthrough{\lstinline!a\_mutilated\_proton!}, so any of these two can,
-for example, appear in a call to the procedure
-\passthrough{\lstinline!kick!}.
+An object of type \texttt{body} is \textbf{type compatible} with both
+\texttt{a\_proton} and \texttt{a\_mutilated\_proton}, so any of these
+two can, for example, appear in a call to the procedure \texttt{kick}.
 
 \section{Polymorphism}\label{polymorphism}
 
 \subsection{\texorpdfstring{Declaring entities with
 \texttt{CLASS}}{Declaring entities with CLASS}}\label{declaring-entities-with-class}
 
-By declaring an object with the \passthrough{\lstinline!CLASS!} instead
-of the \passthrough{\lstinline!TYPE!} specifier, is is possible to defer
-the actual type that an object has to be determined when the program
-executes, or even have the actual type change during program execution.
-Such an object is designated as being \textbf{polymorphic}. To be
-polymorphic, an object must fulfill one of the following prerequisites:
+By declaring an object with the \texttt{CLASS} instead of the
+\texttt{TYPE} specifier, is is possible to defer the actual type that an
+object has to be determined when the program executes, or even have the
+actual type change during program execution. Such an object is
+designated as being \textbf{polymorphic}. To be polymorphic, an object
+must fulfill one of the following prerequisites:
 
 \begin{itemize}
 \tightlist
 \item
-  it has the \passthrough{\lstinline!POINTER!} attribute,
+  it has the \texttt{POINTER} attribute,
 \item
-  it has the \passthrough{\lstinline!ALLOCATABLE!} attribute, or
+  it has the \texttt{ALLOCATABLE} attribute, or
 \item
-  it is a dummy argument (with or without a
-  \passthrough{\lstinline!POINTER!} or
-  \passthrough{\lstinline!ALLOCATABLE!} attribute).
+  it is a dummy argument (with or without a \texttt{POINTER} or
+  \texttt{ALLOCATABLE} attribute).
 \end{itemize}
 
 For example, the typed alllocation statement executed on a polymorphic
 allocatable object
 
-\begin{lstlisting}
-CLASS(body), ALLOCATABLE :: a_polymorphic_body
-:
-ALLOCATE( charged_body :: a_polymorphic_body )
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{CLASS(body)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ a\_polymorphic\_body}
+\NormalTok{:}
+\KeywordTok{ALLOCATE}\NormalTok{( charged\_body }\DataTypeTok{::}\NormalTok{ a\_polymorphic\_body )}
+\end{Highlighting}
+\end{Shaded}
 
-causes the object \passthrough{\lstinline!a\_polymorphic\_body!} that
-has the \textbf{declared} type \passthrough{\lstinline!body!} to be
-allocated with the \textbf{dynamic} type
-\passthrough{\lstinline!charged\_body!}; in Fortran nomenclature, the
-latter term denotes what was referred to above as ``actual'' type.
+causes the object \texttt{a\_polymorphic\_body} that has the
+\textbf{declared} type \texttt{body} to be allocated with the
+\textbf{dynamic} type \texttt{charged\_body}; in Fortran nomenclature,
+the latter term denotes what was referred to above as ``actual'' type.
 
-For an unallocated allocatable or a disassociated pointer the dynamic
-type is considered to be the same as the declared type, although this is
-only useful in very few contexts that do not require the object to be
-allocated or associated.
+\emph{Hint:} For an unallocated allocatable or a disassociated pointer
+the dynamic type is considered to be the same as the declared type,
+although this is only useful in very few contexts that do not require
+the object to be allocated or associated.
 
 \subsection{Run-time type and class
 identification}\label{run-time-type-and-class-identification}
@@ -1530,195 +1489,197 @@ declared type are accessible. Also, I/O operations on a polymorphic
 object are not permitted, unless UDDTIO routines have been defined. One
 way to obtain access to the complete object is to use a construct that
 permits \textbf{run-time type identification} (not a Fortran term),
-\passthrough{\lstinline!SELECT TYPE!}. For example, the I/O statements
-in
+\texttt{SELECT\ TYPE}. For example, the I/O statements in
 
-\begin{lstlisting}
-SELECT TYPE (a_polymorphic_body)
-TYPE IS (body)
-   WRITE(*,*) 'object of type body has value        ', a_polymorphic_body
-TYPE IS (charged_body)
-   WRITE(*,*) 'object of type charged_body has value', a_polymorphic_body
-CLASS default
-   ERROR STOP 'Type extension unsupported in this construct'
-END SELECT
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT TYPE}\NormalTok{ (a\_polymorphic\_body)}
+\KeywordTok{TYPE IS}\NormalTok{ (body)}
+   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}object of type body has value        \textquotesingle{}}\NormalTok{, a\_polymorphic\_body}
+\KeywordTok{TYPE IS}\NormalTok{ (charged\_body)}
+   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}object of type charged\_body has value\textquotesingle{}}\NormalTok{, a\_polymorphic\_body}
+\KeywordTok{CLASS default}
+\NormalTok{   ERROR }\KeywordTok{STOP} \StringTok{\textquotesingle{}Type extension unsupported in this construct\textquotesingle{}}
+\KeywordTok{END SELECT}
+\end{Highlighting}
+\end{Shaded}
 
 are permitted, since inside the block for each \textbf{type guard} the
 object is non-polymorphic and of the specified type. At most one type
 guard can match the object's type, and the corresponding statements are
-executed; otherwise the \passthrough{\lstinline!CLASS default!} section
-is executed (and the object remains polymorphic there). A disadvantage
-of using \passthrough{\lstinline!SELECT TYPE!} is that it needs to be
-appropriately updated whenever an additional type extension is defined;
-apart from the maintenance effort this also requires access to all
-source code that contain a relevant instance of the construct. For this
-reason, type-bound procedures (to be discussed) should be preferably
-used to gain access to additional type components.
+executed; otherwise the \texttt{CLASS\ default} section is executed (and
+the object remains polymorphic there). A disadvantage of using
+\texttt{SELECT\ TYPE} is that it needs to be appropriately updated
+whenever an additional type extension is defined; apart from the
+maintenance effort this also requires access to all source code that
+contain a relevant instance of the construct. For this reason,
+type-bound procedures (to be discussed) should be preferably used to
+gain access to additional type components.
 
-For updates of the \passthrough{\lstinline!charge!} component of a
-\passthrough{\lstinline!charged\_body!} object, one now could consider
-the following:
+For updates of the \texttt{charge} component of a \texttt{charged\_body}
+object, one now could consider the following:
 
-\begin{lstlisting}
-SUBROUTINE recharge(a_charged_body, dq)
-   TYPE(charged_body), INTENT(inout) :: a_charged_body
-   REAL, INTENT(in) :: dq
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SUBROUTINE}\NormalTok{ recharge(a\_charged\_body, dq)}
+   \DataTypeTok{TYPE(charged\_body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_charged\_body}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ dq}
 
-   a_charged_body%charge = a_charged_body%charge + dq
-END SUBROUTINE
-\end{lstlisting}
+\NormalTok{   a\_charged\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{=}\NormalTok{ a\_charged\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{+}\NormalTok{ dq}
+\KeywordTok{END SUBROUTINE}
+\end{Highlighting}
+\end{Shaded}
 
 However, invoking this subroutine in the usual Fortran 95 style will not
-work for the variable \passthrough{\lstinline!a\_polymorphic\_body!},
-since it violates the rule that the dummy argument's declared type must
-be type compatible with the actual argument's declared type. One can
-work around this by using a \passthrough{\lstinline!SELECT TYPE!}
-construct with \textbf{run-time class identification} (not a Fortran
-term), based on writing \textbf{class guards} instead of type guards:
+work for the variable \texttt{a\_polymorphic\_body}, since it violates
+the rule that the dummy argument's declared type must be type compatible
+with the actual argument's declared type. One can work around this by
+using a \texttt{SELECT\ TYPE} construct with \textbf{run-time class
+identification} (not a Fortran term), based on writing \textbf{class
+guards} instead of type guards:
 
-\begin{lstlisting}
-SELECT TYPE (a_polymorphic_body)
-CLASS IS (charged_body)  ! new declared type for a_polymorphic_body
-   CALL recharge(a_polymorphic_body, dq=1.0e-5)
-CLASS default
-   WRITE(*,*) 'INFO: object a_polymorphic_body was not modified.'
-END SELECT
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT TYPE}\NormalTok{ (a\_polymorphic\_body)}
+\KeywordTok{CLASS IS}\NormalTok{ (charged\_body)  }\CommentTok{! new declared type for a\_polymorphic\_body}
+   \KeywordTok{CALL}\NormalTok{ recharge(a\_polymorphic\_body, dq}\KeywordTok{=}\FloatTok{1.0e{-}5}\NormalTok{)}
+\KeywordTok{CLASS default}
+   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}INFO: object a\_polymorphic\_body was not modified.\textquotesingle{}}
+\KeywordTok{END SELECT}
+\end{Highlighting}
+\end{Shaded}
 
-The \passthrough{\lstinline!recharge!} procedure will then be invoked if
-the dynamic type of \passthrough{\lstinline!a\_polymorphic\_body!} is
-\passthrough{\lstinline!charged\_body!} or an extension of it. The
-object remains polymorphic inside the class guard, only its declared
-type changes to that specified in the guard. Unless the ``lifted''
-declared type of interest is already otherwise known from the context,
-or handling the \passthrough{\lstinline!CLASS default!} fall-through is
+The \texttt{recharge} procedure will then be invoked if the dynamic type
+of \texttt{a\_polymorphic\_body} is \texttt{charged\_body} or an
+extension of it. The object remains polymorphic inside the class guard,
+only its declared type changes to that specified in the guard. Unless
+the ``lifted'' declared type of interest is already otherwise known from
+the context, or handling the \texttt{CLASS\ default} fall-through is
 straightforward, this is not in general a desirable way of dealing with
 class mismatches.
 
-It is permitted to mix type and class guards in a
-\passthrough{\lstinline!SELECT TYPE!} construct; in that case, a type
-guard has precedence over a class guard specifying the same type with
-respect to selection of the guarded statements to be executed.
+\emph{Hint:} It is permitted to mix type and class guards in a
+\texttt{SELECT\ TYPE} construct; in that case, a type guard has
+precedence over a class guard specifying the same type with respect to
+selection of the guarded statements to be executed.
 
 \subsection{Unlimited polymorphic
 objects}\label{unlimited-polymorphic-objects}
 
 A special case of polymorphism is that an object can be
 \textbf{unlimited polymorphic}. Such an object, declared with
-\passthrough{\lstinline!CLASS(*)!}, can be of any dynamic type
-(intrinsic type, extensible derived type,
-\passthrough{\lstinline!SEQUENCE!} or \passthrough{\lstinline!BIND(C)!}
-derived type), as illustrated by the following statements:
+\texttt{CLASS(*)}, can be of any dynamic type (intrinsic type,
+extensible derived type, \texttt{SEQUENCE} or \texttt{BIND(C)} derived
+type), as illustrated by the following statements:
 
-\begin{lstlisting}
-CLASS(*), ALLOCATABLE :: a_unlimited  ! has no declared type, so any type is an extension
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ a\_unlimited  }\CommentTok{! has no declared type, so any type is an extension}
 
-ALLOCATE( a_unlimited, source=2.5E4)  ! dynamic type becomes real
+\KeywordTok{ALLOCATE}\NormalTok{( a\_unlimited, source}\KeywordTok{=}\FloatTok{2.5}\NormalTok{E4)  }\CommentTok{! dynamic type becomes real}
 
-SELECT TYPE ( a_unlimited )
-TYPE IS (REAL)
-   WRITE(*,*) 'a_unlimited is of intrinsic real type with value ', a_unlimited
-END SELECT
+\KeywordTok{SELECT TYPE}\NormalTok{ ( a\_unlimited )}
+\KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{REAL}\NormalTok{)}
+   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}a\_unlimited is of intrinsic real type with value \textquotesingle{}}\NormalTok{, a\_unlimited}
+\KeywordTok{END SELECT}
 
-DEALLOCATE( a_unlimited )
-ALLOCATE( a_unlimited, source=a_proton) )  ! dynamic type becomes charged_body
+\KeywordTok{DEALLOCATE}\NormalTok{( a\_unlimited )}
+\KeywordTok{ALLOCATE}\NormalTok{( a\_unlimited, source}\KeywordTok{=}\NormalTok{a\_proton) )  }\CommentTok{! dynamic type becomes charged\_body}
 
-SELECT TYPE ( a_unlimited )
-TYPE IS (charged_body)
-   WRITE(*,*) 'a_unlimited is a charged_body with value ', a_unlimited
-END SELECT
-\end{lstlisting}
+\KeywordTok{SELECT TYPE}\NormalTok{ ( a\_unlimited )}
+\KeywordTok{TYPE IS}\NormalTok{ (charged\_body)}
+   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}a\_unlimited is a charged\_body with value \textquotesingle{}}\NormalTok{, a\_unlimited}
+\KeywordTok{END SELECT}
+\end{Highlighting}
+\end{Shaded}
 
-Accessing the object's data \emph{always} needs a
-\passthrough{\lstinline!SELECT TYPE!} construct; type guards in the
-construct can in this case might not only refer to extensible types, but
-also to intrinsic types. However, for \passthrough{\lstinline!SEQUENCE!}
-or \passthrough{\lstinline!BIND(C)!} derived types, no type resolution
-is possible - these always fall through to a
-\passthrough{\lstinline!CLASS default!} guard, if present; use of
-unlimited polymorphic objects to store values of such types is therefore
-considered unsafe.
+Accessing the object's data \emph{always} needs a \texttt{SELECT\ TYPE}
+construct; type guards in the construct can in this case might not only
+refer to extensible types, but also to intrinsic types. However, for
+\texttt{SEQUENCE} or \texttt{BIND(C)} derived types, no type resolution
+is possible - these always fall through to a \texttt{CLASS\ default}
+guard, if present; use of unlimited polymorphic objects to store values
+of such types is therefore considered unsafe.
 
-In this context, allocation with \passthrough{\lstinline!source=!}
-allocates the target object to the source object's dynamic type before
-copying its value to the target object. If the source object's data is
-not needed, \passthrough{\lstinline!mold=!} can be used instead. Sourced
-allocation becomes a powerful tool, since the dynamic type of the source
-object need not be known in the scoping unit within which the allocation
-is executed.
+In this context, allocation with \texttt{source=} allocates the target
+object to the source object's dynamic type before copying its value to
+the target object. If the source object's data is not needed,
+\texttt{mold=} can be used instead. Sourced allocation becomes a
+powerful tool, since the dynamic type of the source object need not be
+known in the scoping unit within which the allocation is executed.
 
-Type components with the \passthrough{\lstinline!POINTER!} or
-\passthrough{\lstinline!ALLOCATABLE!} attribute can be unlimited
-polymorphic, enabling the construction of generic and potentially
-inhomogeneous container-like types. As an illustration of this, a
-supporting type for the purpose of holding data targeted for
-manipulation of other objects is presented; its definition (placed in
-the module \passthrough{\lstinline!mod\_utility\_types!}) reads
+Type components with the \texttt{POINTER} or \texttt{ALLOCATABLE}
+attribute can be unlimited polymorphic, enabling the construction of
+generic and potentially inhomogeneous container-like types. As an
+illustration of this, a supporting type for the purpose of holding data
+targeted for manipulation of other objects is presented; its definition
+(placed in the module \texttt{mod\_utility\_types}) reads
 
-\begin{lstlisting}
-TYPE :: any_object
-   CHARACTER(len=:), ALLOCATABLE :: description
-   CLASS(*), ALLOCATABLE :: value(:)
-   INTEGER, ALLOCATABLE :: shape(:)
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ any\_object}
+   \DataTypeTok{CHARACTER(len=:)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ description}
+   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::} \DataTypeTok{value}\NormalTok{(:)}
+   \DataTypeTok{INTEGER}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::} \FunctionTok{shape}\NormalTok{(:)}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
-where \passthrough{\lstinline!description!} will refer to the property
-that needs updating, and \passthrough{\lstinline!value!} will contain
-the data to be used for the transaction. Because the
-\passthrough{\lstinline!value!} component should be able to represent
-any type, it is declared as being unlimited polymorphic. Because the
-\passthrough{\lstinline!value!} component might hold data needed to
-produce an array of arbitrary shape, the additional
-\passthrough{\lstinline!shape!} component is supplied, but its use is
-really only necessary if objects of rank at least 2 must be dealt with.
-The structure constructor for that type has been overloaded to work
-around compiler bugs and make handling of scalar data easier. The
-following example illustrates how to establish a simple interface for
-setting components of a structure:
+where \texttt{description} will refer to the property that needs
+updating, and \texttt{value} will contain the data to be used for the
+transaction. Because the \texttt{value} component should be able to
+represent any type, it is declared as being unlimited polymorphic.
+Because the \texttt{value} component might hold data needed to produce
+an array of arbitrary shape, the additional \texttt{shape} component is
+supplied, but its use is really only necessary if objects of rank at
+least 2 must be dealt with. The structure constructor for that type has
+been overloaded to work around compiler bugs and make handling of scalar
+data easier. The following example illustrates how to establish a simple
+interface for setting components of a structure:
 
-\begin{lstlisting}
-MODULE mod_wtype
-   USE mod_utility_types, ONLY : initialize => any_object
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{MODULE}\NormalTok{ mod\_wtype}
+   \KeywordTok{USE}\NormalTok{ mod\_utility\_types, }\KeywordTok{ONLY}\NormalTok{ : initialize }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ any\_object}
 
-   TYPE :: wtype
-      PRIVATE
-      INTEGER :: nonzeros = -1
-      REAL, ALLOCATABLE :: w(:,:)
-   END TYPE wtype
-CONTAINS
-   SUBROUTINE setup_wtype(a_wtype, a_component)
-      ! in-place setting to avoid memory bursts for large objects
-      TYPE(wtype), INTENT(inout) :: a_wtype
-      TYPE(initialize), INTENT(in), TARGET :: a_component
-      INTEGER :: wsize
-      REAL, POINTER :: pw(:,:)
+   \DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ wtype}
+      \DataTypeTok{PRIVATE}
+      \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ nonzeros }\KeywordTok{=} \KeywordTok{{-}}\DecValTok{1}
+      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ w(:,:)}
+   \DataTypeTok{END TYPE}\NormalTok{ wtype}
+\KeywordTok{CONTAINS}
+   \KeywordTok{SUBROUTINE}\NormalTok{ setup\_wtype(a\_wtype, a\_component)}
+      \CommentTok{! in{-}place setting to avoid memory bursts for large objects}
+      \DataTypeTok{TYPE(wtype)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_wtype}
+      \DataTypeTok{TYPE(initialize)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{TARGET} \DataTypeTok{::}\NormalTok{ a\_component}
+      \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ wsize}
+      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ pw(:,:)}
 
-      SELECT CASE (a_component%description)
-      CASE ("nonzeros")
-         IF ( allocated(a_component%value) ) THEN
-            SELECT TYPE ( nonzeros => a_component%value(1) )
-            TYPE IS (INTEGER)
-               a_wtype%nonzeros = nonzeros
-            END SELECT
-         END IF
-      CASE ("w")
-         IF ( allocated(a_component%value) .AND. allocated(a_component%shape) ) THEN
-            wsize = size(a_component%value)
-            IF ( wsize >= product(a_component%shape) ) THEN
-               SELECT TYPE ( w => a_component%value )
-               TYPE IS (REAL)
-                  pw(1:a_component%shape(1), 1:a_component%shape(2)) => w
-                  a_wtype%w = pw
-               END SELECT
-            END IF
-         END IF
-      END SELECT
-   END SUBROUTINE setup_wtype
-   :
-END MODULE
-\end{lstlisting}
+      \KeywordTok{SELECT CASE}\NormalTok{ (a\_component}\OperatorTok{\%}\NormalTok{description)}
+      \KeywordTok{CASE}\NormalTok{ (}\StringTok{"nonzeros"}\NormalTok{)}
+         \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{THEN}
+            \KeywordTok{SELECT TYPE}\NormalTok{ ( nonzeros }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
+            \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{INTEGER}\NormalTok{)}
+\NormalTok{               a\_wtype}\OperatorTok{\%}\NormalTok{nonzeros }\KeywordTok{=}\NormalTok{ nonzeros}
+            \KeywordTok{END SELECT}
+         \KeywordTok{END IF}
+      \KeywordTok{CASE}\NormalTok{ (}\StringTok{"w"}\NormalTok{)}
+         \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) }\OperatorTok{.AND.} \FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{) ) }\KeywordTok{THEN}
+\NormalTok{            wsize }\KeywordTok{=} \FunctionTok{size}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{)}
+            \KeywordTok{IF}\NormalTok{ ( wsize }\OperatorTok{\textgreater{}=} \FunctionTok{product}\NormalTok{(a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{) ) }\KeywordTok{THEN}
+               \KeywordTok{SELECT TYPE}\NormalTok{ ( w }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
+               \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{REAL}\NormalTok{)}
+\NormalTok{                  pw(}\DecValTok{1}\NormalTok{:a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{(}\DecValTok{1}\NormalTok{), }\DecValTok{1}\NormalTok{:a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{(}\DecValTok{2}\NormalTok{)) }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ w}
+\NormalTok{                  a\_wtype}\OperatorTok{\%}\NormalTok{w }\KeywordTok{=}\NormalTok{ pw}
+               \KeywordTok{END SELECT}
+            \KeywordTok{END IF}
+         \KeywordTok{END IF}
+      \KeywordTok{END SELECT}
+   \KeywordTok{END SUBROUTINE}\NormalTok{ setup\_wtype}
+\NormalTok{   :}
+\KeywordTok{END MODULE}
+\end{Highlighting}
+\end{Shaded}
 
 \textbf{Notes:}
 
@@ -1733,56 +1694,52 @@ END MODULE
   procedures} with a simple \emph{and} uniform interface must be
   implemented;
 \item
-  The object \passthrough{\lstinline!a\_wtype!} remains unchanged in
-  case an unsuitable value is provided for
-  \passthrough{\lstinline!a\_component!}. One could add explicit error
-  handling, but for these examples this is considered an unnecessary
-  complication;
+  The object \texttt{a\_wtype} remains unchanged in case an unsuitable
+  value is provided for \texttt{a\_component}. One could add explicit
+  error handling, but for these examples this is considered an
+  unnecessary complication;
 \item
-  The permitted values for the \passthrough{\lstinline!initialize!}
-  object should be documented for each procedure that takes such an
-  object;
+  The permitted values for the \texttt{initialize} object should be
+  documented for each procedure that takes such an object;
 \item
-  Because access to \passthrough{\lstinline!a\_component!} within
-  \passthrough{\lstinline!SELECT TYPE!} is via a type component, one is
-  obliged to introduce an associate name for the latter. The language
-  rules only permit omitting the associate name for named variables, and
-  subobjects are not named variables;
+  Because access to \texttt{a\_component} within \texttt{SELECT\ TYPE}
+  is via a type component, one is obliged to introduce an associate name
+  for the latter. The language rules only permit omitting the associate
+  name for named variables, and subobjects are not named variables;
 \item
   A \textbf{rank-changing pointer assignment} is used to transform the
-  rank-1 \passthrough{\lstinline!a\_component\%value!} array to an
-  object that can be assigned to a rank-2
-  \passthrough{\lstinline!a\_wtype\%w!} array; this works because the
-  right-hand side is a rank-1 object; for rank-2 and higher the
+  rank-1 \texttt{a\_component\%value} array to an object that can be
+  assigned to a rank-2 \texttt{a\_wtype\%w} array; this works because
+  the right-hand side is a rank-1 object; for rank-2 and higher the
   rank-changing pointer assignment will only work if the target assigned
   to is a \textbf{simply contiguous array designator} (a topic not
-  covered here). Note that in this context, the
-  \passthrough{\lstinline!reshape!} intrinsic cannot be used because it
-  requires the size of its \passthrough{\lstinline!shape!} argument to
-  be a constant.
+  covered here). Note that in this context, the \texttt{reshape}
+  intrinsic cannot be used because it requires the size of its
+  \texttt{shape} argument to be a constant.
 \end{itemize}
 
-The program invoking the \passthrough{\lstinline!setup\_wtype!}
-procedure might do so as follows, to set up a
-\passthrough{\lstinline!wtype!} object:
+The program invoking the \texttt{setup\_wtype} procedure might do so as
+follows, to set up a \texttt{wtype} object:
 
-\begin{lstlisting}
-USE mod_wtype
-TYPE(initialize) :: c_nz, c_w
-TYPE(wtype) :: my_wtype
-INTEGER :: i, j
-INTEGER :: ndim
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{USE}\NormalTok{ mod\_wtype}
+\DataTypeTok{TYPE(initialize)} \DataTypeTok{::}\NormalTok{ c\_nz, c\_w}
+\DataTypeTok{TYPE(wtype)} \DataTypeTok{::}\NormalTok{ my\_wtype}
+\DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ i, j}
+\DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ ndim}
 
-ndim = ...
+\NormalTok{ndim }\KeywordTok{=}\NormalTok{ ...}
 
-ASSOCIATE ( my_data => [ ((real (max(0, min(i-j+2, j-i+2))), j=1, ndim), i=1, ndim) ] )
-   c_nz = initialize("nonzeros", count(my_data /= 0))
-   c_w = initialize("w", my_data, [ ndim, ndim ] )
-END ASSOCIATE
+\KeywordTok{ASSOCIATE}\NormalTok{ ( my\_data }\KeywordTok{=}\OperatorTok{\textgreater{}} \KeywordTok{[}\NormalTok{ ((}\DataTypeTok{real (max(0, min(i{-}j+2, j{-}i+2)))}\NormalTok{, j}\KeywordTok{=}\DecValTok{1}\NormalTok{, ndim), i}\KeywordTok{=}\DecValTok{1}\NormalTok{, ndim) }\KeywordTok{]}\NormalTok{ )}
+\NormalTok{   c\_nz }\KeywordTok{=}\NormalTok{ initialize(}\StringTok{"nonzeros"}\NormalTok{, }\FunctionTok{count}\NormalTok{(my\_data }\OperatorTok{/=} \DecValTok{0}\NormalTok{))}
+\NormalTok{   c\_w }\KeywordTok{=}\NormalTok{ initialize(}\StringTok{"w"}\NormalTok{, my\_data, }\KeywordTok{[}\NormalTok{ ndim, ndim }\KeywordTok{]}\NormalTok{ )}
+\KeywordTok{END ASSOCIATE}
 
-CALL setup_wtype(my_wtype, c_nz)
-CALL setup_wtype(my_wtype, c_w)
-\end{lstlisting}
+\KeywordTok{CALL}\NormalTok{ setup\_wtype(my\_wtype, c\_nz)}
+\KeywordTok{CALL}\NormalTok{ setup\_wtype(my\_wtype, c\_w)}
+\end{Highlighting}
+\end{Shaded}
 
 \section{Type-bound procedures (TBP)}\label{sec:tbp}
 
@@ -1790,143 +1747,150 @@ To resolve the class mismatch issues arising from the use of polymorphic
 objects, one needs a language mechanism for making a run-time decision
 on a procedure invocation that depends on the dynamic type of a
 polymorphic object. This can be achieved by binding a procedure to a
-type in the type definition via a \passthrough{\lstinline!PROCEDURE!}
-statement in the type's \passthrough{\lstinline!CONTAINS!} part.
+type in the type definition via a \texttt{PROCEDURE} statement in the
+type's \texttt{CONTAINS} part.
 
-For the type \passthrough{\lstinline!body!}, the augmented type
-definition reads
+For the type \texttt{body}, the augmented type definition reads
 
-\begin{lstlisting}
-TYPE :: body
-   REAL :: mass
-   REAL :: pos(3), vel(3)
-CONTAINS
-   PROCEDURE :: update => update_body
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ body}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ mass}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ pos(}\DecValTok{3}\NormalTok{), vel(}\DecValTok{3}\NormalTok{)}
+\KeywordTok{CONTAINS}
+   \DataTypeTok{PROCEDURE} \DataTypeTok{::}\NormalTok{ update }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ update\_body}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
 This does not impact how the structure constructor is used; for this,
-only the specifications before the \passthrough{\lstinline!CONTAINS!}
-statement are relevant. To establish a simple and uniform interface for
-object updates, the procedure \passthrough{\lstinline!update\_body!}
-makes use of the \passthrough{\lstinline!any\_object!} type discussed
-earlier, which in view of the context is locally renamed to
-\passthrough{\lstinline!change!}:
+only the specifications before the \texttt{CONTAINS} statement are
+relevant. To establish a simple and uniform interface for object
+updates, the procedure \texttt{update\_body} makes use of the
+\texttt{any\_object} type discussed earlier, which in view of the
+context is locally renamed to \texttt{change}:
 
-\begin{lstlisting}
-SUBROUTINE update_body(a_body, a_change)
-   CLASS(body), INTENT(inout) :: a_body
-   TYPE(change), INTENT(in) :: a_change
-   IF ( allocated(a_change%description) .AND. allocated(a_change%value) ) THEN
-     SELECT CASE ( trim(a_change%description) )
-     CASE ('mass')
-        SELECT TYPE ( delta => a_change%value(1) )
-        TYPE IS (real)
-           CALL accrete(a_body, delta)
-        END SELECT
-     CASE ('momentum')
-        SELECT TYPE ( delta => a_change%value )
-        TYPE IS (real)
-           IF ( size(delta) >= 3 ) CALL kick(a_body, delta(1:3))
-        END SELECT
-     CASE ('position')
-        SELECT TYPE ( delta => a_change%value )
-        TYPE IS (real)
-           IF ( size(delta) >= 3) a_body%pos = a_body%pos + delta(1:3)
-        END SELECT
-     END SELECT
-   END IF
-END SUBROUTINE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SUBROUTINE}\NormalTok{ update\_body(a\_body, a\_change)}
+   \DataTypeTok{CLASS(body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
+   \DataTypeTok{TYPE(change)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ a\_change}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.AND.} \FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{THEN}
+     \KeywordTok{SELECT CASE}\NormalTok{ ( }\FunctionTok{trim}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) )}
+     \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}mass\textquotesingle{}}\NormalTok{)}
+        \KeywordTok{SELECT TYPE}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
+        \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+           \KeywordTok{CALL}\NormalTok{ accrete(a\_body, delta)}
+        \KeywordTok{END SELECT}
+     \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}momentum\textquotesingle{}}\NormalTok{)}
+        \KeywordTok{SELECT TYPE}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
+        \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+           \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{size}\NormalTok{(delta) }\OperatorTok{\textgreater{}=} \DecValTok{3}\NormalTok{ ) }\KeywordTok{CALL}\NormalTok{ kick(a\_body, delta(}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{))}
+        \KeywordTok{END SELECT}
+     \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}position\textquotesingle{}}\NormalTok{)}
+        \KeywordTok{SELECT TYPE}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
+        \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+           \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{size}\NormalTok{(delta) }\OperatorTok{\textgreater{}=} \DecValTok{3}\NormalTok{) a\_body}\OperatorTok{\%}\NormalTok{pos }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{pos }\KeywordTok{+}\NormalTok{ delta(}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{)}
+        \KeywordTok{END SELECT}
+     \KeywordTok{END SELECT}
+   \KeywordTok{END IF}
+\KeywordTok{END SUBROUTINE}
+\end{Highlighting}
+\end{Shaded}
 
-In its interface, the \textbf{passed object}
-\passthrough{\lstinline!a\_body!} must be declared to be a polymorphic
-scalar, with its declared type being the one the procedure has been
-bound to. The implementation reuses existing code where possible (very
-simple in this example, but this is of course not generally the case),
-to avoid the need for extensive revalidation.
+In its interface, the \textbf{passed object} \texttt{a\_body} must be
+declared to be a polymorphic scalar, with its declared type being the
+one the procedure has been bound to. The implementation reuses existing
+code where possible (very simple in this example, but this is of course
+not generally the case), to avoid the need for extensive revalidation.
 
 Invocation of the procedure could be done in the usual manner, but the
 preferred style, especially in the case that the actual argument is
 polymorphic, is to do it through the object itself:
 
-\begin{lstlisting}
-TYPE(change) ::  dx
-:
-dx = change(description='mass', value=[0.0, 2.0, 0.0])
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(change)} \DataTypeTok{::}\NormalTok{  dx}
+\NormalTok{:}
+\NormalTok{dx }\KeywordTok{=}\NormalTok{ change(description}\KeywordTok{=}\StringTok{\textquotesingle{}mass\textquotesingle{}}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{, }\FloatTok{2.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
 
-CALL my_basketball%update(dx) ! invokes update_body(my_basketball, dx)
-\end{lstlisting}
+\KeywordTok{CALL}\NormalTok{ my\_basketball}\OperatorTok{\%}\NormalTok{update(dx) }\CommentTok{! invokes update\_body(my\_basketball, dx)}
+\end{Highlighting}
+\end{Shaded}
 
-For polymorphic objects, the procedure
-\passthrough{\lstinline!update\_body!} will be invoked if the dynamic
-type of the object is \passthrough{\lstinline!body!} (this might not be
-true if the dynamic type is an extension, as we shall see).
+For polymorphic objects, the procedure \texttt{update\_body} will be
+invoked if the dynamic type of the object is \texttt{body} (this might
+not be true if the dynamic type is an extension, as we shall see).
 
-The invocation can also be done with non-polymorphic objects; in this
-case, the binding could (in principle) be determined at compilation
-time, potentially saving some call overhead. Note that the passed object
-dummy is not permitted to be allocatable or a pointer, which facilitates
-this usage.
+\emph{Hint:} The invocation can also be done with non-polymorphic
+objects; in this case, the binding could (in principle) be determined at
+compilation time, potentially saving some call overhead. Note that the
+passed object dummy is not permitted to be allocatable or a pointer,
+which facilitates this usage.
 
 So far this is not particularly interesting; the key thing is what
 happens once we turn to type extensions. For example, to enable
-modification of the \passthrough{\lstinline!charge!} component (in
-addition to that of other components) of an object of dynamic type
-\passthrough{\lstinline!charged\_body!}, it is possible to
-\textbf{override} the parent type's bound procedure:
+modification of the \texttt{charge} component (in addition to that of
+other components) of an object of dynamic type \texttt{charged\_body},
+it is possible to \textbf{override} the parent type's bound procedure:
 
-\begin{lstlisting}
-TYPE, EXTENDS(body) :: charged_body
-   REAL :: charge
-CONTAINS
-   PROCEDURE :: update => update_charged_body
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{EXTENDS(body)} \DataTypeTok{::}\NormalTok{ charged\_body}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ charge}
+\KeywordTok{CONTAINS}
+   \DataTypeTok{PROCEDURE} \DataTypeTok{::}\NormalTok{ update }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ update\_charged\_body}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
 with the procedure defined as follows:
 
-\begin{lstlisting}
-SUBROUTINE update_charged_body(a_body, a_change)
-   CLASS(charged_body) :: a_body
-   TYPE(change) :: a_change
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SUBROUTINE}\NormalTok{ update\_charged\_body(a\_body, a\_change)}
+   \DataTypeTok{CLASS(charged\_body)} \DataTypeTok{::}\NormalTok{ a\_body}
+   \DataTypeTok{TYPE(change)} \DataTypeTok{::}\NormalTok{ a\_change}
 
-   IF ( allocated(a_change%description) .AND. allocated(a_change%value) ) THEN
-      SELECT CASE ( trim(a_change%description) )
-      CASE ('charge')
-         SELECT TYPE ( delta => a_change%value(1) )
-         TYPE IS (real)
-            a_body%charge = a_body%charge + delta
-         END SELECT
-      CASE default
-         CALL a_body%body%update(a_change)
-         ! assure that a change to a parent component is dealt with
-      END SELECT
-   END IF
-END SUBROUTINE
-\end{lstlisting}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.AND.} \FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{THEN}
+      \KeywordTok{SELECT CASE}\NormalTok{ ( }\FunctionTok{trim}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) )}
+      \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}charge\textquotesingle{}}\NormalTok{)}
+         \KeywordTok{SELECT TYPE}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
+         \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+\NormalTok{            a\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{+}\NormalTok{ delta}
+         \KeywordTok{END SELECT}
+      \KeywordTok{CASE default}
+         \KeywordTok{CALL}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{body}\OperatorTok{\%}\NormalTok{update(a\_change)}
+         \CommentTok{! assure that a change to a parent component is dealt with}
+      \KeywordTok{END SELECT}
+   \KeywordTok{END IF}
+\KeywordTok{END SUBROUTINE}
+\end{Highlighting}
+\end{Shaded}
 
 The overriding procedure must use the same interface as the overridden
 procedure, except that the passed object is declared to be of the
 extended type; even the argument keywords must be the same. Once the
 override has been defined, the call through an object of dynamic type
-\passthrough{\lstinline!charged\_body!} will be dispatched to
-\passthrough{\lstinline!update\_charged\_body!}:
+\texttt{charged\_body} will be dispatched to
+\texttt{update\_charged\_body}:
 
-\begin{lstlisting}
-TYPE(change) ::  dc, dp
-CLASS(body), ALLOCATABLE :: my_polymorphic_body
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(change)} \DataTypeTok{::}\NormalTok{  dc, dp}
+\DataTypeTok{CLASS(body)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ my\_polymorphic\_body}
 
-my_polymorphic_body = charged_body(mass=1.5, pos=[0.,0.,0.], &
-                                   vel=[2.,0.,0.], charge=2.41E-5)
-!  the above statement auto-allocates the left hand side
-dc = change(description='charge', value=5.0E-6)
-dp = change(description='momentum', value=[-1.0,1.0,0.0])
+\NormalTok{my\_polymorphic\_body }\KeywordTok{=}\NormalTok{ charged\_body(mass}\KeywordTok{=}\FloatTok{1.5}\NormalTok{, pos}\KeywordTok{=[}\FloatTok{0.}\NormalTok{,}\FloatTok{0.}\NormalTok{,}\FloatTok{0.}\KeywordTok{]}\NormalTok{, }\KeywordTok{\&}
+\NormalTok{                                   vel}\KeywordTok{=[}\FloatTok{2.}\NormalTok{,}\FloatTok{0.}\NormalTok{,}\FloatTok{0.}\KeywordTok{]}\NormalTok{, charge}\KeywordTok{=}\FloatTok{2.41}\NormalTok{E}\KeywordTok{{-}}\DecValTok{5}\NormalTok{)}
+\CommentTok{!  the above statement auto{-}allocates the left hand side}
+\NormalTok{dc }\KeywordTok{=}\NormalTok{ change(description}\KeywordTok{=}\StringTok{\textquotesingle{}charge\textquotesingle{}}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=}\FloatTok{5.0}\NormalTok{E}\KeywordTok{{-}}\DecValTok{6}\NormalTok{)}
+\NormalTok{dp }\KeywordTok{=}\NormalTok{ change(description}\KeywordTok{=}\StringTok{\textquotesingle{}momentum\textquotesingle{}}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=[{-}}\FloatTok{1.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
 
-! both the following dispatch to update_charged_body
-CALL my_polymorphic_body%update(dc)
-CALL my_polymorphic_body%update(dp)
-\end{lstlisting}
+\CommentTok{! both the following dispatch to update\_charged\_body}
+\KeywordTok{CALL}\NormalTok{ my\_polymorphic\_body}\OperatorTok{\%}\NormalTok{update(dc)}
+\KeywordTok{CALL}\NormalTok{ my\_polymorphic\_body}\OperatorTok{\%}\NormalTok{update(dp)}
+\end{Highlighting}
+\end{Shaded}
 
 \textbf{Notes:}
 
@@ -1934,77 +1898,82 @@ CALL my_polymorphic_body%update(dp)
 \tightlist
 \item
   for the above example, direct invocation of the procedure
-  \passthrough{\lstinline!update\_charged\_body!} is not possible (as
-  already noted earlier);
+  \texttt{update\_charged\_body} is not possible (as already noted
+  earlier);
 \item
   the second TBP call illustrates the invocation of the parent object
-  update from \passthrough{\lstinline!update\_charged\_body!}. Without
-  this, changes that impact the parent object would not be done. By
-  implementing this consistency of behaviour, the programmer assures
-  that the inheritance hierarchy adheres to the
+  update from \texttt{update\_charged\_body}. Without this, changes that
+  impact the parent object would not be done. By implementing this
+  consistency of behaviour, the programmer assures that the inheritance
+  hierarchy adheres to the
   \href{https://en.wikipedia.org/wiki/Liskov_substitution_principle}{Liskov
   substitution principle};
 \item
   to enforce using the TBP calls in a use association context, the
-  module procedures that implement them can be made
-  \passthrough{\lstinline!PRIVATE!}. The accessibility of the TBP itself
-  is determined by the attribute for it (default is
-  \passthrough{\lstinline!PUBLIC!}) in the type definition;
+  module procedures that implement them can be made \texttt{PRIVATE}.
+  The accessibility of the TBP itself is determined by the attribute for
+  it (default is \texttt{PUBLIC}) in the type definition;
 \item
   the programmer can prevent overriding of a binding by declaring it to
-  be \passthrough{\lstinline!NON\_OVERRIDABLE!}; its implementation then
-  is regarded as valid for all conceivable extension types.
+  be \texttt{NON\_OVERRIDABLE}; its implementation then is regarded as
+  valid for all conceivable extension types.
 \end{itemize}
 
 \section{Abstract types and
 interfaces}\label{abstract-types-and-interfaces}
 
-The \passthrough{\lstinline!sortable!} type used for demonstrating the
-\passthrough{\lstinline!sortable\_list!} functionality in the
+The \texttt{sortable} type used for demonstrating the
+\texttt{sortable\_list} functionality in the
 \hyperref[sec:oop_techniques]{object-based chapter's} example was set up
 as a fixed container-like type. It is desirable to be able to use the
 list machinery more flexibly i.e., for any type that supports the
 ``less-than'' comparison. This can be achieved by introducing an
 \textbf{abstract type}
 
-\begin{lstlisting}
-TYPE, ABSTRACT :: sortable
-CONTAINS
-   PROCEDURE(compare), DEFERRED :: less_than
-   ! ... more to follow
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{ABSTRACT} \DataTypeTok{::}\NormalTok{ sortable}
+\KeywordTok{CONTAINS}
+   \DataTypeTok{PROCEDURE(compare)}\NormalTok{, }\DataTypeTok{DEFERRED} \DataTypeTok{::}\NormalTok{ less\_than}
+   \CommentTok{! ... more to follow}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
 with a \textbf{deferred binding}. It is not possible to create an object
 whose dynamic type is abstract, or a non-polymorphic object of abstract
 type. For this reason, the deferred binding cannot represent an existing
 procedure, but is characterized by an \textbf{abstract interface}:
 
-\begin{lstlisting}
-ABSTRACT INTERFACE
-   PURE LOGICAL FUNCTION compare(s1, s2)
-      IMPORT :: sortable
-      CLASS(sortable), INTENT(in) :: s1, s2
-      ! dispatch is via the first argument
-   END FUNCTION
-END INTERFACE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{ABSTRACT} \KeywordTok{INTERFACE}
+   \KeywordTok{PURE} \DataTypeTok{LOGICAL} \KeywordTok{FUNCTION}\NormalTok{ compare(s1, s2)}
+      \KeywordTok{IMPORT} \DataTypeTok{::}\NormalTok{ sortable}
+      \DataTypeTok{CLASS(sortable)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ s1, s2}
+      \CommentTok{! dispatch is via the first argument}
+   \KeywordTok{END FUNCTION}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
-The \passthrough{\lstinline!IMPORT!} statement is required to give the
-interface access to the type defined in its host. Furthermore, an
-override of the structure constructor will be needed
+The \texttt{IMPORT} statement is required to give the interface access
+to the type defined in its host. Furthermore, an override of the
+structure constructor will be needed
 
-\begin{lstlisting}
-INTERFACE sortable
-   PROCEDURE :: create_sortable
-END INTERFACE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{INTERFACE}\NormalTok{ sortable}
+   \DataTypeTok{PROCEDURE} \DataTypeTok{::}\NormalTok{ create\_sortable}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
-that permits creation of polymorphic \passthrough{\lstinline!sortable!}
-objects. The details of this will be described later (since, indeed, a
-devil lurks in these details). Note that the above combined use of
-abstract types and interfaces is also known under the (non-Fortran) term
-\textbf{interface class}.
+that permits creation of polymorphic \texttt{sortable} objects. The
+details of this will be described later (since, indeed, a devil lurks in
+these details). Note that the above combined use of abstract types and
+interfaces is also known under the (non-Fortran) term \textbf{interface
+class}.
 
 This framework permits the programmer to implement the following
 programming technique, which is also known as \textbf{dependency
@@ -2013,21 +1982,22 @@ inversion} (not a Fortran term):
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Any machinery that makes use of polymorphic
-  \passthrough{\lstinline!sortable!} objects is made to only refer to
-  the above abstractions. For example, the definition of the
-  \passthrough{\lstinline!sorted\_list!} type could be adapted to read
+  Any machinery that makes use of polymorphic \texttt{sortable} objects
+  is made to only refer to the above abstractions. For example, the
+  definition of the \texttt{sorted\_list} type could be adapted to read
 
-\begin{lstlisting}
-TYPE, PUBLIC :: sorted_list
-   PRIVATE
-   CLASS(sortable), ALLOCATABLE :: data
-   ! changed to refer to abstract type
-   TYPE(sorted_list), POINTER :: next => null()
-CONTAINS
-   FINAL :: delete_sorted_list
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC} \DataTypeTok{::}\NormalTok{ sorted\_list}
+   \DataTypeTok{PRIVATE}
+   \DataTypeTok{CLASS(sortable)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ data}
+   \CommentTok{! changed to refer to abstract type}
+   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+\KeywordTok{CONTAINS}
+   \DataTypeTok{FINAL} \DataTypeTok{::}\NormalTok{ delete\_sorted\_list}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 \end{enumerate}
 
 The advantage of this is that no change to the preexisting machinery
@@ -2038,23 +2008,25 @@ outlined in 2. below.
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{1}
 \item
-  For a concrete realization of a \passthrough{\lstinline!sortable!}
-  object, the programmer needs to create a type extension, for example
+  For a concrete realization of a \texttt{sortable} object, the
+  programmer needs to create a type extension, for example
 
-\begin{lstlisting}
-TYPE, PUBLIC, EXTENDS(sortable) :: sortable_string
-   CHARACTER(len=:), ALLOCATABLE :: string
-CONTAINS
-   PROCEDURE :: less_than => less_than_string
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC}\NormalTok{, }\DataTypeTok{EXTENDS(sortable)} \DataTypeTok{::}\NormalTok{ sortable\_string}
+   \DataTypeTok{CHARACTER(len=:)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ string}
+\KeywordTok{CONTAINS}
+   \DataTypeTok{PROCEDURE} \DataTypeTok{::}\NormalTok{ less\_than }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ less\_than\_string}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 \end{enumerate}
 
 including an \emph{obligatory} implementation
-\passthrough{\lstinline!less\_than\_string!} of an overriding TBP for
-the deferred binding. The constructor function (promised earlier, but
-not yet delivered) also needs to be updated to enable creation of
-objects of the extended type.
+\texttt{less\_than\_string} of an overriding TBP for the deferred
+binding. The constructor function (promised earlier, but not yet
+delivered) also needs to be updated to enable creation of objects of the
+extended type.
 
 \section{Generic type-bound procedures and operator
 overloading}\label{generic-type-bound-procedures-and-operator-overloading}
@@ -2063,32 +2035,35 @@ As a convenience, use of an overloading for the comparison operator
 ``\textless{}'' can be provided by creating a \textbf{generic}
 type-bound procedure:
 
-\begin{lstlisting}
-TYPE, ABSTRACT :: sortable
-CONTAINS
-   PROCEDURE(compare), DEFERRED :: less_than
-   GENERIC :: OPERATOR(<) => less_than
-END TYPE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{ABSTRACT} \DataTypeTok{::}\NormalTok{ sortable}
+\KeywordTok{CONTAINS}
+   \DataTypeTok{PROCEDURE(compare)}\NormalTok{, }\DataTypeTok{DEFERRED} \DataTypeTok{::}\NormalTok{ less\_than}
+   \DataTypeTok{GENERIC} \DataTypeTok{::} \KeywordTok{OPERATOR}\NormalTok{(}\OperatorTok{\textless{}}\NormalTok{) }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ less\_than}
+\DataTypeTok{END TYPE}
+\end{Highlighting}
+\end{Shaded}
 
 which means that when a statement involving a comparison expression
 
-\begin{lstlisting}
-CLASS(sortable), ALLOCATABLE :: s1, s2
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{CLASS(sortable)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ s1, s2}
 
-s1 = sortable( ... )
-s2 = sortable( ... )
+\NormalTok{s1 }\KeywordTok{=}\NormalTok{ sortable( ... )}
+\NormalTok{s2 }\KeywordTok{=}\NormalTok{ sortable( ... )}
 
-IF ( s1 < s2 ) THEN
-   ...
-END IF
-\end{lstlisting}
+\KeywordTok{IF}\NormalTok{ ( s1 }\OperatorTok{\textless{}}\NormalTok{ s2 ) }\KeywordTok{THEN}
+\NormalTok{   ...}
+\KeywordTok{END IF}
+\end{Highlighting}
+\end{Shaded}
 
 is executed, the overridden type-bound procedure bound to the first
 operand will be invoked to evaluate the expression. It is not necessary
-to re-specify the \passthrough{\lstinline!GENERIC!} clause in any type
-extensions; the dispatch will automatically select the overridden
-procedure.
+to re-specify the \texttt{GENERIC} clause in any type extensions; the
+dispatch will automatically select the overridden procedure.
 
 Named generic type-bound procedures that do not overload existing
 operations can also be defined; an example for this is given in the
@@ -2106,32 +2081,30 @@ inversion}\label{completing-the-dependency-inversion}
 dependencies}\label{discussion-of-structural-dependencies}
 
 When implementing the above concept, typically a separate module, say
-\passthrough{\lstinline!mod\_sortable\_extensions!}, is created for some
-or all of the extension types of \passthrough{\lstinline!sortable!}. The
-motivations for this can be:
+\texttt{mod\_sortable\_extensions}, is created for some or all of the
+extension types of \texttt{sortable}. The motivations for this can be:
 
 \begin{itemize}
 \tightlist
 \item
   avoid recompilation of any machinery that makes use of the
-  \passthrough{\lstinline!mod\_sortable!} module;
+  \texttt{mod\_sortable} module;
 \item
-  the source code of \passthrough{\lstinline!mod\_sortable!} might not
-  be readily modifiable;
+  the source code of \texttt{mod\_sortable} might not be readily
+  modifiable;
 \item
-  prevent \passthrough{\lstinline!mod\_sortable!} from turning into a
-  monster module in case large concepts are implemented through
-  extension types, or many extension types are created.
+  prevent \texttt{mod\_sortable} from turning into a monster module in
+  case large concepts are implemented through extension types, or many
+  extension types are created.
 \end{itemize}
 
 The implementation of the constructor will need to use associate
-\passthrough{\lstinline!mod\_sortable\_extensions!} since it needs to be
-able to create objects of the types defined there. On the other hand,
-the interface to the constructor needs to be visible in
-\passthrough{\lstinline!mod\_sortable!}, since the machinery that
-depends on it must be able to call it. As a consequence, one would end
-up with a circular \passthrough{\lstinline!USE!} dependency between the
-two modules, which is prohibited.
+\texttt{mod\_sortable\_extensions} since it needs to be able to create
+objects of the types defined there. On the other hand, the interface to
+the constructor needs to be visible in \texttt{mod\_sortable}, since the
+machinery that depends on it must be able to call it. As a consequence,
+one would end up with a circular \texttt{USE} dependency between the two
+modules, which is prohibited.
 
 \subsection{Using submodules to break dependency
 cycles}\label{using-submodules-to-break-dependency-cycles}
@@ -2145,20 +2118,22 @@ defined in the parent program unit (i.e., the program unit of which the
 submodule is an extension), the latter in the submodule itself.
 
 For the constructor function, the following interface block can be
-declared in \passthrough{\lstinline!mod\_sortable!}:
+declared in \texttt{mod\_sortable}:
 
-\begin{lstlisting}
-INTERFACE
-   MODULE FUNCTION create_sortable(init) RESULT(r)
-      CLASS(sortable), ALLOCATABLE :: r
-      TYPE(initialize), INTENT(in) :: init
-   END FUNCTION
-END INTERFACE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{INTERFACE}
+   \KeywordTok{MODULE} \KeywordTok{FUNCTION}\NormalTok{ create\_sortable(init) }\KeywordTok{RESULT}\NormalTok{(r)}
+      \DataTypeTok{CLASS(sortable)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ r}
+      \DataTypeTok{TYPE(initialize)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ init}
+   \KeywordTok{END FUNCTION}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
-The special notation \passthrough{\lstinline!MODULE FUNCTION!} (or
-\passthrough{\lstinline!MODULE SUBROUTINE!} for a subroutine) tells the
-compiler that the implementation is deferred to a submodule.
+The special notation \texttt{MODULE\ FUNCTION} (or
+\texttt{MODULE\ SUBROUTINE} for a subroutine) tells the compiler that
+the implementation is deferred to a submodule.
 
 \textbf{Notes:}
 
@@ -2166,19 +2141,18 @@ compiler that the implementation is deferred to a submodule.
 \tightlist
 \item
   the above interface requires no reference to any entities contained in
-  \passthrough{\lstinline!mod\_sortable\_extensions!};
+  \texttt{mod\_sortable\_extensions};
 \item
   consistent with this, the variable representing the function result is
   an allocatable polymorphic object of the abstract type;
 \item
-  an \passthrough{\lstinline!IMPORT!} statement is not obligatory in
-  separate module procedure interfaces, although it is permitted
-  (compiler support assumed!), primarily for the purpose of fine-grain
-  control of host access;
+  an \texttt{IMPORT} statement is not obligatory in separate module
+  procedure interfaces, although it is permitted (compiler support
+  assumed!), primarily for the purpose of fine-grain control of host
+  access;
 \item
-  the type \passthrough{\lstinline!initialize!} is, again, a renamed
-  version of the \passthrough{\lstinline!any\_object!} type referred to
-  earlier.
+  the type \texttt{initialize} is, again, a renamed version of the
+  \texttt{any\_object} type referred to earlier.
 \end{itemize}
 
 \subsection{Implementation of the
@@ -2186,24 +2160,26 @@ constructor}\label{implementation-of-the-constructor}
 
 The submodule containing the implementation then reads as follows:
 
-\begin{lstlisting}
-SUBMODULE (mod_sortable) smod_constructor
-CONTAINS
-   MODULE PROCEDURE create_sortable
-      USE mod_sortable_extensions, ONLY : sortable_string
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SUBMODULE}\NormalTok{ (mod\_sortable) smod\_constructor}
+\KeywordTok{CONTAINS}
+   \KeywordTok{MODULE PROCEDURE}\NormalTok{ create\_sortable}
+      \KeywordTok{USE}\NormalTok{ mod\_sortable\_extensions, }\KeywordTok{ONLY}\NormalTok{ : sortable\_string}
 
-      IF ( allocated(init%description) .AND. allocated(init%value) ) THEN
-         SELECT CASE (init%description)
-         CASE ('sortable_string')
-            SELECT TYPE ( value => init%value(1) )
-            TYPE IS (CHARACTER(len=*))
-               ALLOCATE( r, source=sortable_string(value) )
-            END SELECT
-         END SELECT
-      END IF
-   END PROCEDURE
-END SUBMODULE
-\end{lstlisting}
+      \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(init}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.AND.} \FunctionTok{allocated}\NormalTok{(init}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{THEN}
+         \KeywordTok{SELECT CASE}\NormalTok{ (init}\OperatorTok{\%}\NormalTok{description)}
+         \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}sortable\_string\textquotesingle{}}\NormalTok{)}
+            \KeywordTok{SELECT TYPE}\NormalTok{ ( }\DataTypeTok{value} \KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ init}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
+            \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{CHARACTER(len=*)}\NormalTok{)}
+               \KeywordTok{ALLOCATE}\NormalTok{( r, source}\KeywordTok{=}\NormalTok{sortable\_string(}\DataTypeTok{value}\NormalTok{) )}
+            \KeywordTok{END SELECT}
+         \KeywordTok{END SELECT}
+      \KeywordTok{END IF}
+   \KeywordTok{END PROCEDURE}
+\KeywordTok{END SUBMODULE}
+\end{Highlighting}
+\end{Shaded}
 
 \textbf{Notes:}
 
@@ -2215,19 +2191,19 @@ END SUBMODULE
   alternative syntax exists that replicates the interface (but this is
   not shown here);
 \item
-  the effect of the \passthrough{\lstinline!ONLY!} clause is to suppress
-  use access to any entity of the parent program unit (which would be
-  indirectly established). This is because use association overrides
-  host association, which may cause undesirable side effects;
+  the effect of the \texttt{ONLY} clause is to suppress use access to
+  any entity of the parent program unit (which would be indirectly
+  established). This is because use association overrides host
+  association, which may cause undesirable side effects;
 \item
   submodules additionally can contain specifications (before the
-  \passthrough{\lstinline!CONTAINS!} statement), as well as local
-  submodule procedures. All these are only accessible from the submodule
-  (and its descendant submodules, if any);
+  \texttt{CONTAINS} statement), as well as local submodule procedures.
+  All these are only accessible from the submodule (and its descendant
+  submodules, if any);
 \item
   the naming scheme for a submodule always references the direct parent.
   For submodules of submodules, the scheme is
-  \passthrough{\lstinline!SUBMODULE (<parent module>:<parent submodule>) <submodule\_name>!}
+  \texttt{SUBMODULE\ (\textless{}parent\ module\textgreater{}:\textless{}parent\ submodule\textgreater{})\ \textless{}submodule\_name\textgreater{}}
   and the names of submodules of a given module must be unique.
 \end{itemize}
 
@@ -2240,7 +2216,7 @@ program unit (orange box) for this example:
 
 \begin{figure}
 \centering
-\includegraphics[width=8cm,height=\textheight,keepaspectratio]{Dependency_inversion.svg.png}
+\includegraphics[width=12cm,height=\textheight,keepaspectratio]{Dependency_inversion.svg.png}
 \caption{Dependencies between program units implementing and using an
 interface class}
 \end{figure}
@@ -2248,8 +2224,8 @@ interface class}
 The small triangles in the diagram refer to use (``u'') association and
 host (``h'') association, respectively. The separation of the
 constructor's interface from its implementation leads to avoidance of
-circular \passthrough{\lstinline!USE!} references (the lower two ``u''
-triangles in the diagram).
+circular \texttt{USE} references (the lower two ``u'' triangles in the
+diagram).
 
 The compilation order for separate files would be:
 
@@ -2257,12 +2233,11 @@ The compilation order for separate files would be:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  \passthrough{\lstinline!mod\_sortable!}
+  \texttt{mod\_sortable}
 \item
-  \passthrough{\lstinline!program!} and
-  \passthrough{\lstinline!mod\_sortable\_extensions!}, independently
+  \texttt{program} and \texttt{mod\_sortable\_extensions}, independently
 \item
-  \passthrough{\lstinline!smod\_constructor!}
+  \texttt{smod\_constructor}
 \end{enumerate}
 
 \section{Performance and ease of use}\label{performance-and-ease-of-use}
@@ -2286,23 +2261,25 @@ This section presents a way for handling this programmatically, using
 the object-oriented features of Fortran. We start with the outline for a
 type definition of sufficient generality:
 
-\begin{lstlisting}
-TYPE, PUBLIC :: pfunc_type
-   PRIVATE
-   PROCEDURE(pfunc), POINTER, NOPASS :: fp => null()
-   : ! shown later
-   CLASS(*), ALLOCATABLE :: param
-CONTAINS
-   : ! shown later
-END type pfunc_type
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC} \DataTypeTok{::}\NormalTok{ pfunc\_type}
+   \DataTypeTok{PRIVATE}
+   \DataTypeTok{PROCEDURE(pfunc)}\NormalTok{, }\DataTypeTok{POINTER}\NormalTok{, }\DataTypeTok{NOPASS} \DataTypeTok{::}\NormalTok{ fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+\NormalTok{   : }\CommentTok{! shown later}
+   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ param}
+\KeywordTok{CONTAINS}
+\NormalTok{   : }\CommentTok{! shown later}
+\DataTypeTok{END type}\NormalTok{ pfunc\_type}
 
-ABSTRACT INTERFACE
-   PURE REAL FUNCTION pfunc(x, param)
-      REAL, INTENT(in) :: x
-      CLASS(*), INTENT(in), OPTIONAL :: param
-   END FUNCTION pfunc
-END INTERFACE
-\end{lstlisting}
+\DataTypeTok{ABSTRACT} \KeywordTok{INTERFACE}
+   \KeywordTok{PURE} \DataTypeTok{REAL} \KeywordTok{FUNCTION}\NormalTok{ pfunc(x, param)}
+      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x}
+      \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
+   \KeywordTok{END FUNCTION}\NormalTok{ pfunc}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
 It supplies
 
@@ -2316,34 +2293,34 @@ It supplies
   one place.
 \end{itemize}
 
-Notionally, one could invoke a properly set up
-\passthrough{\lstinline!pfunc\_type!} object through
+Notionally, one could invoke a properly set up \texttt{pfunc\_type}
+object through
 
-\begin{lstlisting}
-TYPE(pfunc_type) :: pfunc_obj
-REAL :: x
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(pfunc\_type)} \DataTypeTok{::}\NormalTok{ pfunc\_obj}
+\DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ x}
 
-pfunc_obj = pfunc_type(psin, 2)
-! definitions of procedure and data object discussed further below
-x = ...
+\NormalTok{pfunc\_obj }\KeywordTok{=}\NormalTok{ pfunc\_type(psin, }\DecValTok{2}\NormalTok{)}
+\CommentTok{! definitions of procedure and data object discussed further below}
+\NormalTok{x }\KeywordTok{=}\NormalTok{ ...}
 
-WRITE(*,*) 'Function value is ', pfunc_obj%fp(x, pfunc_obj%param)
-\end{lstlisting}
+\FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}Function value is \textquotesingle{}}\NormalTok{, pfunc\_obj}\OperatorTok{\%}\NormalTok{fp(x, pfunc\_obj}\OperatorTok{\%}\NormalTok{param)}
+\end{Highlighting}
+\end{Shaded}
 
 Use of a procedure pointer reflects the fact that each
-\passthrough{\lstinline!pfunc\_type!} object will want to associate its
-individual target function; this is sometimes also referred to as an
-\textbf{object-bound procedure}. The \passthrough{\lstinline!NOPASS!}
-attribute in the type definition is needed because otherwise (analogous
-to what we saw for the earlier type-bound procedure examples), the
-object through which the invocation is done would be obliged to appear
-as a first argument in the abstract interface
-\passthrough{\lstinline!pfunc!}; this would constitute an additional
-imposition on the implementation of the supplied functions. On the other
-hand, the invocation needs to explicitly specify the
-\passthrough{\lstinline!param!} component, making it a bit unwieldy; the
-use of \passthrough{\lstinline!pfunc\_type!} objects will be simplified
-as we go on.
+\texttt{pfunc\_type} object will want to associate its individual target
+function; this is sometimes also referred to as an \textbf{object-bound
+procedure}. The \texttt{NOPASS} attribute in the type definition is
+needed because otherwise (analogous to what we saw for the earlier
+type-bound procedure examples), the object through which the invocation
+is done would be obliged to appear as a first argument in the abstract
+interface \texttt{pfunc}; this would constitute an additional imposition
+on the implementation of the supplied functions. On the other hand, the
+invocation needs to explicitly specify the \texttt{param} component,
+making it a bit unwieldy; the use of \texttt{pfunc\_type} objects will
+be simplified as we go on.
 
 \subsection{Performance issues arising from object-oriented
 programming}\label{performance-issues-arising-from-object-oriented-programming}
@@ -2351,23 +2328,25 @@ programming}\label{performance-issues-arising-from-object-oriented-programming}
 Let us look at a target function implementation, in form of a trivial
 example \(\sin(\lambda x)\):
 
-\begin{lstlisting}
-PURE REAL FUNCTION psin(x, param)
-   REAL, INTENT(in) :: x
-   CLASS(*), INTENT(in), OPTIONAL :: param
-   REAL :: factor
-   factor = 1.
-   IF ( present(param) ) THEN
-      SELECT TYPE ( param )
-      TYPE IS (REAL)
-         factor = param
-      TYPE IS (INTEGER)
-         factor = real(param)
-      END SELECT
-   END IF
-   psin = sin(factor*x)
-END FUNCTION psin
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{PURE} \DataTypeTok{REAL} \KeywordTok{FUNCTION}\NormalTok{ psin(x, param)}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x}
+   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ factor}
+\NormalTok{   factor }\KeywordTok{=} \FloatTok{1.}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{THEN}
+      \KeywordTok{SELECT TYPE}\NormalTok{ ( param )}
+      \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{REAL}\NormalTok{)}
+\NormalTok{         factor }\KeywordTok{=}\NormalTok{ param}
+      \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{INTEGER}\NormalTok{)}
+\NormalTok{         factor }\KeywordTok{=} \DataTypeTok{real(param)}
+      \KeywordTok{END SELECT}
+   \KeywordTok{END IF}
+\NormalTok{   psin }\KeywordTok{=} \BuiltInTok{sin}\NormalTok{(factor}\KeywordTok{*}\NormalTok{x)}
+\KeywordTok{END FUNCTION}\NormalTok{ psin}
+\end{Highlighting}
+\end{Shaded}
 
 Given that an application is likely to request a large number of
 function values, the following effects would ensue once for each
@@ -2385,24 +2364,26 @@ The resulting performance impact is typical for object-oriented designs
 that operate in multitudes on small objects. Making use of an
 array-based version of the function
 
-\begin{lstlisting}
-PURE FUNCTION psin_array(x, param) RESULT(r)
-   REAL, INTENT(in) :: x(:)
-   REAL :: r(size(x))
-   CLASS(*), INTENT(in), OPTIONAL :: param
-   REAL :: factor
-   factor = 1.
-   IF ( present(param) ) THEN
-      SELECT TYPE ( param )
-      TYPE IS (REAL)
-         factor = param
-      TYPE IS (INTEGER)
-         factor = real(param)
-      END SELECT
-   END IF
-   r = sin(factor*x)  ! kernel
-END FUNCTION psin_array
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{PURE} \KeywordTok{FUNCTION}\NormalTok{ psin\_array(x, param) }\KeywordTok{RESULT}\NormalTok{(r)}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x(:)}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
+   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ factor}
+\NormalTok{   factor }\KeywordTok{=} \FloatTok{1.}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{THEN}
+      \KeywordTok{SELECT TYPE}\NormalTok{ ( param )}
+      \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{REAL}\NormalTok{)}
+\NormalTok{         factor }\KeywordTok{=}\NormalTok{ param}
+      \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{INTEGER}\NormalTok{)}
+\NormalTok{         factor }\KeywordTok{=} \DataTypeTok{real(param)}
+      \KeywordTok{END SELECT}
+   \KeywordTok{END IF}
+\NormalTok{   r }\KeywordTok{=} \BuiltInTok{sin}\NormalTok{(factor}\KeywordTok{*}\NormalTok{x)  }\CommentTok{! kernel}
+\KeywordTok{END FUNCTION}\NormalTok{ psin\_array}
+\end{Highlighting}
+\end{Shaded}
 
 is desirable, since the overheads specified above only arise
 \emph{once}, and the actual calculational code (marked ``kernel'' in the
@@ -2418,105 +2399,111 @@ scalar and the array versions in a uniform way, thereby making life for
 the clients that use the framework easy, while enabling performance
 where it is needed.
 
-The full definition of \passthrough{\lstinline!pfunc\_type!}, including
-its referenced abstract interfaces, reads
+The full definition of \texttt{pfunc\_type}, including its referenced
+abstract interfaces, reads
 
-\begin{lstlisting}
-TYPE, PUBLIC :: pfunc_type
-   PRIVATE
-   PROCEDURE(pfunc), POINTER, NOPASS :: fp => null()
-   PROCEDURE(pfunc_array), POINTER, NOPASS :: fp_array => null()
-   CLASS(*), ALLOCATABLE :: param
-CONTAINS
-   PROCEDURE, PASS, PRIVATE, NON_OVERRIDABLE :: f_scalar, f_array
-   GENERIC :: f => f_scalar, f_array
-END type pfunc_type
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC} \DataTypeTok{::}\NormalTok{ pfunc\_type}
+   \DataTypeTok{PRIVATE}
+   \DataTypeTok{PROCEDURE(pfunc)}\NormalTok{, }\DataTypeTok{POINTER}\NormalTok{, }\DataTypeTok{NOPASS} \DataTypeTok{::}\NormalTok{ fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+   \DataTypeTok{PROCEDURE(pfunc\_array)}\NormalTok{, }\DataTypeTok{POINTER}\NormalTok{, }\DataTypeTok{NOPASS} \DataTypeTok{::}\NormalTok{ fp\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ param}
+\KeywordTok{CONTAINS}
+   \DataTypeTok{PROCEDURE}\NormalTok{, }\DataTypeTok{PASS}\NormalTok{, }\DataTypeTok{PRIVATE}\NormalTok{, }\DataTypeTok{NON\_OVERRIDABLE} \DataTypeTok{::}\NormalTok{ f\_scalar, f\_array}
+   \DataTypeTok{GENERIC} \DataTypeTok{::}\NormalTok{ f }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ f\_scalar, f\_array}
+\DataTypeTok{END type}\NormalTok{ pfunc\_type}
 
-ABSTRACT INTERFACE
-   PURE REAL FUNCTION pfunc(x, param)
-      REAL, INTENT(in) :: x
-      CLASS(*), INTENT(in), OPTIONAL :: param
-   END FUNCTION pfunc
-   PURE FUNCTION pfunc_array(x, param) RESULT(r)
-      REAL, INTENT(in) :: x(:)
-      REAL :: r(size(x))
-      CLASS(*), INTENT(in), OPTIONAL :: param
-   END FUNCTION pfunc_array
-END INTERFACE
-\end{lstlisting}
+\DataTypeTok{ABSTRACT} \KeywordTok{INTERFACE}
+   \KeywordTok{PURE} \DataTypeTok{REAL} \KeywordTok{FUNCTION}\NormalTok{ pfunc(x, param)}
+      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x}
+      \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
+   \KeywordTok{END FUNCTION}\NormalTok{ pfunc}
+   \KeywordTok{PURE} \KeywordTok{FUNCTION}\NormalTok{ pfunc\_array(x, param) }\KeywordTok{RESULT}\NormalTok{(r)}
+      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x(:)}
+      \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
+      \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
+   \KeywordTok{END FUNCTION}\NormalTok{ pfunc\_array}
+\KeywordTok{END INTERFACE}
+\end{Highlighting}
+\end{Shaded}
 
 Because we now have two procedure pointers in the type (only one of
 which is used in each given object), it is advantageous to provide a
-generic type-bound procedure \passthrough{\lstinline!f!} as a front end
-for ease of use. The specifics \passthrough{\lstinline!f\_scalar!} and
-\passthrough{\lstinline!f\_array!} for this read
+generic type-bound procedure \texttt{f} as a front end for ease of use.
+The specifics \texttt{f\_scalar} and \texttt{f\_array} for this read
 
-\begin{lstlisting}
-REAL FUNCTION f_scalar(this, x)
-   CLASS(pfunc_type), INTENT(in) :: this
-   REAL, INTENT(in) :: x
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{REAL} \KeywordTok{FUNCTION}\NormalTok{ f\_scalar(this, x)}
+   \DataTypeTok{CLASS(pfunc\_type)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ this}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x}
 
-   IF ( associated(this%fp) ) THEN
-      f_scalar = this%fp(x, this%param)
-   ELSE IF ( associated(this%fp_array) ) THEN
-      ASSOCIATE ( f_array => this%fp_array([x], this%param) )
-         f_scalar = f_array(1)
-      END ASSOCIATE
-   ELSE
-      ERROR STOP 'pfunc_type callback: uninitialized object'
-   END IF
-END FUNCTION f_scalar
-FUNCTION f_array(this, x) RESULT(r)
-   CLASS(pfunc_type), INTENT(in) :: this
-   REAL, INTENT(in) :: x(:)
-   REAL :: r(size(x))
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp) ) }\KeywordTok{THEN}
+\NormalTok{      f\_scalar }\KeywordTok{=}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp(x, this}\OperatorTok{\%}\NormalTok{param)}
+   \KeywordTok{ELSE} \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp\_array) ) }\KeywordTok{THEN}
+      \KeywordTok{ASSOCIATE}\NormalTok{ ( f\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp\_array(}\KeywordTok{[}\NormalTok{x}\KeywordTok{]}\NormalTok{, this}\OperatorTok{\%}\NormalTok{param) )}
+\NormalTok{         f\_scalar }\KeywordTok{=}\NormalTok{ f\_array(}\DecValTok{1}\NormalTok{)}
+      \KeywordTok{END ASSOCIATE}
+   \KeywordTok{ELSE}
+\NormalTok{      ERROR }\KeywordTok{STOP} \StringTok{\textquotesingle{}pfunc\_type callback: uninitialized object\textquotesingle{}}
+   \KeywordTok{END IF}
+\KeywordTok{END FUNCTION}\NormalTok{ f\_scalar}
+\KeywordTok{FUNCTION}\NormalTok{ f\_array(this, x) }\KeywordTok{RESULT}\NormalTok{(r)}
+   \DataTypeTok{CLASS(pfunc\_type)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ this}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x(:)}
+   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
 
-   ! Note that support for the scalar version is omitted here, since
-   ! the procedure call overhead, including type resolution, would
-   ! significantly impact performance.
-   IF ( associated(this%fp_array) ) THEN
-      r = this%fp_array(x, this%param)
-   ELSE
-      ERROR STOP 'pfunc_type callback: uninitialized object'
-   END IF
-END FUNCTION f_array
-\end{lstlisting}
+   \CommentTok{! Note that support for the scalar version is omitted here, since}
+   \CommentTok{! the procedure call overhead, including type resolution, would}
+   \CommentTok{! significantly impact performance.}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp\_array) ) }\KeywordTok{THEN}
+\NormalTok{      r }\KeywordTok{=}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp\_array(x, this}\OperatorTok{\%}\NormalTok{param)}
+   \KeywordTok{ELSE}
+\NormalTok{      ERROR }\KeywordTok{STOP} \StringTok{\textquotesingle{}pfunc\_type callback: uninitialized object\textquotesingle{}}
+   \KeywordTok{END IF}
+\KeywordTok{END FUNCTION}\NormalTok{ f\_array}
+\end{Highlighting}
+\end{Shaded}
 
 The only way to invoke one of these (in a use association context) is
 via the generic name, since the specific type-bound procedures have the
-\passthrough{\lstinline!PRIVATE!} attribute; note that
-\passthrough{\lstinline!pfunc\_type!} is not designed for being
-extended. Disambiguation is by rank of \passthrough{\lstinline!x!}.
+\texttt{PRIVATE} attribute; note that \texttt{pfunc\_type} is not
+designed for being extended. Disambiguation is by rank of \texttt{x}.
 
 The structure constructor for the type is overloaded
 
-\begin{lstlisting}
-INTERFACE pfunc_type
-   MODULE PROCEDURE create_pfunc_type
-   MODULE PROCEDURE create_pfunc_type_array
-END INTERFACE pfunc_type
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{INTERFACE}\NormalTok{ pfunc\_type}
+   \KeywordTok{MODULE PROCEDURE}\NormalTok{ create\_pfunc\_type}
+   \KeywordTok{MODULE PROCEDURE}\NormalTok{ create\_pfunc\_type\_array}
+\KeywordTok{END INTERFACE}\NormalTok{ pfunc\_type}
+\end{Highlighting}
+\end{Shaded}
 
 with the following specific functions:
 
-\begin{lstlisting}
-TYPE(pfunc_type) FUNCTION create_pfunc_type(fp, param)
-   PROCEDURE(pfunc) :: fp
-   CLASS(*), INTENT(in), OPTIONAL :: param
-   create_pfunc_type%fp => fp
-   IF ( present(param) ) THEN
-      ALLOCATE(create_pfunc_type%param, source=param)
-   END IF
-END FUNCTION create_pfunc_type
-TYPE(pfunc_type) FUNCTION create_pfunc_type_array(fp_array, param)
-   PROCEDURE(pfunc_array) :: fp_array
-   CLASS(*), INTENT(in), OPTIONAL :: param
-   create_pfunc_type_array%fp_array => fp_array
-   IF ( present(param) ) THEN
-      ALLOCATE(create_pfunc_type_array%param, source=param)
-   END IF
-END FUNCTION create_pfunc_type_array
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(pfunc\_type)} \KeywordTok{FUNCTION}\NormalTok{ create\_pfunc\_type(fp, param)}
+   \DataTypeTok{PROCEDURE(pfunc)} \DataTypeTok{::}\NormalTok{ fp}
+   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
+\NormalTok{   create\_pfunc\_type}\OperatorTok{\%}\NormalTok{fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ fp}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{THEN}
+      \KeywordTok{ALLOCATE}\NormalTok{(create\_pfunc\_type}\OperatorTok{\%}\NormalTok{param, source}\KeywordTok{=}\NormalTok{param)}
+   \KeywordTok{END IF}
+\KeywordTok{END FUNCTION}\NormalTok{ create\_pfunc\_type}
+\DataTypeTok{TYPE(pfunc\_type)} \KeywordTok{FUNCTION}\NormalTok{ create\_pfunc\_type\_array(fp\_array, param)}
+   \DataTypeTok{PROCEDURE(pfunc\_array)} \DataTypeTok{::}\NormalTok{ fp\_array}
+   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
+\NormalTok{   create\_pfunc\_type\_array}\OperatorTok{\%}\NormalTok{fp\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ fp\_array}
+   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{THEN}
+      \KeywordTok{ALLOCATE}\NormalTok{(create\_pfunc\_type\_array}\OperatorTok{\%}\NormalTok{param, source}\KeywordTok{=}\NormalTok{param)}
+   \KeywordTok{END IF}
+\KeywordTok{END FUNCTION}\NormalTok{ create\_pfunc\_type\_array}
+\end{Highlighting}
+\end{Shaded}
 
 Disambiguation is possible due to the sufficiently different interfaces
 of the procedure arguments.
@@ -2524,31 +2511,31 @@ of the procedure arguments.
 \subsection{Using the function type}\label{using-the-function-type}
 
 With the already-shown implementations for the target functions
-\passthrough{\lstinline!psin!} and
-\passthrough{\lstinline!psin\_array!}, using this framework is
+\texttt{psin} and \texttt{psin\_array}, using this framework is
 illustrated by the following:
 
-\begin{lstlisting}
-TYPE(pfunc_type) :: pfunc_obj
-REAL, PARAMETER :: piby4 = atan(1.0), &
-   piby4_arr(4) = [ piby4, 2.*piby4, 3.*piby4, 4.*piby4 ]
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{TYPE(pfunc\_type)} \DataTypeTok{::}\NormalTok{ pfunc\_obj}
+\DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{PARAMETER} \DataTypeTok{::}\NormalTok{ piby4 }\KeywordTok{=} \BuiltInTok{atan}\NormalTok{(}\FloatTok{1.0}\NormalTok{), }\KeywordTok{\&}
+\NormalTok{   piby4\_arr(}\DecValTok{4}\NormalTok{) }\KeywordTok{=} \KeywordTok{[}\NormalTok{ piby4, }\FloatTok{2.}\KeywordTok{*}\NormalTok{piby4, }\FloatTok{3.}\KeywordTok{*}\NormalTok{piby4, }\FloatTok{4.}\KeywordTok{*}\NormalTok{piby4 }\KeywordTok{]}
 
-pfunc_obj = pfunc_type(psin, 2.)
-WRITE(*,*) pfunc_obj%f(piby4)
+\NormalTok{pfunc\_obj }\KeywordTok{=}\NormalTok{ pfunc\_type(psin, }\FloatTok{2.}\NormalTok{)}
+\FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4)}
 
-pfunc_obj = pfunc_type(psin)
-WRITE(*,*) pfunc_obj%f(piby4)
+\NormalTok{pfunc\_obj }\KeywordTok{=}\NormalTok{ pfunc\_type(psin)}
+\FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4)}
 
-pfunc_obj = pfunc_type(psin_array, 2.)
-WRITE(*,*) pfunc_obj%f(piby4_arr)
-\end{lstlisting}
+\NormalTok{pfunc\_obj }\KeywordTok{=}\NormalTok{ pfunc\_type(psin\_array, }\FloatTok{2.}\NormalTok{)}
+\FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4\_arr)}
+\end{Highlighting}
+\end{Shaded}
 
-Omitting a \passthrough{\lstinline!param!} in a constructor is fine, as
-long as the target functions cater for the dummy argument's
-non-presence.
+Omitting a \texttt{param} in a constructor is fine, as long as the
+target functions cater for the dummy argument's non-presence.
 
-The framework's implementation makes use of the fact that an unallocated
-actual argument associated with an \passthrough{\lstinline!OPTIONAL!}
+\emph{Hint:} The framework's implementation makes use of the fact that
+an unallocated actual argument associated with an \texttt{OPTIONAL}
 dummy argument is considered not present. Once conditional expressions
 are implemented in compilers, the code will be appropriately reworked,
 since use of this feature is recommended against.
@@ -2559,14 +2546,16 @@ arrays}\label{arrays-of-structures-versus-structures-of-arrays}
 Returning to our earlier example type body, the next idea would be to
 simulate the dynamics of a large ensemble of bodies. A procedure
 
-\begin{lstlisting}
-SUBROUTINE propagate(bodies, delta_t, force_field)
-   TYPE(body), INTENT(inout) :: bodies(:)
-   REAL, INTENT(in) :: delta_t
-   TYPE(field_type), INTENT(in) :: force_field
-   :
-END SUBROUTINE
-\end{lstlisting}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SUBROUTINE}\NormalTok{ propagate(bodies, delta\_t, force\_field)}
+   \DataTypeTok{TYPE(body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ bodies(:)}
+   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ delta\_t}
+   \DataTypeTok{TYPE(field\_type)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ force\_field}
+\NormalTok{   :}
+\KeywordTok{END SUBROUTINE}
+\end{Highlighting}
+\end{Shaded}
 
 might be supplied that modifies the components of all ensemble members,
 for example as follows:
@@ -2574,16 +2563,15 @@ for example as follows:
 \begin{itemize}
 \tightlist
 \item
-  \passthrough{\lstinline!\%pos!} \(\longrightarrow\)
-  \passthrough{\lstinline!\%pos + delta\_t * \%vel!}
+  \texttt{\%pos} \(\longrightarrow\)
+  \texttt{\%pos\ +\ delta\_t\ *\ \%vel}
 \item
-  \passthrough{\lstinline!\%vel!} \(\longrightarrow\)
-  \passthrough{\lstinline!\%vel + delta\_t * force / \%mass!}
+  \texttt{\%vel} \(\longrightarrow\)
+  \texttt{\%vel\ +\ delta\_t\ *\ force\ /\ \%mass}
 \end{itemize}
 
-where \passthrough{\lstinline!force!} results from evaluating
-\passthrough{\lstinline!force\_field!} at the position of the ensemble
-member.
+where \texttt{force} results from evaluating \texttt{force\_field} at
+the position of the ensemble member.
 
 \section{Comments on further language
 features}\label{comments-on-further-language-features}
@@ -2599,16 +2587,13 @@ programmer
 \begin{itemize}
 \tightlist
 \item
-  either declaring the binding with a \passthrough{\lstinline!PASS!}
-  attribute that references the specific (and of course appropriately
-  declared) procedure argument the object of the bound type should be
-  passed to,
+  either declaring the binding with a \texttt{PASS} attribute that
+  references the specific (and of course appropriately declared)
+  procedure argument the object of the bound type should be passed to,
 \item
-  or declaring the binding with a \passthrough{\lstinline!NOPASS!}
-  attribute, in which case the object is not (implicitly) passed to the
-  procedure at all in a TBP invocation.
+  or declaring the binding with a \texttt{NOPASS} attribute, in which
+  case the object is not (implicitly) passed to the procedure at all in
+  a TBP invocation.
 \end{itemize}
-
-\section{References}\label{references}
 
 \end{document}
