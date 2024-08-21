@@ -2,7 +2,7 @@
 title: readme.md
 author: Norwid Behrnd, nbehrnd@yahoo.com
 date: 2024-08-05 Mon
-edit: 2024-08-18 Sun
+edit: 2024-08-21 Wed
 ---
 
 ## purpose
@@ -48,8 +48,7 @@ Bader's draft contains crosslinks to indicate sections within the
 same document as the source, Pandoc flavored markdown appears more
 suitable for the workflows ahead.
 
-At present, linting is incomplete.  Updates of the pdf created by one
-of the pdfengines used (pdfLaTeX, groff; rst2pdf after an intermediate
-conversion to restructured text [rst]) will be provided incrementally.
-So far, the one via pdfLaTeX is the most advanced version.
-
+In terms of the content, the workflow via pdfLaTeX is considered
+complete (Wednesday, 2024-08-21).  Updates using the other two paths
+(groff, and rst2pdf after an intermediate conversion into restructured
+text [rst]) may be provided incrementally.
