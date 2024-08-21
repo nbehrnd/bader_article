@@ -26,9 +26,8 @@ rst:
 # requires subsequent manual edit and compilation to yield a pdf
 tex:
 	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.tex \
-	  --number-sections --toc \
-	  --template ./eisvogel.tex \
-	  --listings -V listings-no-page-break -V listings-disable-line-numbers
+		--number-sections --toc \
+		--template ./eisvogel.tex --highlight-style tango
 
 # manually replace `article` of letter format by `scrartcl` for ISO A4 format
 # additional edits:
@@ -70,7 +69,6 @@ g:
 # found on https://github.com/topics/pandoc-template. 
 pdflatex:
 	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.pdf \
-	  --number-sections --toc \
-	  --template ./eisvogel.tex \
-	  --listings -V listings-no-page-break -V listings-disable-line-numbers
+		--number-sections --toc \
+		--template ./eisvogel.tex --highlight-style tango
 # END
