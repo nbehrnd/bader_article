@@ -70,5 +70,6 @@ g:
 pdflatex:
 	pandoc pandoc_md.md --from markdown -s -o ex_pdflatex.pdf \
 		--number-sections --toc \
-		--template ./eisvogel.tex --highlight-style tango
+		--template ./eisvogel.tex --highlight-style tango \
+		-V listings-no-page-break
 # END

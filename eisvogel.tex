@@ -313,11 +313,11 @@ $if(listings)$
 \lstset{defaultdialect=[5.3]Lua}
 \lstset{defaultdialect=[x86masm]Assembler}
 $endif$
-$if(listings-no-page-break)$
-\usepackage{etoolbox}
-\BeforeBeginEnvironment{lstlisting}{\par\noindent\begin{minipage}{\linewidth}}
-\AfterEndEnvironment{lstlisting}{\end{minipage}\par\addvspace{\topskip}}
-$endif$
+%$if(listings-no-page-break)$
+%\usepackage{etoolbox}
+%\BeforeBeginEnvironment{lstlisting}{\par\noindent\begin{minipage}{\linewidth}}
+%\AfterEndEnvironment{lstlisting}{\end{minipage}\par\addvspace{\topskip}}
+%$endif$
 $if(lhs)$
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
 $endif$
@@ -751,7 +751,20 @@ $endif$
 %
 
 $if(listings)$
+  $if(listings-no-page-break)$
+    \usepackage{etoolbox}
+    \BeforeBeginEnvironment{lstlisting}{\par\noindent\begin{minipage}{\linewidth}}
+    \AfterEndEnvironment{lstlisting}{\end{minipage}\par\addvspace{\topskip}}
+  $endif$
+$else$
+  $if(listings-no-page-break)$
+    \usepackage{etoolbox}
+    \BeforeBeginEnvironment{Shaded}{\par\noindent\begin{minipage}{\linewidth}}
+    \AfterEndEnvironment{Shaded}{\end{minipage}\par\addvspace{\topskip}}
+  $endif$
+$endif$
 
+$if(listings)$
 %
 % general listing colors
 %
