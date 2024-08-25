@@ -17,7 +17,7 @@ p:
 # pdf via bypass rst
 # the display of the mathematical equations relies on Python's `matplotlib`
 rst:
-	pandoc pandoc_md.md  -s -o ex_rst.rst --number-sections --toc
+	pandoc pandoc_md.md  -s -o ex_rst.rst --number-sections --toc --wrap=none
 	rst2pdf -s serif ex_rst.rst --footer=###Page### --smart-quotes=1 \
 		--disable-splittables --repeat-table-rows --date-invariant
 	rm ex_rst.rst
