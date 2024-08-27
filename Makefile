@@ -18,6 +18,11 @@ p:
 # the display of the mathematical equations relies on Python's `matplotlib`
 rst:
 	pandoc pandoc_md.md  -s -o ex_rst.rst --number-sections --toc --wrap=none
+
+	# corrections to the rst file eventually used:
+	# rst2pdf is unaware of LaTeX amsmath \text{} command: (but rst2pdf does)
+	sed -i "s/\\\text{/\\\mathrm{/" ex_rst.rst
+
 	rst2pdf -s serif ex_rst.rst --footer=###Page### --smart-quotes=1 \
 		--disable-splittables --repeat-table-rows --date-invariant
 	rm ex_rst.rst
