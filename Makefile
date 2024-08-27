@@ -27,7 +27,8 @@ rst:
 	sed -i "s/<#sec:\S*__/A/" ex_rst.rst  # use of the links in the text
 
 	rst2pdf -s serif ex_rst.rst --footer=###Page### --smart-quotes=1 \
-		--disable-splittables --repeat-table-rows --date-invariant
+		--disable-splittables --repeat-table-rows --date-invariant \
+		--default-dpi 300
 	rm ex_rst.rst
 
 # export to tex
