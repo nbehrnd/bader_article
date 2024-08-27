@@ -686,7 +686,7 @@ The dummy arguments' declarations and meaning are:
   statement:
 
 | Value | Caused by parent I/O statement |
-|----|----|
+|----|----------|
 | `"LISTDIRECTED"` | `WRITE(unit, fmt=*) my_list` |
 | `"NAMELIST"` | `WRITE(unit, nml=my_namelist)` **Note:** Referring to the example, at least one `sorted_list` object must be a member of `my_namelist`. |
 | `"DTsorted_list_fmt"` | `WRITE(unit, fmt='(DT"sorted_list_fmt"(10,2))') my_list` **Note:** `DT` is the "derived type" edit descriptor that is needed in format-driven editing to trigger execution of the UDDTIO routine. The string following the `DT` edit descriptor can be freely chosen (even to be zero length); it is recommended that the UDDTIO procedure pay attention to any possible values supplied in the parent I/O statement if it supports DT editing. |

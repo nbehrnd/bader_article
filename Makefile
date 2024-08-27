@@ -17,7 +17,7 @@ p:
 # pdf via bypass rst
 # the display of the mathematical equations relies on Python's `matplotlib`
 rst:
-	pandoc pandoc_md.md  -s -o ex_rst.rst --number-sections --toc --wrap=none
+	pandoc pandoc_md.md  -s -o ex_rst.rst --number-sections --toc --columns 100
 
 	# corrections to the rst file eventually used:
 	# rst2pdf is unaware of LaTeX amsmath \text{} command: (but rst2pdf does)
