@@ -872,7 +872,7 @@ extension type can itself be extended. For any given "base" type this
 gives rise to a potential hierarchy of types that can be represented by
 a directed acyclical graph:
 
-![\ ](Inheritance_diagram.png){width=3in}
+![\ ](./images/Inheritance_diagram.png){width=3in}
 
 An object of type `body` is **type compatible** with both `a_proton` and
 `a_mutilated_proton`, so any of these two can, for example, appear in a
@@ -1537,7 +1537,7 @@ between the modules (blue boxes), the submodule (green box), and a main
 program unit (orange box) for this example:
 
 ![Dependencies between program units implementing and using
-an interface class](Dependency_inversion.png){width=5in}
+an interface class](./images/Dependency_inversion.png){width=5in}
 
 The small triangles in the diagram refer to use ("u") association and
 host ("h") association, respectively. The separation of the
