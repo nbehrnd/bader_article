@@ -686,7 +686,7 @@ The dummy arguments' declarations and meaning are:
   statement:
 
 | Value | Caused by parent I/O statement |
-|----|----|
+|----|----------|
 | `"LISTDIRECTED"` | `WRITE(unit, fmt=*) my_list` |
 | `"NAMELIST"` | `WRITE(unit, nml=my_namelist)` **Note:** Referring to the example, at least one `sorted_list` object must be a member of `my_namelist`. |
 | `"DTsorted_list_fmt"` | `WRITE(unit, fmt='(DT"sorted_list_fmt"(10,2))') my_list` **Note:** `DT` is the "derived type" edit descriptor that is needed in format-driven editing to trigger execution of the UDDTIO routine. The string following the `DT` edit descriptor can be freely chosen (even to be zero length); it is recommended that the UDDTIO procedure pay attention to any possible values supplied in the parent I/O statement if it supports DT editing. |
@@ -872,7 +872,7 @@ extension type can itself be extended. For any given "base" type this
 gives rise to a potential hierarchy of types that can be represented by
 a directed acyclical graph:
 
-![\ ](Inheritance_diagram.svg.png){width=12cm}
+![\ ](./images/Inheritance_diagram.png){width=3in}
 
 An object of type `body` is **type compatible** with both `a_proton` and
 `a_mutilated_proton`, so any of these two can, for example, appear in a
@@ -1537,7 +1537,7 @@ between the modules (blue boxes), the submodule (green box), and a main
 program unit (orange box) for this example:
 
 ![Dependencies between program units implementing and using
-an interface class](Dependency_inversion.svg.png){width=12cm}
+an interface class](./images/Dependency_inversion.png){width=5in}
 
 The small triangles in the diagram refer to use ("u") association and
 host ("h") association, respectively. The separation of the
