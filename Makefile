@@ -38,19 +38,6 @@ tex:
 		--number-sections --toc \
 		--template ./eisvogel.tex --highlight-style tango
 
-# manually replace `article` of letter format by `scrartcl` for ISO A4 format
-# additional edits:
-#%\usepackage{lmodern}
-#\usepackage{libertine, libertinust1math}
-#\usepackage[scaled=0.8]{beramono}
-#\usepackage{microtype}
-#\usepackage[USenglish]{babel}
-#\usepackage{color,xcolor}
-#\usepackage[colorlinks=true,linkcolor=true,allcolors=blue]{hyperref}
-#
-# Pandoc's default setup of hypersetup includes a line `hidelinks`; to request
-# sed the substitution allows for the less intrusive blue links to appear.
-
 # export to groff ms
 g:
 	pandoc pandoc_md.md --from markdown -s -o ex_groff.ms
