@@ -63,6 +63,9 @@ g:
 	sed -i "s/.ce 1/.QP/" ex_groff.ms
 	sed -i "s/.sp 1//" ex_groff.ms
 
+	# correction of table dimensions
+	sed -i "s/lw(20.0n) lw(50.0n)./lw(25n) lw(64.5n)./" ex_groff.ms
+
 	groff -e -t -t -ms -Tpdf -U -P-pa4 ex_groff.ms > ex_groff.pdf
 	# manually continue with this sequence
 	#
