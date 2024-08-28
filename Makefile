@@ -49,17 +49,17 @@ tex:
 g:
 	pandoc pandoc_md.md --from markdown -s -o ex_groff.ms \
 		--number-sections --toc \
-		--highlight-style tango
+		--template=./groff_template.ms --highlight-style tango
 
 	# corrections, insertions of the illustrations
 	sed -i 's/\\" .IMAGE "/.PDFPIC /' ex_groff.ms
 	sed -i "s/\.png/.pdf/" ex_groff.ms
 
 	# apparently, explicit image scales in in currently aren't relayed by Pandoc 3.1
-	sed -i 's/Inheritance_diagram.pdf" "216p"/Inheritance_diagram.pdf 2.5i/' ex_groff.ms
+	sed -i 's/Inheritance_diagram.pdf" "216p"/Inheritance_diagram.pdf 3i/' ex_groff.ms
 	sed -i 's/Dependency_inversion.pdf" "360p"/Dependency_inversion.pdf 4.8i/' ex_groff.ms
 
-	groff -e -t -t -ms -Tpdf -U ex_groff.ms > ex_groff.pdf
+	groff -e -t -t -ms -Tpdf -U -P-pa4 ex_groff.ms > ex_groff.pdf
 	# manually continue with this sequence
 	#
 	# 1. ensure illustrations are present e.g., as a .pdf (else default to .eps)
