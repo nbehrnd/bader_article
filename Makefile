@@ -67,24 +67,6 @@ g:
 	sed -i "s/lw(20.0n) lw(50.0n)./lw(25n) lw(64.5n)./" ex_groff.ms
 
 	groff -e -t -t -ms -Tpdf -U -P-pa4 ex_groff.ms > ex_groff.pdf
-	# manually continue with this sequence
-	#
-	# 1. ensure illustrations are present e.g., as a .pdf (else default to .eps)
-	#    or run with imagemagick a brief `convert input.png output.pdf`
-	# 2. in the .ms, search a comment line like `\" .IMAGE "illustration.png"`
-	#    to replace it with the picture environment enclosed by `.PS` and `.PE`
-	# 3. include a line like `.PDFPIC -C illustration.pdf` for the centered
-	#    inclusion of the pdf picture
-	# 4. don't forget to pre-process the .ms with `pic` for the presence of 
-	#    illustrations, or/and eqn for mathematics, or/and tbl for tables
-	# 5. run `pic ex_groff.ms | groff -e -t -ms -Tpdf -U ex_groff.ms > ex_groff.pdf
-	#    So far, the shorter `groff -pet -ms -Tpdf -U ex_groff.ms > ex_groff.pdf`
-	#    is not as good as the former approach.
-	#    Flag `-U` is required for the unsafe mode because of the inclusion of an
-	#    illustration as pdf.  If one uses `PSPIC` in the .ms file instead to add
-	#    an .eps instead, `-U` isn't necessary.
-	# 6. A `-P-pa4` instructs the post processor the use ISO A4 format instead of
-	#    default letter paper in step 5.  Perhaps useful for future work.
 
 # export to pdf with pdfLaTeX managed by pandoc and a style file eisvogel
 # found on https://github.com/topics/pandoc-template. 
