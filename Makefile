@@ -59,6 +59,10 @@ g:
 	sed -i 's/Inheritance_diagram.pdf" "216p"/Inheritance_diagram.pdf 3i/' ex_groff.ms
 	sed -i 's/Dependency_inversion.pdf" "360p"/Dependency_inversion.pdf 4.8i/' ex_groff.ms
 
+	# correction of figure caption declarations
+	sed -i "s/.ce 1/.QP/" ex_groff.ms
+	sed -i "s/.sp 1//" ex_groff.ms
+
 	groff -e -t -t -ms -Tpdf -U -P-pa4 ex_groff.ms > ex_groff.pdf
 	# manually continue with this sequence
 	#
