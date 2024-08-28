@@ -66,6 +66,10 @@ g:
 	# correction of table dimensions
 	sed -i "s/lw(20.0n) lw(50.0n)./lw(25n) lw(64.5n)./" ex_groff.ms
 
+	# manual correction of parentheses in in-line Bessel function
+	sed -i "s/sub l left /sub l /" ex_groff.ms
+	sed -i "s/x right /x /" ex_groff.ms
+
 	groff -e -t -t -ms -Tpdf -U -P-pa4 ex_groff.ms > ex_groff.pdf
 
 # export to pdf with pdfLaTeX managed by pandoc and a style file eisvogel
