@@ -4,12 +4,17 @@
 
 # default rendering of .html (local update by F5), can include png
 phony:
-	pandoc pandoc_md.md --from markdown -s -o test.html --mathml
+	pandoc pandoc_md.md --from markdown -s -o test.html --mathml \
+		--number-sections --toc \
+		--highlight-style tango
 
 # optionally write a pdf with groff (for being faster than pdfLaTeX
-# though for obvious reasons without the illustrations)
+# though for obvious reasons without the illustrations, intentionally
+# no table of contents)
 p:
-	pandoc pandoc_md.md --from markdown -s -o test.pdf --pdf-engine pdfroff
+	pandoc pandoc_md.md --from markdown -s -o test.pdf --pdf-engine pdfroff \
+		--number-sections \
+		--highlight-style tango
 	zathura test.pdf &
 
 # recipes for visually more appealing layout
@@ -17,7 +22,9 @@ p:
 # pdf via bypass rst
 # the display of the mathematical equations relies on Python's `matplotlib`
 rst:
-	pandoc pandoc_md.md  -s -o ex_rst.rst --number-sections --toc --columns 100
+	pandoc pandoc_md.md  -s -o ex_rst.rst \
+		--number-sections --toc \
+		--columns 100  # better than either 80 character default, or a --wrap=none
 
 	# corrections to the rst file eventually used:
 	# rst2pdf is unaware of LaTeX amsmath \text{} command: (but rst2pdf does)
@@ -26,7 +33,7 @@ rst:
 	sed -i "s/.. _\`sec:\S*//" ex_rst.rst  # root of back links below a section
 	sed -i "s/<#sec:\S*__/A/" ex_rst.rst  # use of the links in the text
 
-	rst2pdf -s serif ex_rst.rst --footer=###Page### --smart-quotes=1 \
+	rst2pdf -s serif,tango ex_rst.rst --footer=###Page### --smart-quotes=1 \
 		--disable-splittables --repeat-table-rows --date-invariant \
 		--default-dpi 300
 	rm ex_rst.rst
@@ -40,8 +47,11 @@ tex:
 
 # export to groff ms
 g:
-	pandoc pandoc_md.md --from markdown -s -o ex_groff.ms
+	pandoc pandoc_md.md --from markdown -s -o ex_groff.ms \
+		--number-sections --toc \
+		--highlight-style tango
 
+	groff -e -t -t -ms -Tpdf ex_groff.ms > ex_groff.pdf
 	# manually continue with this sequence
 	#
 	# 1. ensure illustrations are present e.g., as a .pdf (else default to .eps)
