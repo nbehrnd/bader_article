@@ -14,62 +14,56 @@
 \l'20'
 ..
 .\" * Syntax highlighting macros
+.defcolor f8f8f8 rgb #f8f8f8
 .defcolor aaaaaa rgb #aaaaaa
-.defcolor 007020 rgb #007020
-.defcolor 902000 rgb #902000
-.defcolor 40a070 rgb #40a070
-.defcolor 880000 rgb #880000
-.defcolor 4070a0 rgb #4070a0
-.defcolor bb6688 rgb #bb6688
-.defcolor 008000 rgb #008000
-.defcolor 60a0b0 rgb #60a0b0
-.defcolor ba2121 rgb #ba2121
-.defcolor 06287e rgb #06287e
-.defcolor 19177c rgb #19177c
-.defcolor 666666 rgb #666666
-.defcolor bc7a00 rgb #bc7a00
-.defcolor 7d9029 rgb #7d9029
-.defcolor ff0000 rgb #ff0000
-.ds KeywordTok \&\\m[007020]\\f[CB]\\$1\\f[C]\\m[]
-.ds DataTypeTok \&\\m[902000]\\$1\\m[]
-.ds DecValTok \&\\m[40a070]\\$1\\m[]
-.ds BaseNTok \&\\m[40a070]\\$1\\m[]
-.ds FloatTok \&\\m[40a070]\\$1\\m[]
-.ds ConstantTok \&\\m[880000]\\$1\\m[]
-.ds CharTok \&\\m[4070a0]\\$1\\m[]
-.ds SpecialCharTok \&\\m[4070a0]\\$1\\m[]
-.ds StringTok \&\\m[4070a0]\\$1\\m[]
-.ds VerbatimStringTok \&\\m[4070a0]\\$1\\m[]
-.ds SpecialStringTok \&\\m[bb6688]\\$1\\m[]
-.ds ImportTok \&\\m[008000]\\f[CB]\\$1\\f[C]\\m[]
-.ds CommentTok \&\\m[60a0b0]\\f[CI]\\$1\\f[C]\\m[]
-.ds DocumentationTok \&\\m[ba2121]\\f[CI]\\$1\\f[C]\\m[]
-.ds AnnotationTok \&\\m[60a0b0]\\f[CBI]\\$1\\f[C]\\m[]
-.ds CommentVarTok \&\\m[60a0b0]\\f[CBI]\\$1\\f[C]\\m[]
-.ds OtherTok \&\\m[007020]\\$1\\m[]
-.ds FunctionTok \&\\m[06287e]\\$1\\m[]
-.ds VariableTok \&\\m[19177c]\\$1\\m[]
-.ds ControlFlowTok \&\\m[007020]\\f[CB]\\$1\\f[C]\\m[]
-.ds OperatorTok \&\\m[666666]\\$1\\m[]
-.ds BuiltInTok \&\\m[008000]\\$1\\m[]
+.defcolor 204a87 rgb #204a87
+.defcolor 0000cf rgb #0000cf
+.defcolor 8f5902 rgb #8f5902
+.defcolor 4e9a06 rgb #4e9a06
+.defcolor ce5c00 rgb #ce5c00
+.defcolor 000000 rgb #000000
+.defcolor ef2929 rgb #ef2929
+.defcolor a40000 rgb #a40000
+.ds KeywordTok \&\\m[204a87]\\f[CB]\\$1\\f[C]\\m[]
+.ds DataTypeTok \&\\m[204a87]\\$1\\m[]
+.ds DecValTok \&\\m[0000cf]\\$1\\m[]
+.ds BaseNTok \&\\m[0000cf]\\$1\\m[]
+.ds FloatTok \&\\m[0000cf]\\$1\\m[]
+.ds ConstantTok \&\\m[8f5902]\\$1\\m[]
+.ds CharTok \&\\m[4e9a06]\\$1\\m[]
+.ds SpecialCharTok \&\\m[ce5c00]\\f[CB]\\$1\\f[C]\\m[]
+.ds StringTok \&\\m[4e9a06]\\$1\\m[]
+.ds VerbatimStringTok \&\\m[4e9a06]\\$1\\m[]
+.ds SpecialStringTok \&\\m[4e9a06]\\$1\\m[]
+.ds ImportTok \&\\$1
+.ds CommentTok \&\\m[8f5902]\\f[CI]\\$1\\f[C]\\m[]
+.ds DocumentationTok \&\\m[8f5902]\\f[CBI]\\$1\\f[C]\\m[]
+.ds AnnotationTok \&\\m[8f5902]\\f[CBI]\\$1\\f[C]\\m[]
+.ds CommentVarTok \&\\m[8f5902]\\f[CBI]\\$1\\f[C]\\m[]
+.ds OtherTok \&\\m[8f5902]\\$1\\m[]
+.ds FunctionTok \&\\m[204a87]\\f[CB]\\$1\\f[C]\\m[]
+.ds VariableTok \&\\m[000000]\\$1\\m[]
+.ds ControlFlowTok \&\\m[204a87]\\f[CB]\\$1\\f[C]\\m[]
+.ds OperatorTok \&\\m[ce5c00]\\f[CB]\\$1\\f[C]\\m[]
+.ds BuiltInTok \&\\$1
 .ds ExtensionTok \&\\$1
-.ds PreprocessorTok \&\\m[bc7a00]\\$1\\m[]
-.ds AttributeTok \&\\m[7d9029]\\$1\\m[]
+.ds PreprocessorTok \&\\m[8f5902]\\f[CI]\\$1\\f[C]\\m[]
+.ds AttributeTok \&\\m[204a87]\\$1\\m[]
 .ds RegionMarkerTok \&\\$1
-.ds InformationTok \&\\m[60a0b0]\\f[CBI]\\$1\\f[C]\\m[]
-.ds WarningTok \&\\m[60a0b0]\\f[CBI]\\$1\\f[C]\\m[]
-.ds AlertTok \&\\m[ff0000]\\f[CB]\\$1\\f[C]\\m[]
-.ds ErrorTok \&\\m[ff0000]\\f[CB]\\$1\\f[C]\\m[]
+.ds InformationTok \&\\m[8f5902]\\f[CBI]\\$1\\f[C]\\m[]
+.ds WarningTok \&\\m[8f5902]\\f[CBI]\\$1\\f[C]\\m[]
+.ds AlertTok \&\\m[ef2929]\\$1\\m[]
+.ds ErrorTok \&\\m[a40000]\\f[CB]\\$1\\f[C]\\m[]
 .ds NormalTok \&\\$1
 .\" **** Settings *************************************************
 .\" text width
-.nr LL 5.5i
+.nr LL 16c
 .\" left margin
-.nr PO 1.25i
+.nr PO 2.5c
 .\" top margin
-.nr HM 1.25i
+.nr HM 2.5c
 .\" bottom margin
-.nr FM 1.25i
+.nr FM 1.5c
 .\" header/footer width
 .nr LT \n[LL]
 .\" point size
@@ -77,6 +71,7 @@
 .\" line height
 .nr VS 12p
 .\" font family: A, BM, H, HN, N, P, T, ZCM
+.\" fam P
 .fam P
 .\" paragraph indent
 .nr PI 0m
@@ -108,22 +103,23 @@
 .pdfview /PageMode /UseOutlines
 .\" ***************************************************************
 .\" PDF metadata
-.pdfinfo /Title "Putting Fortran\[aq]s object\-related features to practical use"
-.pdfinfo /Author "Reinhold Bader (1966 \- 2024)"
+.pdfinfo /Title "Putting Fortran\[cq]s object\-related features to practical use"
+.pdfinfo /Author "Reinhold Bader (1966\[en]2024)"
 .hy
 .EQ
 delim @@
 .EN
 .TL
-Putting Fortran\[aq]s object\-related features to practical use
+Putting Fortran\[cq]s object\-related features to practical use
 .AU
-Reinhold Bader (1966 \- 2024)
+Reinhold Bader (1966\[en]2024)
 .AU
 .sp 0.5
 .ft R
 2024
 .\" 1 column (use .2C for two column)
 .1C
+.if t .ds mp \fR|\\h’-0.4m’\\[->]\fP
 .LP
 This article describes how advanced Fortran language features can be
 applied toward object\-based and object\-oriented programming
@@ -149,12 +145,12 @@ Oxford University Press.
 See also \c
 .pdfhref W -D "https://en.wikipedia.org/wiki/Fortran_95_language_features" -A "\c" \
  -- "Fortran 95 language features"
-\& for the language\[aq]s fundamentals; the prerequisite for
+\& for the language\[cq]s fundamentals; the prerequisite for
 understanding this article is that features explained there are well
 understood.
 .PP
 Boldface will be used where term definitions are introduced.
-They are additionally annotated by \[dq](not a Fortran term)\[dq] or
+They are additionally annotated by \[lq](not a Fortran term)\[rq] or
 similar if the term is not used in the Fortran standard itself, but is
 in general use in the technical literature.
 .PP
@@ -162,22 +158,30 @@ Compilable and runnable example code is available from an external \c
 .pdfhref W -D "https://github.com/reinh-bader/object_fortran" -A "\c" \
  -- "Github repository"
 \&.
-.SH 1
+.NH 1
 Object\-based programming techniques
-.pdfhref O 1 "Object-based programming techniques"
-.pdfhref M "object-based-programming-techniques"
-.SH 1
+.pdfhref O 1 "\*[SN]  Object-based programming techniques"
+.pdfhref M "sec:oop_techniques"
+.XS
+.pdfhref L -D "sec:oop_techniques" \
+ -- "	\*[SN]\~\~Object\-based programming techniques"
+.XE
+.NH 1
 Introduction: Container\-like types
-.pdfhref O 1 "Introduction: Container-like types"
+.pdfhref O 1 "\*[SN]  Introduction: Container-like types"
 .pdfhref M "introduction-container-like-types"
+.XS
+.pdfhref L -D "introduction-container-like-types" \
+ -- "	\*[SN]\~\~Introduction: Container\-like types"
+.XE
 .LP
-The word \[dq]Container\-like\[dq] is not a Fortran term, but used in
+The word \[lq]Container\-like\[rq] is not a Fortran term, but used in
 the context of this article to designate types with components whose
 size (or type, to be discussed later) is not known when the type is
 declared.
 For deferred sizing of array objects, this can be achieved by using
 either the \f[CR]POINTER\f[R] or the \f[CR]ALLOCATABLE\f[R] attribute
-for the component\[aq]s specification.
+for the component\[cq]s specification.
 .PP
 The language features and programming techniques will be shown using two
 examples introduced in the following section.
@@ -186,14 +190,22 @@ The demonstration codes for this chapter can be found in the
 .pdfhref W -D "https://github.com/reinh-bader/object_fortran" -A "\c" \
  -- "Github repository"
 \&.
-.SH 1
+.NH 1
 Examples for definitions of container\-like types
-.pdfhref O 1 "Examples for definitions of container-like types"
+.pdfhref O 1 "\*[SN]  Examples for definitions of container-like types"
 .pdfhref M "examples-for-definitions-of-container-like-types"
-.SH 2
+.XS
+.pdfhref L -D "examples-for-definitions-of-container-like-types" \
+ -- "	\*[SN]\~\~Examples for definitions of container\-like types"
+.XE
+.NH 2
 Allocatable components
-.pdfhref O 2 "Allocatable components"
+.pdfhref O 2 "\*[SN]  Allocatable components"
 .pdfhref M "allocatable-components"
+.XS
+.pdfhref L -D "allocatable-components" \
+ -- "		\*[SN]\~\~Allocatable components"
+.XE
 .LP
 As an example for the type definition of a \f[B]value container\f[R]
 (not a Fortran term) with an \f[CR]ALLOCATABLE\f[R] component consider
@@ -217,7 +229,7 @@ An object declared to be of this type
 .LP
 is suitable for characterization of a polynomial
 .PP
-@p left ( x right ) = sum sub {k = 0} sup {d e g r e e} a sub k \[u22C5] x sup k fwd 100 left ( x \[u2208] \[u211C] right )@
+@p left ( x right ) = sum sub {k = 0} sup {roman "degree"} a sub k \[u22C5] x sup k fwd 100 left ( x \[u2208] \[u211C] right )@
 .PP
 once it has been created and subsequently supplied with values of the
 coefficients:
@@ -229,10 +241,14 @@ coefficients:
 \*[NormalTok "p"]\*[OperatorTok "%"]\*[NormalTok "a("]\*[DecValTok "0"]\*[NormalTok ":) "]\*[KeywordTok "="]\*[NormalTok " ..."]
 \f[]
 .fi
-.SH 2
+.NH 2
 Pointer components
-.pdfhref O 2 "Pointer components"
+.pdfhref O 2 "\*[SN]  Pointer components"
 .pdfhref M "pointer-components"
+.XS
+.pdfhref L -D "pointer-components" \
+ -- "		\*[SN]\~\~Pointer components"
+.XE
 .LP
 As an example for the type definition of a \f[B]reference container\f[R]
 (not a Fortran term) with a \f[CR]POINTER\f[R] component consider
@@ -251,7 +267,7 @@ Note that referencing the type itself when declaring a component is
 permitted if that component has the \f[CR]POINTER\f[R] or
 \f[CR]ALLOCATABLE\f[R] attribute; such types are generally known as
 \f[B]recursive\f[R].
-They are used to represent information structures (lists, trees, ...),
+They are used to represent information structures (lists, trees, \&...),
 often with specific relationships between the individual data entries
 stored in each node.
 In this example, the assumption is that entries of type \f[CR]data\f[R]
@@ -270,8 +286,8 @@ functionality supplied with that type:
 \f[]
 .fi
 .LP
-Given that Fortran supports arrays, use of simple linked lists is in
-most cases inappropriate.
+\f[I]Hint:\f[R] Given that Fortran supports arrays, use of simple linked
+lists is in most cases inappropriate.
 The example is presented here as being the simplest that permits
 illustrating the language features of interest.
 .PP
@@ -300,10 +316,14 @@ executing the following statements:
 However, as we shall see below, setting up a complete and valid
 \f[CR]sorted_list\f[R] object in a reliable manner needs additional
 work.
-.SH 1
+.NH 1
 Constructing objects of container\-like type
-.pdfhref O 1 "Constructing objects of container-like type"
+.pdfhref O 1 "\*[SN]  Constructing objects of container-like type"
 .pdfhref M "constructing-objects-of-container-like-type"
+.XS
+.pdfhref L -D "constructing-objects-of-container-like-type" \
+ -- "	\*[SN]\~\~Constructing objects of container\-like type"
+.XE
 .LP
 The semantics of the default structure constructor for container\-like
 objects needs to account for any additional \f[CR]POINTER\f[R] or
@@ -349,7 +369,7 @@ attribute.
 Also, \f[B]keyword notation\f[R] can be used in structure constructors
 in the same manner as for procedure arguments.
 .PP
-The default constructor\[aq]s behaviour has some properties that one
+The default constructor\[cq]s behaviour has some properties that one
 needs to be aware of:
 .IP " 1." 4
 If all type components have the \f[CR]PRIVATE\f[R] attribute i.e., the
@@ -421,7 +441,7 @@ and the implementation of \f[CR]create_polynomial\f[R] (in the
 \f[]
 .fi
 .LP
-Because its signature matches the default structure constructor\[aq]s,
+Because its signature matches the default structure constructor\[cq]s,
 the function actually overrides the default constructor, making it
 generally unavailable.
 .PP
@@ -458,10 +478,14 @@ with the implementation of \f[CR]create_sorted_list\f[R] as follows:
 The constructor has a signature that differs from that of the default
 one, but the latter is unavailable outside the host scope of the type
 definition anyway, due to the opacity of \f[CR]sorted_list\f[R].
-.SH 1
+.NH 1
 Copying objects of container\-like type
-.pdfhref O 1 "Copying objects of container-like type"
+.pdfhref O 1 "\*[SN]  Copying objects of container-like type"
 .pdfhref M "copying-objects-of-container-like-type"
+.XS
+.pdfhref L -D "copying-objects-of-container-like-type" \
+ -- "	\*[SN]\~\~Copying objects of container\-like type"
+.XE
 .LP
 Default assignment extends to container\-like objects.
 For objects declared as
@@ -513,18 +537,18 @@ produces the same result as
 The terms \f[B]deep copy\f[R] and \f[B]shallow copy\f[R] (neither are
 Fortran terms) are sometimes used to describe the above behaviour for
 \f[CR]ALLOCATABLE\f[R] and \f[CR]POINTER\f[R] components, respectively.
-Note that \[en] different from the default structure constructor \[en]
-having \f[CR]PRIVATE\f[R] components does not affect the use of default
+Note that \- different from the default structure constructor \- having
+\f[CR]PRIVATE\f[R] components does not affect the use of default
 assigment.
 However, the semantics of default assignment might not be what is needed
-from the programmer\[aq]s point of view.
+from the programmer\[cq]s point of view.
 .PP
 Specifically, consider the case where the object \f[CR]slq\f[R] above
 has previously been set up by invoking the overloaded constructor.
 The assignment above would then have the following effects:
 .IP " 1." 4
 The list elements of the original \f[CR]slq\f[R], beginning with
-\f[CR]slq%next\f[R], would become inaccessible (\[dq]orphaned\[dq]),
+\f[CR]slq%next\f[R], would become inaccessible (\[lq]orphaned\[rq]),
 effectively causing a memory leak;
 .IP " 2." 4
 after the assignment statement, \f[CR]slq%next\f[R] references into
@@ -536,7 +560,7 @@ To avoid 2., it is possible to \c
 \& for reference containers to create a deep copy.
 Note that in the case where defined unary or binary operations are
 introduced, the functions that define these need to create deep copies
-to create the result variable anyway, otherwise things simply don\[aq]t
+to create the result variable anyway, otherwise things simply don\[cq]t
 work.
 The downside of this is that in code like
 .IP
@@ -546,7 +570,7 @@ The downside of this is that in code like
 \f[]
 .fi
 .LP
-\[rs]\[en] with the overloaded concatenation operator meaning that the
+\ \[en] with the overloaded concatenation operator meaning that the
 argument lists are joined \[en] multiple deep copies need to be done
 (the implementation of the module procedure \f[CR]join_lists\f[R] that
 supplies the necessary specific for \f[CR]//\f[R] is not shown here; see
@@ -585,13 +609,17 @@ is usually done by means of finalizers, to be discussed in the next
 section.
 This is because assignment is not the only possible cause for orphaning
 of \f[CR]POINTER\f[R]\-related memory (or indeed other resource leaks).
-.SH 1
+.NH 1
 Finalization and conclusions
-.pdfhref O 1 "Finalization and conclusions"
+.pdfhref O 1 "\*[SN]  Finalization and conclusions"
 .pdfhref M "finalization-and-conclusions"
+.XS
+.pdfhref L -D "finalization-and-conclusions" \
+ -- "	\*[SN]\~\~Finalization and conclusions"
+.XE
 .LP
 To deal with resource leaks that are otherwise not within the
-programmer\[aq]s means to avoid, a type definition can be connected with
+programmer\[cq]s means to avoid, a type definition can be connected with
 a user\-defined \f[B]final procedure\f[R] that is automatically invoked
 in certain situations.
 For the \f[CR]sorted_list\f[R] type, this would look like
@@ -611,7 +639,7 @@ For the \f[CR]sorted_list\f[R] type, this would look like
 Note that the \f[CR]FINAL\f[R] statement appears after a
 \f[CR]CONTAINS\f[R] statement in the type definition; this implies that
 \f[CR]delete_sorted_list\f[R] is not a regular type component.
-The module procedure\[aq]s implementation might then be as follows:
+The module procedure\[cq]s implementation might then be as follows:
 .IP
 .nf
 \f[C]
@@ -632,12 +660,12 @@ for the case of finalizing array arguments it is possible to have a set
 of finalizers (all listed in the type definition), each of which
 declares the dummy argument with an appropriate rank.
 .PP
-The \f[CR]PURE\f[R] and \f[CR]RECURSIVE\f[R] properties specified above
-reflect the specific needs for the \f[CR]sorted_list\f[R] type and its
-associated procedures.
+\f[I]Hint:\f[R] The \f[CR]PURE\f[R] and \f[CR]RECURSIVE\f[R] properties
+specified above reflect the specific needs for the
+\f[CR]sorted_list\f[R] type and its associated procedures.
 The \f[CR]RECURSIVE\f[R] specification is optional (i.e., procedures can
 be called recursively by default), but a \f[CR]NON_RECURSIVE\f[R]
-specification can be supplied if the implementation\[aq]s semantics does
+specification can be supplied if the implementation\[cq]s semantics does
 not permit correct behaviour in recursive calls.
 .PP
 The finalizer will be automatically invoked on an object if
@@ -672,18 +700,26 @@ Finalizers, overloads for the default constructor, and overload of the
 assignment operation should usually be jointly implemented.
 .QE
 .LP
-See also the article \[dq]\c
+See also the article \[lq]\c
 .pdfhref W -D "https://en.wikipedia.org/wiki/Rule_of_three_(C%2B%2B_programming)" -A "\c" \
  -- "Rule of three"
-\&\[dq] for the analogous situation in C++.
-.SH 1
+\&\[rq] for the analogous situation in C++.
+.NH 1
 Further language features useful for object\-based programming
-.pdfhref O 1 "Further language features useful for object-based programming"
+.pdfhref O 1 "\*[SN]  Further language features useful for object-based programming"
 .pdfhref M "further-language-features-useful-for-object-based-programming"
-.SH 2
+.XS
+.pdfhref L -D "further-language-features-useful-for-object-based-programming" \
+ -- "	\*[SN]\~\~Further language features useful for object\-based programming"
+.XE
+.NH 2
 Extended semantics for allocatable objects
-.pdfhref O 2 "Extended semantics for allocatable objects"
+.pdfhref O 2 "\*[SN]  Extended semantics for allocatable objects"
 .pdfhref M "extended-semantics-for-allocatable-objects"
+.XS
+.pdfhref L -D "extended-semantics-for-allocatable-objects" \
+ -- "		\*[SN]\~\~Extended semantics for allocatable objects"
+.XE
 .LP
 Scalars can have the \f[CR]ALLOCATABLE\f[R] attribute:
 .IP
@@ -734,13 +770,17 @@ strings, arrays) a non\-conformable left\-hand side in an assignment
 statement will be deallocated before being allocated to the right length
 or shape, respectively.
 .PP
-The features discussed in this subsection are also useful for
-object\-oriented programming, with additional semantics applying for the
-case of polymorphic objects.
-.SH 2
+\f[I]Hint:\f[R] The features discussed in this subsection are also
+useful for object\-oriented programming, with additional semantics
+applying for the case of polymorphic objects.
+.NH 2
 Implementing move semantics
-.pdfhref O 2 "Implementing move semantics"
+.pdfhref O 2 "\*[SN]  Implementing move semantics"
 .pdfhref M "implementing-move-semantics"
+.XS
+.pdfhref L -D "implementing-move-semantics" \
+ -- "		\*[SN]\~\~Implementing move semantics"
+.XE
 .LP
 Sometimes it may be necessary to make use of move instead of copy
 semantics i.e., create a copy of an object and then getting rid of the
@@ -754,7 +794,7 @@ array) objects,
 \f[]
 .fi
 .LP
-After \f[CR]your_list\f[R] has been set up, the object\[aq]s content can
+After \f[CR]your_list\f[R] has been set up, the object\[cq]s content can
 then be transferred to \f[CR]my_list\f[R] by using the
 \f[CR]move_alloc\f[R] intrinsic,
 .IP
@@ -772,10 +812,14 @@ the deallocated state.
 Note that the latter does not involve a regular object deallocation
 (effectively, a descriptor for the object is moved), so any existing
 finalizer will not be invoked.
-.SH 2
+.NH 2
 The \f[CB]BLOCK\f[B] construct
-.pdfhref O 2 "The BLOCK construct"
+.pdfhref O 2 "\*[SN]  The BLOCK construct"
 .pdfhref M "the-block-construct"
+.XS
+.pdfhref L -D "the-block-construct" \
+ -- "		\*[SN]\~\~The \f[CB]BLOCK\f[B] construct"
+.XE
 .LP
 The above rules on finalization imply that variables declared in the
 specification part of the main program are not finalizable, since they
@@ -814,14 +858,18 @@ point, if applicable.
 Named variables declared outside the construct are accessible inside it,
 unless a block\-local declaration with the same name exists.
 .PP
-Note that the construct\[aq]s execution flow can be modified by
-executing an \f[CR]EXIT\f[R] statement in its body; this can, for
-example, be used for structured error handling and finally permits
-sending \f[CR]GO TO\f[R] to retirement.
-.SH 2
+\f[I]Hint:\f[R] Note that the construct\[cq]s execution flow can be
+modified by executing an \f[CR]EXIT\f[R] statement in its body; this
+can, for example, be used for structured error handling and finally
+permits sending \f[CR]GO TO\f[R] to retirement.
+.NH 2
 The \f[CB]ASSOCIATE\f[B] construct
-.pdfhref O 2 "The ASSOCIATE construct"
+.pdfhref O 2 "\*[SN]  The ASSOCIATE construct"
 .pdfhref M "the-associate-construct"
+.XS
+.pdfhref L -D "the-associate-construct" \
+ -- "		\*[SN]\~\~The \f[CB]ASSOCIATE\f[B] construct"
+.XE
 .LP
 With the introduction of deeply nested derived types, code that needs
 access to ultimate components can become quite hard to read.
@@ -870,10 +918,14 @@ argument if the latter is present.
 Associate names can also appear in other block constructs
 (\f[CR]SELECT TYPE\f[R], \f[CR]CHANGE TEAM\f[R]), which will be
 discussed where appropriate.
-.SH 1
+.NH 1
 Performing I/O with objects of container\-like type
-.pdfhref O 1 "Performing I/O with objects of container-like type"
+.pdfhref O 1 "\*[SN]  Performing I/O with objects of container-like type"
 .pdfhref M "performing-io-with-objects-of-container-like-type"
+.XS
+.pdfhref L -D "performing-io-with-objects-of-container-like-type" \
+ -- "	\*[SN]\~\~Performing I/O with objects of container\-like type"
+.XE
 .LP
 For objects of container\-like type, a data transfer statement
 .IP
@@ -926,7 +978,7 @@ interpretation:
 \f[CR]READ(unformatted)\f[R]
 .LP
 The self\-defined procedure is restricted with respect to its
-interfaces\[aq] characteristics, which are described in the following:
+interfaces\[cq] characteristics, which are described in the following:
 .IP
 .nf
 \f[C]
@@ -939,25 +991,24 @@ The placeholders \f[CR]<formatted_io>\f[R] and
 \f[CR]<unformatted_io>\f[R] must be replaced by a specific procedure
 name referenced in the generic interface.
 .PP
-The dummy arguments\[aq] declarations and meaning are:
+The dummy arguments\[cq] declarations and meaning are:
 .IP \[bu] 3
 \f[CR]dtv\f[R]: Must be declared to be a nonpointer nonallocatable
 scalar of the type in question.
 If the type is extensible (to be explained later), the declaration must
-be polymorphic (i.e.
-using \f[CR]CLASS\f[R]), otherwise non\-polymorphic (using
-\f[CR]TYPE\f[R]).
+be polymorphic (i.e.\ using \f[CR]CLASS\f[R]), otherwise
+non\-polymorphic (using \f[CR]TYPE\f[R]).
 Its \f[CR]INTENT\f[R] must be \f[CR]in\f[R] for \f[CR]WRITE(...)\f[R],
-and \[dq]\f[CR]out\f[R]\[dq] or \[dq]\f[CR]inout\f[R]\[dq] for
+and \[lq]\f[CR]out\f[R]\[rq] or \[lq]\f[CR]inout\f[R]\[rq] for
 \f[CR]READ(...)\f[R].
 It represents the object on which data transfer statements are to be
 executed.
 .RS 3
 .PP
-Note: For the examples in this chapter, we need to use \f[CR]CLASS\f[R],
-but the behaviour is as if \f[CR]TYPE\f[R] were used, as long as the
-actual arguments are non\-polymorphic and the procedure\-based interface
-is used for the invocation.
+\f[I]Hint:\f[R] Note: For the examples in this chapter, we need to use
+\f[CR]CLASS\f[R], but the behaviour is as if \f[CR]TYPE\f[R] were used,
+as long as the actual arguments are non\-polymorphic and the
+procedure\-based interface is used for the invocation.
 .RE
 .IP \[bu] 3
 \f[CR]unit\f[R]: An \f[CR]INTEGER\f[R] scalar with
@@ -973,9 +1024,10 @@ The following table describes how the incoming value relates to the
 parent I/O transfer statement:
 .PP
 .na
+.nr LLold \n[LL]
 .TS
 delim(@@) tab(	);
-l l.
+lw(25n) lw(64.5n).
 T{
 Value
 T}	T{
@@ -983,22 +1035,28 @@ Caused by parent I/O statement
 T}
 _
 T{
+.nr LL 20.0n
 \f[CR]\[dq]LISTDIRECTED\[dq]\f[R]
 T}	T{
+.nr LL 50.0n
 \f[CR]WRITE(unit, fmt=*) my_list\f[R]
 T}
 T{
+.nr LL 20.0n
 \f[CR]\[dq]NAMELIST\[dq]\f[R]
 T}	T{
+.nr LL 50.0n
 \f[CR]WRITE(unit, nml=my_namelist)\f[R] \f[B]Note:\f[R] Referring to the
 example, at least one \f[CR]sorted_list\f[R] object must be a member of
 \f[CR]my_namelist\f[R].
 T}
 T{
+.nr LL 20.0n
 \f[CR]\[dq]DTsorted_list_fmt\[dq]\f[R]
 T}	T{
+.nr LL 50.0n
 \f[CR]WRITE(unit, fmt=\[aq](DT\[dq]sorted_list_fmt\[dq](10,2))\[aq]) my_list\f[R]
-\f[B]Note:\f[R] \f[CR]DT\f[R] is the \[dq]derived type\[dq] edit
+\f[B]Note:\f[R] \f[CR]DT\f[R] is the \[lq]derived type\[rq] edit
 descriptor that is needed in format\-driven editing to trigger execution
 of the UDDTIO routine.
 The string following the \f[CR]DT\f[R] edit descriptor can be freely
@@ -1007,6 +1065,7 @@ procedure pay attention to any possible values supplied in the parent
 I/O statement if it supports DT editing.
 T}
 .TE
+.nr LL \n[LLold]
 .ad
 .IP \[bu] 3
 \f[CR]v_list\f[R]: A rank\-1 assumed\-shape \f[CR]INTEGER\f[R] array
@@ -1017,7 +1076,7 @@ edit descriptor; in the example from the table above it would have the
 value \f[CR][10,2]\f[R].
 Free use can be made of the value for the disposition (formatting,
 controlling) of I/O transfer statements inside the procedure.
-The array\[aq]s size may be zero; specifically, it will be of size zero
+The array\[cq]s size may be zero; specifically, it will be of size zero
 for the listdirected or namelist cases.
 .IP \[bu] 3
 \f[CR]iostat\f[R]: An \f[CR]INTEGER\f[R] scalar with
@@ -1094,14 +1153,22 @@ The example implementation does not support \f[CR]DT\f[R] editing;
 invoking the parent I/O statement from the above table would therefore
 cause error termination unless an \f[CR]iostat=\f[R] argument is added
 to it.
-.SH 1
+.NH 1
 Object\-oriented programming techniques
-.pdfhref O 1 "Object-oriented programming techniques"
+.pdfhref O 1 "\*[SN]  Object-oriented programming techniques"
 .pdfhref M "object-oriented-programming-techniques"
-.SH 1
+.XS
+.pdfhref L -D "object-oriented-programming-techniques" \
+ -- "	\*[SN]\~\~Object\-oriented programming techniques"
+.XE
+.NH 1
 Introduction: Establishing an explicit relationship between types
-.pdfhref O 1 "Introduction: Establishing an explicit relationship between types"
+.pdfhref O 1 "\*[SN]  Introduction: Establishing an explicit relationship between types"
 .pdfhref M "introduction-establishing-an-explicit-relationship-between-types"
+.XS
+.pdfhref L -D "introduction-establishing-an-explicit-relationship-between-types" \
+ -- "	\*[SN]\~\~Introduction: Establishing an explicit relationship between types"
+.XE
 .LP
 The discussion on object\-based program design in the previous chapter
 was based on creating derived types that are comprised of objects of
@@ -1117,10 +1184,14 @@ in the \f[CR]object_oriented\f[R] subfolder of the \c
 .pdfhref W -D "https://github.com/reinh-bader/object_fortran" -A "\c" \
  -- "Github repository"
 \&
-.SH 1
+.NH 1
 Extension types
-.pdfhref O 1 "Extension types"
+.pdfhref O 1 "\*[SN]  Extension types"
 .pdfhref M "extension-types"
+.XS
+.pdfhref L -D "extension-types" \
+ -- "	\*[SN]\~\~Extension types"
+.XE
 .LP
 As a starting point, consider the definition of a type, an object of
 which can quite generally represent a physical body:
@@ -1224,23 +1295,33 @@ structure constructor can be used to create a defined value:
 Any derived type that does not have the \f[CR]SEQUENCE\f[R] or
 \f[CR]BIND(C)\f[R] attributes can be extended in the above manner;
 specifically, an extension type can itself be extended.
-For any given \[dq]base\[dq] type this gives rise to a potential
+For any given \[lq]base\[rq] type this gives rise to a potential
 hierarchy of types that can be represented by a directed acyclical
 graph:
-.PS
-.PDFPIC -C Inheritance_diagram.pdf
-.PE
+.PDFPIC ./images/Inheritance_diagram.pdf 3i
+.QP
+\ 
+
+.LP
 An object of type \f[CR]body\f[R] is \f[B]type compatible\f[R] with both
 \f[CR]a_proton\f[R] and \f[CR]a_mutilated_proton\f[R], so any of these
 two can, for example, appear in a call to the procedure \f[CR]kick\f[R].
-.SH 1
+.NH 1
 Polymorphism
-.pdfhref O 1 "Polymorphism"
+.pdfhref O 1 "\*[SN]  Polymorphism"
 .pdfhref M "polymorphism"
-.SH 2
+.XS
+.pdfhref L -D "polymorphism" \
+ -- "	\*[SN]\~\~Polymorphism"
+.XE
+.NH 2
 Declaring entities with \f[CB]CLASS\f[B]
-.pdfhref O 2 "Declaring entities with CLASS"
+.pdfhref O 2 "\*[SN]  Declaring entities with CLASS"
 .pdfhref M "declaring-entities-with-class"
+.XS
+.pdfhref L -D "declaring-entities-with-class" \
+ -- "		\*[SN]\~\~Declaring entities with \f[CB]CLASS\f[B]"
+.XE
 .LP
 By declaring an object with the \f[CR]CLASS\f[R] instead of the
 \f[CR]TYPE\f[R] specifier, is is possible to defer the actual type that
@@ -1271,19 +1352,23 @@ allocatable object
 causes the object \f[CR]a_polymorphic_body\f[R] that has the
 \f[B]declared\f[R] type \f[CR]body\f[R] to be allocated with the
 \f[B]dynamic\f[R] type \f[CR]charged_body\f[R]; in Fortran nomenclature,
-the latter term denotes what was referred to above as \[dq]actual\[dq]
+the latter term denotes what was referred to above as \[lq]actual\[rq]
 type.
 .PP
-For an unallocated allocatable or a disassociated pointer the dynamic
-type is considered to be the same as the declared type, although this is
-only useful in very few contexts that do not require the object to be
-allocated or associated.
-.SH 2
+\f[I]Hint:\f[R] For an unallocated allocatable or a disassociated
+pointer the dynamic type is considered to be the same as the declared
+type, although this is only useful in very few contexts that do not
+require the object to be allocated or associated.
+.NH 2
 Run\-time type and class identification
-.pdfhref O 2 "Run-time type and class identification"
+.pdfhref O 2 "\*[SN]  Run-time type and class identification"
 .pdfhref M "run-time-type-and-class-identification"
+.XS
+.pdfhref L -D "run-time-type-and-class-identification" \
+ -- "		\*[SN]\~\~Run\-time type and class identification"
+.XE
 .LP
-Within the scope of the object\[aq]s declaration, only the components of
+Within the scope of the object\[cq]s declaration, only the components of
 its declared type are accessible.
 Also, I/O operations on a polymorphic object are not permitted, unless
 UDDTIO routines have been defined.
@@ -1307,7 +1392,7 @@ For example, the I/O statements in
 .LP
 are permitted, since inside the block for each \f[B]type guard\f[R] the
 object is non\-polymorphic and of the specified type.
-At most one type guard can match the object\[aq]s type, and the
+At most one type guard can match the object\[cq]s type, and the
 corresponding statements are executed; otherwise the
 \f[CR]CLASS default\f[R] section is executed (and the object remains
 polymorphic there).
@@ -1334,8 +1419,8 @@ For updates of the \f[CR]charge\f[R] component of a
 .LP
 However, invoking this subroutine in the usual Fortran 95 style will not
 work for the variable \f[CR]a_polymorphic_body\f[R], since it violates
-the rule that the dummy argument\[aq]s declared type must be type
-compatible with the actual argument\[aq]s declared type.
+the rule that the dummy argument\[cq]s declared type must be type
+compatible with the actual argument\[cq]s declared type.
 One can work around this by using a \f[CR]SELECT TYPE\f[R] construct
 with \f[B]run\-time class identification\f[R] (not a Fortran term),
 based on writing \f[B]class guards\f[R] instead of type guards:
@@ -1356,19 +1441,23 @@ type of \f[CR]a_polymorphic_body\f[R] is \f[CR]charged_body\f[R] or an
 extension of it.
 The object remains polymorphic inside the class guard, only its declared
 type changes to that specified in the guard.
-Unless the \[dq]lifted\[dq] declared type of interest is already
+Unless the \[lq]lifted\[rq] declared type of interest is already
 otherwise known from the context, or handling the
 \f[CR]CLASS default\f[R] fall\-through is straightforward, this is not
 in general a desirable way of dealing with class mismatches.
 .PP
-It is permitted to mix type and class guards in a \f[CR]SELECT TYPE\f[R]
-construct; in that case, a type guard has precedence over a class guard
-specifying the same type with respect to selection of the guarded
-statements to be executed.
-.SH 2
+\f[I]Hint:\f[R] It is permitted to mix type and class guards in a
+\f[CR]SELECT TYPE\f[R] construct; in that case, a type guard has
+precedence over a class guard specifying the same type with respect to
+selection of the guarded statements to be executed.
+.NH 2
 Unlimited polymorphic objects
-.pdfhref O 2 "Unlimited polymorphic objects"
+.pdfhref O 2 "\*[SN]  Unlimited polymorphic objects"
 .pdfhref M "unlimited-polymorphic-objects"
+.XS
+.pdfhref L -D "unlimited-polymorphic-objects" \
+ -- "		\*[SN]\~\~Unlimited polymorphic objects"
+.XE
 .LP
 A special case of polymorphism is that an object can be \f[B]unlimited
 polymorphic\f[R].
@@ -1398,19 +1487,19 @@ statements:
 \f[]
 .fi
 .LP
-Accessing the object\[aq]s data \f[I]always\f[R] needs a
+Accessing the object\[cq]s data \f[I]always\f[R] needs a
 \f[CR]SELECT TYPE\f[R] construct; type guards in the construct can in
 this case might not only refer to extensible types, but also to
 intrinsic types.
 However, for \f[CR]SEQUENCE\f[R] or \f[CR]BIND(C)\f[R] derived types, no
-type resolution is possible \[en] these always fall through to a
+type resolution is possible \- these always fall through to a
 \f[CR]CLASS default\f[R] guard, if present; use of unlimited polymorphic
 objects to store values of such types is therefore considered unsafe.
 .PP
 In this context, allocation with \f[CR]source=\f[R] allocates the target
-object to the source object\[aq]s dynamic type before copying its value
+object to the source object\[cq]s dynamic type before copying its value
 to the target object.
-If the source object\[aq]s data is not needed, \f[CR]mold=\f[R] can be
+If the source object\[cq]s data is not needed, \f[CR]mold=\f[R] can be
 used instead.
 Sourced allocation becomes a powerful tool, since the dynamic type of
 the source object need not be known in the scoping unit within which the
@@ -1498,7 +1587,7 @@ code might at first sight appear frivolous; however, once type extension
 is used on a larger scale, setting or modifying further components in
 the conventional way becomes rather irksome without a concept like that
 above, especially if \c
-.pdfhref W -D "User:RBaSc/draft_ftnoo#Type-bound_procedures_(TBP)" -A "\c" \
+.pdfhref L -D "sec:tbp" -A "\c" \
  -- "type\-bound procedures"
 \& with a simple \f[I]and\f[R] uniform interface must be implemented;
 .IP \[bu] 3
@@ -1549,17 +1638,21 @@ follows, to set up a \f[CR]wtype\f[R] object:
 \*[KeywordTok "CALL"]\*[NormalTok " setup_wtype(my_wtype, c_w)"]
 \f[]
 .fi
-.SH 1
+.NH 1
 Type\-bound procedures (TBP)
-.pdfhref O 1 "Type-bound procedures \(TBP\)"
-.pdfhref M "type-bound-procedures-tbp"
+.pdfhref O 1 "\*[SN]  Type-bound procedures \(TBP\)"
+.pdfhref M "sec:tbp"
+.XS
+.pdfhref L -D "sec:tbp" \
+ -- "	\*[SN]\~\~Type\-bound procedures (TBP)"
+.XE
 .LP
 To resolve the class mismatch issues arising from the use of polymorphic
 objects, one needs a language mechanism for making a run\-time decision
 on a procedure invocation that depends on the dynamic type of a
 polymorphic object.
 This can be achieved by binding a procedure to a type in the type
-definition via a \f[CR]PROCEDURE\f[R] statement in the type\[aq]s
+definition via a \f[CR]PROCEDURE\f[R] statement in the type\[cq]s
 \f[CR]CONTAINS\f[R] part.
 .PP
 For the type \f[CR]body\f[R], the augmented type definition reads
@@ -1636,9 +1729,9 @@ For polymorphic objects, the procedure \f[CR]update_body\f[R] will be
 invoked if the dynamic type of the object is \f[CR]body\f[R] (this might
 not be true if the dynamic type is an extension, as we shall see).
 .PP
-The invocation can also be done with non\-polymorphic objects; in this
-case, the binding could (in principle) be determined at compilation
-time, potentially saving some call overhead.
+\f[I]Hint:\f[R] The invocation can also be done with non\-polymorphic
+objects; in this case, the binding could (in principle) be determined at
+compilation time, potentially saving some call overhead.
 Note that the passed object dummy is not permitted to be allocatable or
 a pointer, which facilitates this usage.
 .PP
@@ -1647,7 +1740,7 @@ happens once we turn to type extensions.
 For example, to enable modification of the \f[CR]charge\f[R] component
 (in addition to that of other components) of an object of dynamic type
 \f[CR]charged_body\f[R], it is possible to \f[B]override\f[R] the parent
-type\[aq]s bound procedure:
+type\[cq]s bound procedure:
 .IP
 .nf
 \f[C]
@@ -1730,18 +1823,22 @@ it (default is \f[CR]PUBLIC\f[R]) in the type definition;
 the programmer can prevent overriding of a binding by declaring it to be
 \f[CR]NON_OVERRIDABLE\f[R]; its implementation then is regarded as valid
 for all conceivable extension types.
-.SH 1
+.NH 1
 Abstract types and interfaces
-.pdfhref O 1 "Abstract types and interfaces"
+.pdfhref O 1 "\*[SN]  Abstract types and interfaces"
 .pdfhref M "abstract-types-and-interfaces"
+.XS
+.pdfhref L -D "abstract-types-and-interfaces" \
+ -- "	\*[SN]\~\~Abstract types and interfaces"
+.XE
 .LP
 The \f[CR]sortable\f[R] type used for demonstrating the
 \f[CR]sortable_list\f[R] functionality in the \c
-.pdfhref W -D "https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo#Object-based_features_and_programming_techniques" -A "\c" \
- -- "object\-based chapter\[aq]s"
+.pdfhref L -D "sec:oop_techniques" -A "\c" \
+ -- "object\-based chapter\[cq]s"
 \& example was set up as a fixed container\-like type.
 It is desirable to be able to use the list machinery more flexibly i.e.,
-for any type that supports the \[dq]less\-than\[dq] comparison.
+for any type that supports the \[lq]less\-than\[rq] comparison.
 This can be achieved by introducing an \f[B]abstract type\f[R]
 .IP
 .nf
@@ -1805,10 +1902,10 @@ adapted to read
 \*[DataTypeTok "TYPE"]\*[NormalTok ", "]\*[DataTypeTok "PUBLIC"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " sorted_list"]
 \*[NormalTok "   "]\*[DataTypeTok "PRIVATE"]
 \*[NormalTok "   "]\*[DataTypeTok "CLASS(sortable)"]\*[NormalTok ", "]\*[DataTypeTok "ALLOCATABLE"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " data"]
-\*[NormalTok "   "]\*[CommentTok "!\ changed\ to\ refer\ to\ abstract\ type"]
-\*[NormalTok "\ \  "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ",\ POINTER\ "]\*[DataTypeTok "::"]\*[NormalTok "\ next\ "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok "\ null()"]
+\*[NormalTok "   "]\*[CommentTok "! changed to refer to abstract type"]
+\*[NormalTok "   "]\*[DataTypeTok "TYPE(sorted_list)"]\*[NormalTok ", "]\*[DataTypeTok "POINTER"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " next "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok " null()"]
 \*[KeywordTok "CONTAINS"]
-\*[NormalTok "\ \  FINAL\ "]\*[DataTypeTok "::"]\*[NormalTok "\ delete_sorted_list"]
+\*[NormalTok "   "]\*[DataTypeTok "FINAL"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " delete_sorted_list"]
 \*[DataTypeTok "END TYPE"]
 \f[]
 .fi
@@ -1826,9 +1923,9 @@ programmer needs to create a type extension, for example
 .nf
 \f[C]
 \*[DataTypeTok "TYPE"]\*[NormalTok ", "]\*[DataTypeTok "PUBLIC"]\*[NormalTok ", "]\*[DataTypeTok "EXTENDS(sortable)"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " sortable_string"]
-\*[NormalTok " \ \ "]\*[DataTypeTok "CHARACTER(len=:)"]\*[NormalTok ",\ ALLOCATABLE\ "]\*[DataTypeTok "::"]\*[NormalTok "\ string"]
+\*[NormalTok "   "]\*[DataTypeTok "CHARACTER(len=:)"]\*[NormalTok ", "]\*[DataTypeTok "ALLOCATABLE"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " string"]
 \*[KeywordTok "CONTAINS"]
-\*[NormalTok " \ \ "]\*[DataTypeTok "PROCEDURE"]\*[NormalTok "\ "]\*[DataTypeTok "::"]\*[NormalTok "\ less_than\ "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok "\ less_than_string"]
+\*[NormalTok "   "]\*[DataTypeTok "PROCEDURE"]\*[NormalTok " "]\*[DataTypeTok "::"]\*[NormalTok " less_than "]\*[KeywordTok "="]\*[OperatorTok ">"]\*[NormalTok " less_than_string"]
 \*[DataTypeTok "END TYPE"]
 \f[]
 .fi
@@ -1839,13 +1936,17 @@ including an \f[I]obligatory\f[R] implementation
 binding.
 The constructor function (promised earlier, but not yet delivered) also
 needs to be updated to enable creation of objects of the extended type.
-.SH 1
+.NH 1
 Generic type\-bound procedures and operator overloading
-.pdfhref O 1 "Generic type-bound procedures and operator overloading"
+.pdfhref O 1 "\*[SN]  Generic type-bound procedures and operator overloading"
 .pdfhref M "generic-type-bound-procedures-and-operator-overloading"
+.XS
+.pdfhref L -D "generic-type-bound-procedures-and-operator-overloading" \
+ -- "	\*[SN]\~\~Generic type\-bound procedures and operator overloading"
+.XE
 .LP
 As a convenience, use of an overloading for the comparison operator
-\[dq]<\[dq] can be provided by creating a \f[B]generic\f[R] type\-bound
+\[lq]<\[rq] can be provided by creating a \f[B]generic\f[R] type\-bound
 procedure:
 .IP
 .nf
@@ -1881,23 +1982,31 @@ procedure.
 .PP
 Named generic type\-bound procedures that do not overload existing
 operations can also be defined; an example for this is given in the
-section \[dq]\c
-.pdfhref W -D "https://en.wikipedia.org/wiki/User:RBaSc/draft_ftnoo#Functions_with_parameters" -A "\c" \
+section \[lq]\c
+.pdfhref L -D "sec:functions_with_parameters" -A "\c" \
  -- "Functions with parameters"
-\&\[dq].
+\&\[rq].
 The rules for generic resolution work similar as for nonpolymorphic
 generic procedure interfaces, with the additional restriction that
 polymorphic dummy arguments that are related by inheritance cannot be
 distinguished for the purpose of compile\-time resolution to a specific
 procedure.
-.SH 1
+.NH 1
 Completing the dependency inversion
-.pdfhref O 1 "Completing the dependency inversion"
+.pdfhref O 1 "\*[SN]  Completing the dependency inversion"
 .pdfhref M "completing-the-dependency-inversion"
-.SH 2
+.XS
+.pdfhref L -D "completing-the-dependency-inversion" \
+ -- "	\*[SN]\~\~Completing the dependency inversion"
+.XE
+.NH 2
 Discussion of structural dependencies
-.pdfhref O 2 "Discussion of structural dependencies"
+.pdfhref O 2 "\*[SN]  Discussion of structural dependencies"
 .pdfhref M "discussion-of-structural-dependencies"
+.XS
+.pdfhref L -D "discussion-of-structural-dependencies" \
+ -- "		\*[SN]\~\~Discussion of structural dependencies"
+.XE
 .LP
 When implementing the above concept, typically a separate module, say
 \f[CR]mod_sortable_extensions\f[R], is created for some or all of the
@@ -1922,10 +2031,14 @@ in \f[CR]mod_sortable\f[R], since the machinery that depends on it must
 be able to call it.
 As a consequence, one would end up with a circular \f[CR]USE\f[R]
 dependency between the two modules, which is prohibited.
-.SH 2
+.NH 2
 Using submodules to break dependency cycles
-.pdfhref O 2 "Using submodules to break dependency cycles"
+.pdfhref O 2 "\*[SN]  Using submodules to break dependency cycles"
 .pdfhref M "using-submodules-to-break-dependency-cycles"
+.XS
+.pdfhref L -D "using-submodules-to-break-dependency-cycles" \
+ -- "		\*[SN]\~\~Using submodules to break dependency cycles"
+.XE
 .LP
 To deal with such a situation (among others), the concept of
 \f[B]submodule\f[R] is available.
@@ -1970,10 +2083,14 @@ access;
 .IP \[bu] 3
 the type \f[CR]initialize\f[R] is, again, a renamed version of the
 \f[CR]any_object\f[R] type referred to earlier.
-.SH 2
+.NH 2
 Implementation of the constructor
-.pdfhref O 2 "Implementation of the constructor"
+.pdfhref O 2 "\*[SN]  Implementation of the constructor"
 .pdfhref M "implementation-of-the-constructor"
+.XS
+.pdfhref L -D "implementation-of-the-constructor" \
+ -- "		\*[SN]\~\~Implementation of the constructor"
+.XE
 .LP
 The submodule containing the implementation then reads as follows:
 .IP
@@ -2020,25 +2137,29 @@ the naming scheme for a submodule always references the direct parent.
 For submodules of submodules, the scheme is
 \f[CR]SUBMODULE (<parent module>:<parent submodule>) <submodule_name>\f[R]
 and the names of submodules of a given module must be unique.
-.SH 2
+.NH 2
 Diagramming the dependencies between program units
-.pdfhref O 2 "Diagramming the dependencies between program units"
+.pdfhref O 2 "\*[SN]  Diagramming the dependencies between program units"
 .pdfhref M "diagramming-the-dependencies-between-program-units"
+.XS
+.pdfhref L -D "diagramming-the-dependencies-between-program-units" \
+ -- "		\*[SN]\~\~Diagramming the dependencies between program units"
+.XE
 .LP
 The following diagram shows the use and host association relationships
 between the modules (blue boxes), the submodule (green box), and a main
 program unit (orange box) for this example:
-.PP
+.PDFPIC ./images/Dependency_inversion.pdf 4.8i
+.QP
 Dependencies between program units implementing and using an interface
 class
-.PS
-.PDFPIC -C Dependency_inversion.pdf
-.PE
-The small triangles in the diagram refer to use (\[dq]u\[dq])
-association and host (\[dq]h\[dq]) association, respectively.
-The separation of the constructor\[aq]s interface from its
+
+.LP
+The small triangles in the diagram refer to use (\[lq]u\[rq])
+association and host (\[lq]h\[rq]) association, respectively.
+The separation of the constructor\[cq]s interface from its
 implementation leads to avoidance of circular \f[CR]USE\f[R] references
-(the lower two \[dq]u\[dq] triangles in the diagram).
+(the lower two \[lq]u\[rq] triangles in the diagram).
 .PP
 The compilation order for separate files would be:
 .IP " 1." 4
@@ -2047,28 +2168,40 @@ The compilation order for separate files would be:
 \f[CR]program\f[R] and \f[CR]mod_sortable_extensions\f[R], independently
 .IP " 3." 4
 \f[CR]smod_constructor\f[R]
-.SH 1
+.NH 1
 Performance and ease of use
-.pdfhref O 1 "Performance and ease of use"
+.pdfhref O 1 "\*[SN]  Performance and ease of use"
 .pdfhref M "performance-and-ease-of-use"
-.SH 1
+.XS
+.pdfhref L -D "performance-and-ease-of-use" \
+ -- "	\*[SN]\~\~Performance and ease of use"
+.XE
+.NH 1
 Functions with parameters
-.pdfhref O 1 "Functions with parameters"
-.pdfhref M "functions-with-parameters"
-.SH 2
+.pdfhref O 1 "\*[SN]  Functions with parameters"
+.pdfhref M "sec:functions_with_parameters"
+.XS
+.pdfhref L -D "sec:functions_with_parameters" \
+ -- "	\*[SN]\~\~Functions with parameters"
+.XE
+.NH 2
 A type definition for invocation of a general function
-.pdfhref O 2 "A type definition for invocation of a general function"
+.pdfhref O 2 "\*[SN]  A type definition for invocation of a general function"
 .pdfhref M "a-type-definition-for-invocation-of-a-general-function"
+.XS
+.pdfhref L -D "a-type-definition-for-invocation-of-a-general-function" \
+ -- "		\*[SN]\~\~A type definition for invocation of a general function"
+.XE
 .LP
 In scientific applications, a commonly occurring requirement is the need
 to evaluate functions that depend on additional parameters, apart from
 their real\-valued argument.
 For example, an application might need the value of spherical Bessel
-function @x \[u21A6] j sub l left ( q ^ x right )@ for independently
+function @x \*[mp] j sub l left ( q ^ x right )@ for independently
 specified integer values of @l@ and real values of @q@.
 More generally, one can consider a real\-valued mapping
 .PP
-@\[u211C] \[u220B] x \[u21A6] f sub lambda left ( x right ) fwd 100 left ( lambda \[u2208] OMEGA right )@,
+@\[u211C] \[u220B] x \*[mp] f sub lambda left ( x right ) fwd 100 left ( lambda \[u2208] OMEGA right )@,
 .PP
 where the parameter value @lambda@ can be from some arbitrary set.
 This section presents a way for handling this programmatically, using
@@ -2133,10 +2266,14 @@ implementation of the supplied functions.
 On the other hand, the invocation needs to explicitly specify the
 \f[CR]param\f[R] component, making it a bit unwieldy; the use of
 \f[CR]pfunc_type\f[R] objects will be simplified as we go on.
-.SH 2
+.NH 2
 Performance issues arising from object\-oriented programming
-.pdfhref O 2 "Performance issues arising from object-oriented programming"
+.pdfhref O 2 "\*[SN]  Performance issues arising from object-oriented programming"
 .pdfhref M "performance-issues-arising-from-object-oriented-programming"
+.XS
+.pdfhref L -D "performance-issues-arising-from-object-oriented-programming" \
+ -- "		\*[SN]\~\~Performance issues arising from object\-oriented programming"
+.XE
 .LP
 Let us look at a target function implementation, in form of a trivial
 example @sin left ( lambda x right )@:
@@ -2196,13 +2333,17 @@ Making use of an array\-based version of the function
 .LP
 is desirable, since the overheads specified above only arise
 \f[I]once\f[R], and the actual calculational code (marked
-\[dq]kernel\[dq] in the above box) is amenable to array\-related
+\[lq]kernel\[rq] in the above box) is amenable to array\-related
 compiler optimizations (the specifics of which depend on both hardware
 architecture and working set size).
-.SH 2
+.NH 2
 Completing the function type definition
-.pdfhref O 2 "Completing the function type definition"
+.pdfhref O 2 "\*[SN]  Completing the function type definition"
 .pdfhref M "completing-the-function-type-definition"
+.XS
+.pdfhref L -D "completing-the-function-type-definition" \
+ -- "		\*[SN]\~\~Completing the function type definition"
+.XE
 .LP
 The aim now is to proceed to a framework that permits to use both the
 scalar and the array versions in a uniform way, thereby making life for
@@ -2319,10 +2460,14 @@ with the following specific functions:
 .LP
 Disambiguation is possible due to the sufficiently different interfaces
 of the procedure arguments.
-.SH 2
+.NH 2
 Using the function type
-.pdfhref O 2 "Using the function type"
+.pdfhref O 2 "\*[SN]  Using the function type"
 .pdfhref M "using-the-function-type"
+.XS
+.pdfhref L -D "using-the-function-type" \
+ -- "		\*[SN]\~\~Using the function type"
+.XE
 .LP
 With the already\-shown implementations for the target functions
 \f[CR]psin\f[R] and \f[CR]psin_array\f[R], using this framework is
@@ -2346,18 +2491,22 @@ illustrated by the following:
 .fi
 .LP
 Omitting a \f[CR]param\f[R] in a constructor is fine, as long as the
-target functions cater for the dummy argument\[aq]s non\-presence.
+target functions cater for the dummy argument\[cq]s non\-presence.
 .PP
-The framework\[aq]s implementation makes use of the fact that an
-unallocated actual argument associated with an \f[CR]OPTIONAL\f[R] dummy
-argument is considered not present.
+\f[I]Hint:\f[R] The framework\[cq]s implementation makes use of the fact
+that an unallocated actual argument associated with an
+\f[CR]OPTIONAL\f[R] dummy argument is considered not present.
 Once conditional expressions are implemented in compilers, the code will
 be appropriately reworked, since use of this feature is recommended
 against.
-.SH 1
+.NH 1
 Arrays of structures versus structures of arrays
-.pdfhref O 1 "Arrays of structures versus structures of arrays"
+.pdfhref O 1 "\*[SN]  Arrays of structures versus structures of arrays"
 .pdfhref M "arrays-of-structures-versus-structures-of-arrays"
+.XS
+.pdfhref L -D "arrays-of-structures-versus-structures-of-arrays" \
+ -- "	\*[SN]\~\~Arrays of structures versus structures of arrays"
+.XE
 .LP
 Returning to our earlier example type body, the next idea would be to
 simulate the dynamics of a large ensemble of bodies.
@@ -2383,14 +2532,22 @@ for example as follows:
 .LP
 where \f[CR]force\f[R] results from evaluating \f[CR]force_field\f[R] at
 the position of the ensemble member.
-.SH 1
+.NH 1
 Comments on further language features
-.pdfhref O 1 "Comments on further language features"
+.pdfhref O 1 "\*[SN]  Comments on further language features"
 .pdfhref M "comments-on-further-language-features"
-.SH 2
+.XS
+.pdfhref L -D "comments-on-further-language-features" \
+ -- "	\*[SN]\~\~Comments on further language features"
+.XE
+.NH 2
 Variations on the passed object
-.pdfhref O 2 "Variations on the passed object"
+.pdfhref O 2 "\*[SN]  Variations on the passed object"
 .pdfhref M "variations-on-the-passed-object"
+.XS
+.pdfhref L -D "variations-on-the-passed-object" \
+ -- "		\*[SN]\~\~Variations on the passed object"
+.XE
 .LP
 All examples for type\-bound procedures given up to now have the
 property that the invoking object itself is passed as the first argument
@@ -2404,8 +2561,6 @@ argument the object of the bound type should be passed to,
 or declaring the binding with a \f[CR]NOPASS\f[R] attribute, in which
 case the object is not (implicitly) passed to the procedure at all in a
 TBP invocation.
-.SH 1
-References
-.pdfhref O 1 "References"
-.pdfhref M "references"
+.bp
+.TC
 .pdfsync
