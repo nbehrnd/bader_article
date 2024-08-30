@@ -114,6 +114,7 @@ $for(include-before)$
 $include-before$
 $endfor$
 $body$
+.bp
 $if(toc)$
 .TC
 $endif$
