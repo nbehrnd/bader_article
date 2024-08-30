@@ -6,7 +6,8 @@
 phony:
 	pandoc pandoc_md.md --from markdown -s -o test.html --mathml \
 		--number-sections --toc \
-		--highlight-style tango
+		--highlight-style tango \
+		-c ./html_style.css  # optional change of the layout (wider lines, etc)
 
 # optionally write a pdf with groff (for being faster than pdfLaTeX
 # though for obvious reasons without the illustrations, intentionally
