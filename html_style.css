@@ -1,0 +1,56 @@
+/* This style file is an excerpt of Kofler, Michael (2018). Markdown & Pandoc,
+2nd edition.  This is available as a free e-book (pdf format) on the author's
+page, https://kofler.info/ebooks/markdown_pandoc/ */
+
+/* pages 108-109 */
+/* globale Default-Einstellungen */
+body {
+    padding: 0 1em;
+    font-family: sans-serif;
+    line-hight:  140%;
+}
+
+/* Überschriften */
+h1 {
+    color: #dd0000;
+    font-size: 200%;
+    margin: 3ex 0 2ex 0;
+}
+h2 {
+    color: #dd0000;
+    font-size: 120%
+    margin: 2ex 0 1ex 0;
+}
+
+/* Zitate */
+blockquote {
+   margin: 0 3em;
+   font-style: italic;
+}
+
+/* pages 113-114 */
+table {
+    boder-collapse: collapse;
+    border-width: 2px 0 2px 0;
+    border-color: #888;
+    border-style: solid;
+}
+
+th {
+    padding: 0.5ex 1ex;
+    border-width: 2px 0;
+    border-color: #888;
+    border-style: solid;
+    background-color: #e0e0e0;
+}
+
+td {
+    padding: 0.4ex 1ex;
+    vertical-align: top;
+}
+tr:nth-child(even){
+    background-color: #f8f8f8;
+}
+tr:nth-child(odd){
+    background-color: #f0f0f0;
+}
