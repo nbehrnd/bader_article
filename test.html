@@ -1919,7 +1919,8 @@ class="sourceCode f90"><code class="sourceCode fortranfree"><span id="cb69-1"><a
 <span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a>   <span class="kw">END IF</span></span>
 <span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a><span class="kw">END FUNCTION</span> create_pfunc_type_array</span></code></pre></div>
 <p>Disambiguation is possible due to the sufficiently different
-interfaces of the procedure arguments.</p>
+interfaces of the procedure arguments.<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <h2 data-number="18.4" id="using-the-function-type"><span
 class="header-section-number">18.4</span> Using the function type</h2>
 <p>With the already-shown implementations for the target functions
@@ -1999,6 +2000,27 @@ Mathematics and Scientific Computation. Oxford University Press. <a
 href="https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1">ISBN
 978-0-19-887657-1</a>.<a href="#fnref1" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Brad Richardson’s <a
+href="https://fortran-lang.discourse.group/t/baders-draft-about-oop-and-fortran-bader-intended-for-wikipedia/8539/3">comments</a>
+on this the two functions are <em>sufficiently different interfaces</em>
+because they differ in rank.</p>
+<p>More generally, referring to section 15.4.3.4.5 <em>Restrictions on
+generic declarations</em> of the current Fortran 2023 standard (see for
+instance <a href="https://j3-fortran.org/doc/year/23/23-007r1.pdf">draft
+23-007r1.pdf</a>, page 316)</p>
+<blockquote>
+<p>Two dummy arguments are distinguishable if</p>
+<ul>
+<li>one is a procedure and the other is a data object,</li>
+<li>they are both data objects or known to be functions, and neither is
+TKR compatible with the other, one has the ALLOCATABLE attribute and the
+other has the POINTER attribute and not the INTENT (IN) attribute,
+or</li>
+<li>one is a function with nonzero rank and the other is not known to be
+a function.</li>
+</ul>
+</blockquote>
+<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></li>
 </ol>
 </section>
 </body>

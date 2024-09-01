@@ -1785,7 +1785,7 @@ END FUNCTION create_pfunc_type_array
 ```
 
 Disambiguation is possible due to the sufficiently different interfaces
-of the procedure arguments.
+of the procedure arguments.[^Richardson_comment01]
 
 ## Using the function type
 
@@ -1859,3 +1859,26 @@ programmer
 *Modern Fortran Explained.* Numerical Mathematics and Scientific Computation.
 Oxford University Press.
 [ISBN 978-0-19-887657-1](https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1).
+
+[^Richardson_comment01]: Brad Richardson
+    [comments](https://fortran-lang.discourse.group/t/baders-draft-about-oop-and-fortran-bader-intended-for-wikipedia/8539/3)
+    the two functions are _sufficiently different_ only because their results
+    differ in rank.  This pattern does not necessarily work in the general case,
+    i.e. that the procedures are not both functions with different type, kind or
+    rank of their results.
+
+    More generally, referring to section 15.4.3.4.5 _Restrictions on generic
+    declarations_ of the current Fortran 2023 standard (see for instance
+    [draft 23-007r1.pdf](https://j3-fortran.org/doc/year/23/23-007r1.pdf),
+    page 316)
+
+    > Two dummy arguments are distinguishable if
+    >
+    > - one is a procedure and the other is a data object,
+    > - they are both data objects or known to be functions, and neither is TKR
+    >   compatible with the other,
+    >   one has the ALLOCATABLE attribute and the other has the POINTER
+    >   attribute and not the INTENT (IN) attribute, or
+    > - one is a function with nonzero rank and the other is not known to be
+    >   a function.
+
