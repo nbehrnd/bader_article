@@ -2459,7 +2459,37 @@ with the following specific functions:
 .fi
 .LP
 Disambiguation is possible due to the sufficiently different interfaces
-of the procedure arguments.
+of the procedure arguments.\**
+.FS
+Brad Richardson \c
+.pdfhref W -D "https://fortran-lang.discourse.group/t/baders-draft-about-oop-and-fortran-bader-intended-for-wikipedia/8539/3" -A "\c" \
+ -- "comments"
+\& the two functions are \f[I]sufficiently different\f[R] only because
+their results differ in rank.
+This pattern does not necessarily work in the general case, i.e.\ that
+the procedures are not both functions with different type, kind or rank
+of their results.
+.PP
+More generally, referring to section 15.4.3.4.5 \f[I]Restrictions on
+generic declarations\f[R] of the current Fortran 2023 standard (see for
+instance \c
+.pdfhref W -D "https://j3-fortran.org/doc/year/23/23-007r1.pdf" -A "\c" \
+ -- "draft 23\-007r1.pdf"
+\&, page 316)
+.QS
+.LP
+Two dummy arguments are distinguishable if
+.IP \[bu] 3
+one is a procedure and the other is a data object,
+.IP \[bu] 3
+they are both data objects or known to be functions, and neither is TKR
+compatible with the other, one has the ALLOCATABLE attribute and the
+other has the POINTER attribute and not the INTENT (IN) attribute, or
+.IP \[bu] 3
+one is a function with nonzero rank and the other is not known to be a
+function.
+.QE
+.FE
 .NH 2
 Using the function type
 .pdfhref O 2 "\*[SN]  Using the function type"

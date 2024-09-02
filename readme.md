@@ -1,7 +1,7 @@
 ---
 title: readme.md
 date: 2024-08-05 Mon
-edit: 2024-08-31 Sat
+edit: 2024-09-03 Tue
 ---
 
 # purpose
@@ -150,3 +150,8 @@ disadvantages of either workflow.
 | pdfLaTeX | 795 kB | 412 kB | character set covers the needs, reliable management of illustrations (either png, or pdf) | large footprint to install |
 | rst2pdf  | 1.5 MB | 1.0 MB | relates to the Python ecosystem | slow processing, results large pdf |
 | groff | 680 kB | 188 kB | light footprint, fast processing | less symbol coverage than LaTeX, illustrations need to be in a pdf/eps container |
+
+## update summary
+
+- 2024-09-03 Tue: a comment by Brad Richardson regarding interfaces
+  considered as sufficiently different (section 18.3) is added.

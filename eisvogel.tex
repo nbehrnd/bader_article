@@ -269,7 +269,15 @@ $else$
     \setlength{\parindent}{0pt}
     \setlength{\parskip}{6pt plus 2pt minus 1pt}}
 }{% if KOMA class
-  \KOMAoptions{parskip=half}}
+  \KOMAoptions{parskip=half}
+  % adjust appearance of footnotes, start:
+  \deffootnote{1em}{0em}{%
+    \textsuperscript{\thefootnotemark}%
+    \setlength{\parskip}{\baselineskip}%
+    \setlength{\parindent}{0pt}%
+    }
+  }
+  % adjust appearance of footnotes, end.
 \makeatother
 $endif$
 $if(verbatim-in-note)$

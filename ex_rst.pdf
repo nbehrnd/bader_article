@@ -975,14 +975,14 @@ endobj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://fortran-lang.discourse.group/t/baders-draft-about-oop-and-fortran-bader-intended-for-wikipedia/8539/3)
->> /Border [ 0 0 0 ] /Rect [ 225.273 430.9843 272.0283 442.9843 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 218.053 430.9843 260.1278 442.9843 ] /Subtype /Link /Type /Annot
 >>
 endobj
 149 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://j3-fortran.org/doc/year/23/23-007r1.pdf)
->> /Border [ 0 0 0 ] /Rect [ 306.913 388.9843 380.783 400.9843 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 306.913 376.9843 380.783 388.9843 ] /Subtype /Link /Type /Annot
 >>
 endobj
 150 0 obj
@@ -17284,7 +17284,7 @@ endstream
 endobj
 221 0 obj
 <<
-/Length 6060
+/Length 6238
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -17459,12 +17459,12 @@ Q
 Q
 Q
 q
-1 0 0 1 57.02362 292.9843 cm
+1 0 0 1 57.02362 280.9843 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 q
-1 0 0 1 6 138 cm
+1 0 0 1 6 150 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 .4 .6 rg (2) Tj T* ET
 Q
@@ -17472,7 +17472,7 @@ Q
 q
 1 0 0 1 91.03937 126 cm
 q
-BT 1 0 0 1 0 14 Tm 2.822634 Tw 12 TL /F1 10 Tf 0 0 0 rg (Brad Richardson\222s ) Tj 0 .4 .6 rg (comments) Tj 0 0 0 rg ( on this the two functions are ) Tj /F7 10 Tf (sufficiently different interfaces) Tj /F1 10 Tf  T* 0 Tw (because they differ in rank.) Tj T* ET
+BT 1 0 0 1 0 26 Tm .482415 Tw 12 TL /F1 10 Tf 0 0 0 rg (Brad Richardson ) Tj 0 .4 .6 rg (comments) Tj 0 0 0 rg ( the two functions are ) Tj /F7 10 Tf (sufficiently different) Tj /F1 10 Tf ( only because their results) Tj T* 0 Tw .364936 Tw (differ in rank. This pattern does not necessarily work in the general case, i.e. that the procedures) Tj T* 0 Tw (are not both functions with different type, kind or rank of their results.) Tj T* ET
 Q
 Q
 q
@@ -17981,36 +17981,36 @@ xref
 0001431489 00000 n 
 0001459393 00000 n 
 0001487586 00000 n 
-0001493699 00000 n 
-0001494056 00000 n 
-0001494091 00000 n 
-0001494126 00000 n 
-0001494161 00000 n 
-0001494196 00000 n 
-0001494231 00000 n 
-0001494266 00000 n 
-0001494301 00000 n 
-0001494336 00000 n 
-0001494371 00000 n 
-0001494407 00000 n 
-0001494443 00000 n 
+0001493877 00000 n 
+0001494234 00000 n 
+0001494269 00000 n 
+0001494304 00000 n 
+0001494339 00000 n 
+0001494374 00000 n 
+0001494409 00000 n 
+0001494444 00000 n 
 0001494479 00000 n 
-0001494515 00000 n 
-0001494551 00000 n 
-0001494587 00000 n 
-0001494623 00000 n 
-0001494659 00000 n 
-0001494695 00000 n 
-0001494731 00000 n 
-0001494767 00000 n 
-0001494803 00000 n 
-0001494839 00000 n 
-0001494875 00000 n 
-0001494911 00000 n 
-0001494947 00000 n 
-0001494983 00000 n 
-0001495019 00000 n 
-0001495055 00000 n 
+0001494514 00000 n 
+0001494549 00000 n 
+0001494585 00000 n 
+0001494621 00000 n 
+0001494657 00000 n 
+0001494693 00000 n 
+0001494729 00000 n 
+0001494765 00000 n 
+0001494801 00000 n 
+0001494837 00000 n 
+0001494873 00000 n 
+0001494909 00000 n 
+0001494945 00000 n 
+0001494981 00000 n 
+0001495017 00000 n 
+0001495053 00000 n 
+0001495089 00000 n 
+0001495125 00000 n 
+0001495161 00000 n 
+0001495197 00000 n 
+0001495233 00000 n 
 trailer
 <<
 /ID 
@@ -18022,5 +18022,5 @@ trailer
 /Size 252
 >>
 startxref
-1495091
+1495269
 %%EOF

@@ -2000,10 +2000,12 @@ Mathematics and Scientific Computation. Oxford University Press. <a
 href="https://en.wikipedia.org/wiki/Special:BookSources/978-0-19-887657-1">ISBN
 978-0-19-887657-1</a>.<a href="#fnref1" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Brad Richardson’s <a
+<li id="fn2"><p>Brad Richardson <a
 href="https://fortran-lang.discourse.group/t/baders-draft-about-oop-and-fortran-bader-intended-for-wikipedia/8539/3">comments</a>
-on this the two functions are <em>sufficiently different interfaces</em>
-because they differ in rank.</p>
+the two functions are <em>sufficiently different</em> only because their
+results differ in rank. This pattern does not necessarily work in the
+general case, i.e. that the procedures are not both functions with
+different type, kind or rank of their results.</p>
 <p>More generally, referring to section 15.4.3.4.5 <em>Restrictions on
 generic declarations</em> of the current Fortran 2023 standard (see for
 instance <a href="https://j3-fortran.org/doc/year/23/23-007r1.pdf">draft
