@@ -153,5 +153,5 @@ disadvantages of either workflow.
 
 ## update summary
 
-- 2024-09-03 Tue: a comment by Brad Richardson regarding interfaces
+- 2024-09-03 Tue: a comment by Brad Richardson regarding when interfaces are
   considered as sufficiently different (section 18.3) is added.
