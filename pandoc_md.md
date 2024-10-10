@@ -786,30 +786,30 @@ As a starting point, consider the definition of a type, an object of
 which can quite generally represent a physical body:
 
 ```f90
-TYPE :: body
-   REAL :: mass
-   REAL :: pos(3), vel(3)
-END TYPE
+type :: body
+  real :: mass
+  real :: pos(3), vel(3)
+end type
 :
-TYPE(body) :: my_basketball = body(1.5, [0.0, 0.0, 2.0], [10.0, 0.0, 0.0])
+type(body) :: my_basketball = body(1.5, [0.0, 0.0, 2.0], [10.0, 0.0, 0.0])
 ```
 
 This might come along with procedures that impose a momentum change or a
 change of mass on a `body` object:
 
 ```f90
-PURE SUBROUTINE kick(a_body, dp)
-   TYPE(body), INTENT(inout) :: a_body
-   REAL, intent(in) :: dp(3)
+pure subroutine kick(a_body, dp)
+  type(body), intent(inout) :: a_body
+  real, intent(in) :: dp(3)
 
-   a_body%vel(:) = a_body%vel(:) + dp(:) / a_body%mass
-END SUBROUTINE
-PURE SUBROUTINE accrete(a_body, dm)
-   TYPE(body), INTENT(inout) :: a_body
-   REAL, intent(in) :: dm
+  a_body%vel(:) = a_body%vel(:) + dp(:) / a_body%mass
+end subroutine
+pure subroutine accrete(a_body, dm)
+  type(body), intent(inout) :: a_body
+  real, intent(in) :: dm
 
-   a_body%mass = a_body%mass + dm
-END SUBROUTINE accrete
+  a_body%mass = a_body%mass + dm
+end subroutine accrete
 ```
 
 After writing lots of code that makes use of the above, imagine that you
@@ -823,15 +823,15 @@ and less intrusive to create a new type that is an **extension** of the
 existing one (the **parent** type):
 
 ```f90
-TYPE, EXTENDS(body) :: charged_body
-   REAL :: charge
-END TYPE
+type, extends(body) :: charged_body
+  real :: charge
+end type
 ```
 
 An object of this type
 
 ```f90
-TYPE(charged_body) :: a_proton
+type(charged_body) :: a_proton
 ```
 
 would then have the following type components:
@@ -855,19 +855,19 @@ Correspondingly, there are various manners in which the default
 structure constructor can be used to create a defined value:
 
 ```f90
-TYPE(body) :: a_mutilated_proton
-! Construct a_proton
+type(body) :: a_mutilated_proton
+! construct a_proton
 a_proton = charged_body(mass=1.672E-27, pos=[0.0, 0.0, 0.0], &
                         vel=[0.0 ,0.0, 0.0]), charge=1.602E-19)
 
-! Alternative construction with the same result
+! alternative construction with the same result
 a_mutilated_proton = body(mass=1.672E-27, pos=[0.0, 0.0, 0.0], &
                           vel=[0.0, 0.0, 0.0])
 
 a_proton = charged_body(body=a_mutilated_proton, charge=1.602E-19)
 ```
 
-Any derived type that does not have the `SEQUENCE` or `BIND(C)`
+Any derived type that does not have the `sequence` or `bind(c)`
 attributes can be extended in the above manner; specifically, an
 extension type can itself be extended. For any given "base" type this
 gives rise to a potential hierarchy of types that can be represented by
@@ -883,25 +883,25 @@ call to the procedure `kick`.
 
 ### Declaring entities with `CLASS`
 
-By declaring an object with the `CLASS` instead of the `TYPE` specifier,
+By declaring an object with the `class` instead of the `type` specifier,
 is is possible to defer the actual type that an object has to be
 determined when the program executes, or even have the actual type
 change during program execution. Such an object is designated as being
 **polymorphic**. To be polymorphic, an object must fulfill one of the
 following prerequisites:
 
-- it has the `POINTER` attribute,
-- it has the `ALLOCATABLE` attribute, or
-- it is a dummy argument (with or without a `POINTER` or `ALLOCATABLE`
+- it has the `pointer` attribute,
+- it has the `allocatable` attribute, or
+- it is a dummy argument (with or without a `pointer` or `allocatable`
   attribute).
 
 For example, the typed alllocation statement executed on a polymorphic
 allocatable object
 
 ```f90
-CLASS(body), ALLOCATABLE :: a_polymorphic_body
+class(body), allocatable :: a_polymorphic_body
 :
-ALLOCATE( charged_body :: a_polymorphic_body )
+allocate( charged_body :: a_polymorphic_body )
 ```
 
 causes the object `a_polymorphic_body` that has the **declared** type
@@ -921,24 +921,24 @@ declared type are accessible. Also, I/O operations on a polymorphic
 object are not permitted, unless UDDTIO routines have been defined. One
 way to obtain access to the complete object is to use a construct that
 permits **run-time type identification** (not a Fortran term),
-`SELECT TYPE`. For example, the I/O statements in
+`select type`. For example, the I/O statements in
 
 ```f90
-SELECT TYPE (a_polymorphic_body)
-TYPE IS (body)
-   WRITE(*,*) 'object of type body has value        ', a_polymorphic_body
-TYPE IS (charged_body)
-   WRITE(*,*) 'object of type charged_body has value', a_polymorphic_body
-CLASS default
-   ERROR STOP 'Type extension unsupported in this construct'
-END SELECT
+select type (a_polymorphic_body)
+type is (body)
+   write(*,*) 'object of type body has value        ', a_polymorphic_body
+type is (charged_body)
+   write(*,*) 'object of type charged_body has value', a_polymorphic_body
+class default
+   error stop 'type extension unsupported in this construct'
+end select
 ```
 
 are permitted, since inside the block for each **type guard** the object
 is non-polymorphic and of the specified type. At most one type guard can
 match the object's type, and the corresponding statements are executed;
-otherwise the `CLASS default` section is executed (and the object
-remains polymorphic there). A disadvantage of using `SELECT TYPE` is
+otherwise the `class default` section is executed (and the object
+remains polymorphic there). A disadvantage of using `select type` is
 that it needs to be appropriately updated whenever an additional type
 extension is defined; apart from the maintenance effort this also
 requires access to all source code that contain a relevant instance of
@@ -949,28 +949,28 @@ For updates of the `charge` component of a `charged_body` object, one
 now could consider the following:
 
 ```f90
-SUBROUTINE recharge(a_charged_body, dq)
-   TYPE(charged_body), INTENT(inout) :: a_charged_body
-   REAL, INTENT(in) :: dq
+subroutine recharge(a_charged_body, dq)
+  type(charged_body), intent(inout) :: a_charged_body
+  real, intent(in) :: dq
 
-   a_charged_body%charge = a_charged_body%charge + dq
-END SUBROUTINE
+  a_charged_body%charge = a_charged_body%charge + dq
+end subroutine
 ```
 
 However, invoking this subroutine in the usual Fortran 95 style will not
 work for the variable `a_polymorphic_body`, since it violates the rule
 that the dummy argument's declared type must be type compatible with the
 actual argument's declared type. One can work around this by using a
-`SELECT TYPE` construct with **run-time class identification** (not a
+`select type` construct with **run-time class identification** (not a
 Fortran term), based on writing **class guards** instead of type guards:
 
 ```f90
-SELECT TYPE (a_polymorphic_body)
-CLASS IS (charged_body)  ! new declared type for a_polymorphic_body
-   CALL recharge(a_polymorphic_body, dq=1.0e-5)
-CLASS default
-   WRITE(*,*) 'INFO: object a_polymorphic_body was not modified.'
-END SELECT
+select type (a_polymorphic_body)
+class is (charged_body)  ! new declared type for a_polymorphic_body
+  call recharge(a_polymorphic_body, dq=1.0e-5)
+class default
+  write(*,*) 'info: object a_polymorphic_body was not modified.'
+end select
 ```
 
 The `recharge` procedure will then be invoked if the dynamic type of
@@ -978,10 +978,10 @@ The `recharge` procedure will then be invoked if the dynamic type of
 remains polymorphic inside the class guard, only its declared type
 changes to that specified in the guard. Unless the "lifted" declared
 type of interest is already otherwise known from the context, or
-handling the `CLASS default` fall-through is straightforward, this is
+handling the `class default` fall-through is straightforward, this is
 not in general a desirable way of dealing with class mismatches.
 
-*Hint:* It is permitted to mix type and class guards in a `SELECT TYPE`
+*Hint:* It is permitted to mix type and class guards in a `select type`
 construct; in that case, a type guard has precedence over a class guard
 specifying the same type with respect to selection of the guarded
 statements to be executed.
@@ -989,34 +989,34 @@ statements to be executed.
 ### Unlimited polymorphic objects
 
 A special case of polymorphism is that an object can be **unlimited
-polymorphic**. Such an object, declared with `CLASS(*)`, can be of any
-dynamic type (intrinsic type, extensible derived type, `SEQUENCE` or
-`BIND(C)` derived type), as illustrated by the following statements:
+polymorphic**. Such an object, declared with `class(*)`, can be of any
+dynamic type (intrinsic type, extensible derived type, `sequence` or
+`bind(c)` derived type), as illustrated by the following statements:
 
 ```f90
-CLASS(*), ALLOCATABLE :: a_unlimited  ! has no declared type, so any type is an extension
+class(*), allocatable :: a_unlimited  ! has no declared type, so any type is an extension
 
-ALLOCATE( a_unlimited, source=2.5E4)  ! dynamic type becomes real
+allocate( a_unlimited, source=2.5e4)  ! dynamic type becomes real
 
-SELECT TYPE ( a_unlimited )
-TYPE IS (REAL)
-   WRITE(*,*) 'a_unlimited is of intrinsic real type with value ', a_unlimited
-END SELECT
+select type ( a_unlimited )
+type is (real)
+  write(*,*) 'a_unlimited is of intrinsic real type with value ', a_unlimited
+end select
 
-DEALLOCATE( a_unlimited )
-ALLOCATE( a_unlimited, source=a_proton) )  ! dynamic type becomes charged_body
+deallocate( a_unlimited )
+allocate( a_unlimited, source=a_proton) )  ! dynamic type becomes charged_body
 
-SELECT TYPE ( a_unlimited )
-TYPE IS (charged_body)
-   WRITE(*,*) 'a_unlimited is a charged_body with value ', a_unlimited
-END SELECT
+select type ( a_unlimited )
+type is (charged_body)
+  write(*,*) 'a_unlimited is a charged_body with value ', a_unlimited
+end select
 ```
 
-Accessing the object's data *always* needs a `SELECT TYPE` construct;
+Accessing the object's data *always* needs a `select type` construct;
 type guards in the construct can in this case might not only refer to
-extensible types, but also to intrinsic types. However, for `SEQUENCE`
-or `BIND(C)` derived types, no type resolution is possible - these
-always fall through to a `CLASS default` guard, if present; use of
+extensible types, but also to intrinsic types. However, for `sequence`
+or `bind(c)` derived types, no type resolution is possible - these
+always fall through to a `class default` guard, if present; use of
 unlimited polymorphic objects to store values of such types is therefore
 considered unsafe.
 
@@ -1027,7 +1027,7 @@ used instead. Sourced allocation becomes a powerful tool, since the
 dynamic type of the source object need not be known in the scoping unit
 within which the allocation is executed.
 
-Type components with the `POINTER` or `ALLOCATABLE` attribute can be
+Type components with the `pointer` or `allocatable` attribute can be
 unlimited polymorphic, enabling the construction of generic and
 potentially inhomogeneous container-like types. As an illustration of
 this, a supporting type for the purpose of holding data targeted for
@@ -1035,11 +1035,11 @@ manipulation of other objects is presented; its definition (placed in
 the module `mod_utility_types`) reads
 
 ```f90
-TYPE :: any_object
-   CHARACTER(len=:), ALLOCATABLE :: description
-   CLASS(*), ALLOCATABLE :: value(:)
-   INTEGER, ALLOCATABLE :: shape(:)
-END TYPE
+type :: any_object
+  character(len=:), allocatable :: description
+  class(*), allocatable :: value(:)
+  integer, allocatable :: shape(:)
+end type
 ```
 
 where `description` will refer to the property that needs updating, and
@@ -1055,45 +1055,45 @@ example illustrates how to establish a simple interface for setting
 components of a structure:
 
 ```f90
-MODULE mod_wtype
-   USE mod_utility_types, ONLY : initialize => any_object
+module mod_wtype
+  use mod_utility_types, only : initialize => any_object
 
-   TYPE :: wtype
-      PRIVATE
-      INTEGER :: nonzeros = -1
-      REAL, ALLOCATABLE :: w(:,:)
-   END TYPE wtype
-CONTAINS
-   SUBROUTINE setup_wtype(a_wtype, a_component)
-      ! in-place setting to avoid memory bursts for large objects
-      TYPE(wtype), INTENT(inout) :: a_wtype
-      TYPE(initialize), INTENT(in), TARGET :: a_component
-      INTEGER :: wsize
-      REAL, POINTER :: pw(:,:)
+  type :: wtype
+    private
+    integer :: nonzeros = -1
+    real, allocatable :: w(:,:)
+  end type wtype
+contains
+  subroutine setup_wtype(a_wtype, a_component)
+    ! in-place setting to avoid memory bursts for large objects
+    type(wtype), intent(inout) :: a_wtype
+    type(initialize), intent(in), target :: a_component
+    integer :: wsize
+    real, pointer :: pw(:,:)
 
-      SELECT CASE (a_component%description)
-      CASE ("nonzeros")
-         IF ( allocated(a_component%value) ) THEN
-            SELECT TYPE ( nonzeros => a_component%value(1) )
-            TYPE IS (INTEGER)
-               a_wtype%nonzeros = nonzeros
-            END SELECT
-         END IF
-      CASE ("w")
-         IF ( allocated(a_component%value) .AND. allocated(a_component%shape) ) THEN
-            wsize = size(a_component%value)
-            IF ( wsize >= product(a_component%shape) ) THEN
-               SELECT TYPE ( w => a_component%value )
-               TYPE IS (REAL)
-                  pw(1:a_component%shape(1), 1:a_component%shape(2)) => w
-                  a_wtype%w = pw
-               END SELECT
-            END IF
-         END IF
-      END SELECT
-   END SUBROUTINE setup_wtype
-   :
-END MODULE
+    select case (a_component%description)
+     case ("nonzeros")
+      if ( allocated(a_component%value) ) then
+        select type ( nonzeros => a_component%value(1) )
+         type is (integer)
+          a_wtype%nonzeros = nonzeros
+        end select
+      end if
+     case ("w")
+      if ( allocated(a_component%value) .and. allocated(a_component%shape) ) then
+        wsize = size(a_component%value)
+        if ( wsize >= product(a_component%shape) ) then
+          select type ( w => a_component%value )
+           type is (real)
+            pw(1:a_component%shape(1), 1:a_component%shape(2)) => w
+            a_wtype%w = pw
+          end select
+        end if
+      end if
+    end select
+  end subroutine setup_wtype
+  :
+end module
 ```
 
 **Notes:**
@@ -1110,7 +1110,7 @@ END MODULE
   for these examples this is considered an unnecessary complication;
 - The permitted values for the `initialize` object should be documented
   for each procedure that takes such an object;
-- Because access to `a_component` within `SELECT TYPE` is via a type
+- Because access to `a_component` within `select type` is via a type
   component, one is obliged to introduce an associate name for the
   latter. The language rules only permit omitting the associate name for
   named variables, and subobjects are not named variables;
@@ -1127,21 +1127,21 @@ The program invoking the `setup_wtype` procedure might do so as follows,
 to set up a `wtype` object:
 
 ```f90
-USE mod_wtype
-TYPE(initialize) :: c_nz, c_w
-TYPE(wtype) :: my_wtype
-INTEGER :: i, j
-INTEGER :: ndim
+use mod_wtype
+type(initialize) :: c_nz, c_w
+type(wtype) :: my_wtype
+integer :: i, j
+integer :: ndim
 
 ndim = ...
 
-ASSOCIATE ( my_data => [ ((real (max(0, min(i-j+2, j-i+2))), j=1, ndim), i=1, ndim) ] )
-   c_nz = initialize("nonzeros", count(my_data /= 0))
-   c_w = initialize("w", my_data, [ ndim, ndim ] )
-END ASSOCIATE
+associate ( my_data => [ ((real (max(0, min(i-j+2, j-i+2))), j=1, ndim), i=1, ndim) ] )
+  c_nz = initialize("nonzeros", count(my_data /= 0))
+  c_w = initialize("w", my_data, [ ndim, ndim ] )
+end associate
 
-CALL setup_wtype(my_wtype, c_nz)
-CALL setup_wtype(my_wtype, c_w)
+call setup_wtype(my_wtype, c_nz)
+call setup_wtype(my_wtype, c_w)
 ```
 
 ## Type-bound procedures (TBP)  {#sec:tbp}
@@ -1150,50 +1150,50 @@ To resolve the class mismatch issues arising from the use of polymorphic
 objects, one needs a language mechanism for making a run-time decision
 on a procedure invocation that depends on the dynamic type of a
 polymorphic object. This can be achieved by binding a procedure to a
-type in the type definition via a `PROCEDURE` statement in the type's
-`CONTAINS` part.
+type in the type definition via a `procedure` statement in the type's
+`contains` part.
 
 For the type `body`, the augmented type definition reads
 
 ```f90
-TYPE :: body
-   REAL :: mass
-   REAL :: pos(3), vel(3)
-CONTAINS
-   PROCEDURE :: update => update_body
-END TYPE
+type :: body
+  real :: mass
+  real :: pos(3), vel(3)
+contains
+  procedure :: update => update_body
+end type
 ```
 
 This does not impact how the structure constructor is used; for this,
-only the specifications before the `CONTAINS` statement are relevant. To
+only the specifications before the `contains` statement are relevant. To
 establish a simple and uniform interface for object updates, the
 procedure `update_body` makes use of the `any_object` type discussed
 earlier, which in view of the context is locally renamed to `change`:
 
 ```f90
-SUBROUTINE update_body(a_body, a_change)
-   CLASS(body), INTENT(inout) :: a_body
-   TYPE(change), INTENT(in) :: a_change
-   IF ( allocated(a_change%description) .AND. allocated(a_change%value) ) THEN
-     SELECT CASE ( trim(a_change%description) )
-     CASE ('mass')
-        SELECT TYPE ( delta => a_change%value(1) )
-        TYPE IS (real)
-           CALL accrete(a_body, delta)
-        END SELECT
-     CASE ('momentum')
-        SELECT TYPE ( delta => a_change%value )
-        TYPE IS (real)
-           IF ( size(delta) >= 3 ) CALL kick(a_body, delta(1:3))
-        END SELECT
-     CASE ('position')
-        SELECT TYPE ( delta => a_change%value )
-        TYPE IS (real)
-           IF ( size(delta) >= 3) a_body%pos = a_body%pos + delta(1:3)
-        END SELECT
-     END SELECT
-   END IF
-END SUBROUTINE
+subroutine update_body(a_body, a_change)
+  class(body), intent(inout) :: a_body
+  type(change), intent(in) :: a_change
+  if ( allocated(a_change%description) .and. allocated(a_change%value) ) then
+    select case ( trim(a_change%description) )
+     case ('mass')
+      select type ( delta => a_change%value(1) )
+       type is (real)
+        call accrete(a_body, delta)
+      end select
+     case ('momentum')
+      select type ( delta => a_change%value )
+       type is (real)
+        if ( size(delta) >= 3 ) call kick(a_body, delta(1:3))
+      end select
+     case ('position')
+      select type ( delta => a_change%value )
+       type is (real)
+        if ( size(delta) >= 3) a_body%pos = a_body%pos + delta(1:3)
+      end select
+    end select
+  end if
+end subroutine
 ```
 
 In its interface, the **passed object** `a_body` must be declared to be
@@ -1207,11 +1207,11 @@ preferred style, especially in the case that the actual argument is
 polymorphic, is to do it through the object itself:
 
 ```f90
-TYPE(change) ::  dx
+Type(change) ::  dx
 :
 dx = change(description='mass', value=[0.0, 2.0, 0.0])
 
-CALL my_basketball%update(dx) ! invokes update_body(my_basketball, dx)
+call my_basketball%update(dx) ! invokes update_body(my_basketball, dx)
 ```
 
 For polymorphic objects, the procedure `update_body` will be invoked if
@@ -1231,33 +1231,33 @@ components) of an object of dynamic type `charged_body`, it is possible
 to **override** the parent type's bound procedure:
 
 ```f90
-TYPE, EXTENDS(body) :: charged_body
-   REAL :: charge
-CONTAINS
-   PROCEDURE :: update => update_charged_body
-END TYPE
+type, extends(body) :: charged_body
+  real :: charge
+contains
+  procedure :: update => update_charged_body
+end type
 ```
 
 with the procedure defined as follows:
 
 ```f90
-SUBROUTINE update_charged_body(a_body, a_change)
-   CLASS(charged_body) :: a_body
-   TYPE(change) :: a_change
+subroutine update_charged_body(a_body, a_change)
+  class(charged_body) :: a_body
+  type(change) :: a_change
 
-   IF ( allocated(a_change%description) .AND. allocated(a_change%value) ) THEN
-      SELECT CASE ( trim(a_change%description) )
-      CASE ('charge')
-         SELECT TYPE ( delta => a_change%value(1) )
-         TYPE IS (real)
-            a_body%charge = a_body%charge + delta
-         END SELECT
-      CASE default
-         CALL a_body%body%update(a_change)
-         ! assure that a change to a parent component is dealt with
-      END SELECT
-   END IF
-END SUBROUTINE
+  if ( allocated(a_change%description) .and. allocated(a_change%value) ) then
+    select case ( trim(a_change%description) )
+     case ('charge')
+      select type ( delta => a_change%value(1) )
+       type is (real)
+        a_body%charge = a_body%charge + delta
+      end select
+     case default
+      call a_body%body%update(a_change)
+      ! assure that a change to a parent component is dealt with
+    end select
+  end if
+end subroutine
 ```
 
 The overriding procedure must use the same interface as the overridden
@@ -1267,18 +1267,18 @@ override has been defined, the call through an object of dynamic type
 `charged_body` will be dispatched to `update_charged_body`:
 
 ```f90
-TYPE(change) ::  dc, dp
-CLASS(body), ALLOCATABLE :: my_polymorphic_body
+type(change) ::  dc, dp
+class(body), allocatable :: my_polymorphic_body
 
 my_polymorphic_body = charged_body(mass=1.5, pos=[0.,0.,0.], &
-                                   vel=[2.,0.,0.], charge=2.41E-5)
-!  the above statement auto-allocates the left hand side
-dc = change(description='charge', value=5.0E-6)
+                                   vel=[2.,0.,0.], charge=2.41e-5)
+! the above statement auto-allocates the left hand side
+dc = change(description='charge', value=5.0e-6)
 dp = change(description='momentum', value=[-1.0,1.0,0.0])
 
 ! both the following dispatch to update_charged_body
-CALL my_polymorphic_body%update(dc)
-CALL my_polymorphic_body%update(dp)
+call my_polymorphic_body%update(dc)
+call my_polymorphic_body%update(dp)
 ```
 
 **Notes:**
@@ -1292,11 +1292,11 @@ CALL my_polymorphic_body%update(dp)
   adheres to the [Liskov substitution
   principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle);
 - to enforce using the TBP calls in a use association context, the
-  module procedures that implement them can be made `PRIVATE`. The
+  module procedures that implement them can be made `private`. The
   accessibility of the TBP itself is determined by the attribute for it
-  (default is `PUBLIC`) in the type definition;
+  (default is `public`) in the type definition;
 - the programmer can prevent overriding of a binding by declaring it to
-  be `NON_OVERRIDABLE`; its implementation then is regarded as valid for
+  be `non_overridable`; its implementation then is regarded as valid for
   all conceivable extension types.
 
 ## Abstract types and interfaces
@@ -1310,11 +1310,11 @@ supports the "less-than" comparison. This can be achieved by introducing
 an **abstract type**
 
 ```f90
-TYPE, ABSTRACT :: sortable
-CONTAINS
-   PROCEDURE(compare), DEFERRED :: less_than
-   ! ... more to follow
-END TYPE
+type, abstract :: sortable
+contains
+  procedure(compare), deferred :: less_than
+  ! ... more to follow
+end type
 ```
 
 with a **deferred binding**. It is not possible to create an object
@@ -1323,23 +1323,23 @@ type. For this reason, the deferred binding cannot represent an existing
 procedure, but is characterized by an **abstract interface**:
 
 ```f90
-ABSTRACT INTERFACE
-   PURE LOGICAL FUNCTION compare(s1, s2)
-      IMPORT :: sortable
-      CLASS(sortable), INTENT(in) :: s1, s2
-      ! dispatch is via the first argument
-   END FUNCTION
-END INTERFACE
+abstract interface
+  pure logical function compare(s1, s2)
+    import :: sortable
+    class(sortable), intent(in) :: s1, s2
+    ! dispatch is via the first argument
+  end function
+end interface
 ```
 
-The `IMPORT` statement is required to give the interface access to the
+The `import` statement is required to give the interface access to the
 type defined in its host. Furthermore, an override of the structure
 constructor will be needed
 
 ```f90
-INTERFACE sortable
-   PROCEDURE :: create_sortable
-END INTERFACE
+interface sortable
+  procedure :: create_sortable
+end interface
 ```
 
 that permits creation of polymorphic `sortable` objects. The details of
@@ -1357,35 +1357,35 @@ programming technique, which is also known as **dependency inversion**
    definition of the `sorted_list` type could be adapted to read
 
    ```f90
-   TYPE, PUBLIC :: sorted_list
-      PRIVATE
-      CLASS(sortable), ALLOCATABLE :: data
-      ! changed to refer to abstract type
-      TYPE(sorted_list), POINTER :: next => null()
-   CONTAINS
-      FINAL :: delete_sorted_list
-   END TYPE
+   type, public :: sorted_list
+     private
+     class(sortable), allocatable :: data
+     ! changed to refer to abstract type
+     type(sorted_list), pointer :: next => null()
+   contains
+     final :: delete_sorted_list
+   end type
    ```
 
-The advantage of this is that no change to the preexisting machinery
-will be needed whenever a programmer decides to add an extension type
-as outlined in 2. below.
+   The advantage of this is that no change to the preexisting machinery
+   will be needed whenever a programmer decides to add an extension type
+   as outlined in 2. below.
 
 2. For a concrete realization of a `sortable` object, the programmer
    needs to create a type extension, for example
 
    ```f90
-   TYPE, PUBLIC, EXTENDS(sortable) :: sortable_string
-      CHARACTER(len=:), ALLOCATABLE :: string
-   CONTAINS
-      PROCEDURE :: less_than => less_than_string
-   END TYPE
+   type, public, extends(sortable) :: sortable_string
+     character(len=:), allocatable :: string
+   contains
+     procedure :: less_than => less_than_string
+   end type
    ```
 
-including an *obligatory* implementation `less_than_string` of an
-overriding TBP for the deferred binding. The constructor function
-(promised earlier, but not yet delivered) also needs to be updated to
-enable creation of objects of the extended type.
+   including an *obligatory* implementation `less_than_string` of an
+   overriding TBP for the deferred binding. The constructor function
+   (promised earlier, but not yet delivered) also needs to be updated to
+   enable creation of objects of the extended type.
 
 ## Generic type-bound procedures and operator overloading
 
@@ -1393,29 +1393,29 @@ As a convenience, use of an overloading for the comparison operator "\<"
 can be provided by creating a **generic** type-bound procedure:
 
 ```f90
-TYPE, ABSTRACT :: sortable
-CONTAINS
-   PROCEDURE(compare), DEFERRED :: less_than
-   GENERIC :: OPERATOR(<) => less_than
-END TYPE
+type, abstract :: sortable
+contains
+  procedure(compare), deferred :: less_than
+  generic :: operator(<) => less_than
+end type
 ```
 
 which means that when a statement involving a comparison expression
 
 ```f90
-CLASS(sortable), ALLOCATABLE :: s1, s2
+class(sortable), allocatable :: s1, s2
 
 s1 = sortable( ... )
 s2 = sortable( ... )
 
-IF ( s1 < s2 ) THEN
+if ( s1 < s2 ) then
    ...
-END IF
+end if
 ```
 
 is executed, the overridden type-bound procedure bound to the first
 operand will be invoked to evaluate the expression. It is not necessary
-to re-specify the `GENERIC` clause in any type extensions; the dispatch
+to re-specify the `generic` clause in any type extensions; the dispatch
 will automatically select the overridden procedure.
 
 Named generic type-bound procedures that do not overload existing
@@ -1448,7 +1448,7 @@ The implementation of the constructor will need to use associate
 the types defined there. On the other hand, the interface to the
 constructor needs to be visible in `mod_sortable`, since the machinery
 that depends on it must be able to call it. As a consequence, one would
-end up with a circular `USE` dependency between the two modules, which
+end up with a circular `use` dependency between the two modules, which
 is prohibited.
 
 ### Using submodules to break dependency cycles
@@ -1465,15 +1465,15 @@ For the constructor function, the following interface block can be
 declared in `mod_sortable`:
 
 ```f90
-INTERFACE
-   MODULE FUNCTION create_sortable(init) RESULT(r)
-      CLASS(sortable), ALLOCATABLE :: r
-      TYPE(initialize), INTENT(in) :: init
-   END FUNCTION
-END INTERFACE
+interface
+  module function create_sortable(init) result(r)
+    class(sortable), allocatable :: r
+    type(initialize), intent(in) :: init
+  end function
+end interface
 ```
 
-The special notation `MODULE FUNCTION` (or `MODULE SUBROUTINE` for a
+The special notation `module function` (or `module subroutine` for a
 subroutine) tells the compiler that the implementation is deferred to a
 submodule.
 
@@ -1483,7 +1483,7 @@ submodule.
   `mod_sortable_extensions`;
 - consistent with this, the variable representing the function result is
   an allocatable polymorphic object of the abstract type;
-- an `IMPORT` statement is not obligatory in separate module procedure
+- an `import` statement is not obligatory in separate module procedure
   interfaces, although it is permitted (compiler support assumed!),
   primarily for the purpose of fine-grain control of host access;
 - the type `initialize` is, again, a renamed version of the `any_object`
@@ -1494,22 +1494,22 @@ submodule.
 The submodule containing the implementation then reads as follows:
 
 ```f90
-SUBMODULE (mod_sortable) smod_constructor
-CONTAINS
-   MODULE PROCEDURE create_sortable
-      USE mod_sortable_extensions, ONLY : sortable_string
+submodule (mod_sortable) smod_constructor
+contains
+  module procedure create_sortable
+  use mod_sortable_extensions, only : sortable_string
 
-      IF ( allocated(init%description) .AND. allocated(init%value) ) THEN
-         SELECT CASE (init%description)
-         CASE ('sortable_string')
-            SELECT TYPE ( value => init%value(1) )
-            TYPE IS (CHARACTER(len=*))
-               ALLOCATE( r, source=sortable_string(value) )
-            END SELECT
-         END SELECT
-      END IF
-   END PROCEDURE
-END SUBMODULE
+  if ( allocated(init%description) .and. allocated(init%value) ) then
+    select case (init%description)
+     case ('sortable_string')
+      select type ( value => init%value(1) )
+       type is (character(len=*))
+        allocate( r, source=sortable_string(value) )
+      end select
+    end select
+  end if
+end procedure
+end submodule
 ```
 
 **Notes:**
@@ -1518,17 +1518,17 @@ END SUBMODULE
   can be deduced from its specification in the parent module. However,
   alternative syntax exists that replicates the interface (but this is
   not shown here);
-- the effect of the `ONLY` clause is to suppress use access to any
+- the effect of the `only` clause is to suppress use access to any
   entity of the parent program unit (which would be indirectly
   established). This is because use association overrides host
   association, which may cause undesirable side effects;
 - submodules additionally can contain specifications (before the
-  `CONTAINS` statement), as well as local submodule procedures. All
+  `contains` statement), as well as local submodule procedures. All
   these are only accessible from the submodule (and its descendant
   submodules, if any);
 - the naming scheme for a submodule always references the direct parent.
   For submodules of submodules, the scheme is
-  `SUBMODULE (<parent module>:<parent submodule>) <submodule_name>`
+  `submodule (<parent module>:<parent submodule>) <submodule_name>`
   and the names of submodules of a given module must be unique.
 
 ### Diagramming the dependencies between program units
