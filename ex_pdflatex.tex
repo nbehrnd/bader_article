@@ -83,7 +83,15 @@
     \setlength{\parindent}{0pt}
     \setlength{\parskip}{6pt plus 2pt minus 1pt}}
 }{% if KOMA class
-  \KOMAoptions{parskip=half}}
+  \KOMAoptions{parskip=half}
+  % adjust appearance of footnotes, start:
+  \deffootnote{1em}{0em}{%
+    \textsuperscript{\thefootnotemark}%
+    \setlength{\parskip}{\baselineskip}%
+    \setlength{\parindent}{0pt}%
+    }
+  }
+  % adjust appearance of footnotes, end.
 \makeatother
 \usepackage{xcolor}
 \definecolor{default-linkcolor}{HTML}{A50000}
@@ -357,11 +365,12 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-This article describes how advanced Fortran language features can be
-applied toward object-based and object-oriented programming techniques.
-These are, of course, to a significant extent a matter of taste,
-personal style and possibly overarching program design considerations,
-so should be taken with a pinch of salt.
+This article by the late Reinhold Bader (1966-2024) describes how
+advanced Fortran language features can be applied toward object-based
+and object-oriented programming techniques. These are, of course, to a
+significant extent a matter of taste, personal style and possibly
+overarching program design considerations, so should be taken with a
+pinch of salt.
 
 Language features from Fortran 95 and later will be used; those from
 Fortran 2003 and later will also be shortly described. They are
@@ -386,14 +395,14 @@ Compilable and runnable example code is available from an external
 
 \section{Object-based programming techniques}\label{sec:oop_techniques}
 
-\section{Introduction: Container-like
+\subsection{Introduction: Container-like
 types}\label{introduction-container-like-types}
 
 The word ``Container-like'' is not a Fortran term, but used in the
 context of this article to designate types with components whose size
 (or type, to be discussed later) is not known when the type is declared.
 For deferred sizing of array objects, this can be achieved by using
-either the \texttt{POINTER} or the \texttt{ALLOCATABLE} attribute for
+either the \texttt{pointer} or the \texttt{allocatable} attribute for
 the component's specification.
 
 The language features and programming techniques will be shown using two
@@ -402,20 +411,20 @@ for this chapter can be found in the \texttt{object\_based} folder of
 the \href{https://github.com/reinh-bader/object_fortran}{Github
 repository}.
 
-\section{Examples for definitions of container-like
+\subsection{Examples for definitions of container-like
 types}\label{examples-for-definitions-of-container-like-types}
 
-\subsection{Allocatable components}\label{allocatable-components}
+\subsubsection{Allocatable components}\label{allocatable-components}
 
 As an example for the type definition of a \textbf{value container} (not
 a Fortran term) with an \texttt{ALLOCATABLE} component consider
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ polynomial}
-   \DataTypeTok{PRIVATE}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ a(:)}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type} \DataTypeTok{::}\NormalTok{ polynomial}
+  \DataTypeTok{private}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ a(:)}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
@@ -423,7 +432,7 @@ An object declared to be of this type
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(polynomial)} \DataTypeTok{::}\NormalTok{ p}
+\DataTypeTok{type(polynomial)} \DataTypeTok{::}\NormalTok{ p}
 \end{Highlighting}
 \end{Shaded}
 
@@ -437,29 +446,29 @@ coefficients:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{degree }\KeywordTok{=}\NormalTok{ ... }\CommentTok{! integer value known at run time only}
-\KeywordTok{ALLOCATE}\NormalTok{( p}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:degree) )}
+\KeywordTok{allocate}\NormalTok{( p}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:degree) )}
 \NormalTok{p}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:) }\KeywordTok{=}\NormalTok{ ...}
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{Pointer components}\label{pointer-components}
+\subsubsection{Pointer components}\label{pointer-components}
 
 As an example for the type definition of a \textbf{reference container}
 (not a Fortran term) with a \texttt{POINTER} component consider
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ sorted\_list}
-   \DataTypeTok{PRIVATE}
-   \DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ data}
-   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type} \DataTypeTok{::}\NormalTok{ sorted\_list}
+  \DataTypeTok{private}
+  \DataTypeTok{type(sortable)} \DataTypeTok{::}\NormalTok{ data}
+  \DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{pointer} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
 Note that referencing the type itself when declaring a component is
-permitted if that component has the \texttt{POINTER} or
-\texttt{ALLOCATABLE} attribute; such types are generally known as
+permitted if that component has the \texttt{pointer} or
+\texttt{allocatable} attribute; such types are generally known as
 \textbf{recursive}. They are used to represent information structures
 (lists, trees, \ldots), often with specific relationships between the
 individual data entries stored in each node. In this example, the
@@ -469,13 +478,13 @@ with that type:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC} \DataTypeTok{::}\NormalTok{ sortable}
-   \DataTypeTok{CHARACTER(len=:)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ string}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{public} \DataTypeTok{::}\NormalTok{ sortable}
+  \DataTypeTok{character(len=:)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ string}
+\DataTypeTok{end type}
 
-\KeywordTok{INTERFACE} \KeywordTok{OPERATOR}\NormalTok{(}\OperatorTok{\textless{}}\NormalTok{)          }\CommentTok{! compare two objects of type sortable}
-   \KeywordTok{MODULE PROCEDURE}\NormalTok{ less\_than  }\CommentTok{! implementation not shown here}
-\KeywordTok{END INTERFACE}
+\KeywordTok{interface} \KeywordTok{operator}\NormalTok{(}\OperatorTok{\textless{}}\NormalTok{)         }\CommentTok{! compare two objects of type sortable}
+  \KeywordTok{module procedure}\NormalTok{ less\_than  }\CommentTok{! implementation not shown here}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
@@ -488,7 +497,7 @@ An object declared to be
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list}
+\DataTypeTok{type(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list}
 \end{Highlighting}
 \end{Shaded}
 
@@ -498,7 +507,7 @@ item into the object is done by executing the following statements:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ my\_data}
+\DataTypeTok{type(sortable)} \DataTypeTok{::}\NormalTok{ my\_data}
 \NormalTok{:}
 \NormalTok{my\_data }\KeywordTok{=}\NormalTok{ ...}
 \NormalTok{my\_list}\OperatorTok{\%}\NormalTok{data }\KeywordTok{=}\NormalTok{ my\_data  }\CommentTok{! only compiles if type definition is accessible in host}
@@ -508,19 +517,19 @@ item into the object is done by executing the following statements:
 However, as we shall see below, setting up a complete and valid
 \texttt{sorted\_list} object in a reliable manner needs additional work.
 
-\section{Constructing objects of container-like
+\subsection{Constructing objects of container-like
 type}\label{constructing-objects-of-container-like-type}
 
 The semantics of the default structure constructor for container-like
-objects needs to account for any additional \texttt{POINTER} or
-\texttt{ALLOCATABLE} attribute specified for type components.
+objects needs to account for any additional \texttt{pointer} or
+\texttt{allocatable} attribute specified for type components.
 
 For the first example type from the last section, the executable
 statements in
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(polynomial)} \DataTypeTok{::}\NormalTok{ q, r}
+\DataTypeTok{type(polynomial)} \DataTypeTok{::}\NormalTok{ q, r}
 \NormalTok{:}
 \NormalTok{q }\KeywordTok{=}\NormalTok{ polynomial( }\KeywordTok{[}\FloatTok{2.}\NormalTok{, }\FloatTok{3.}\NormalTok{, }\FloatTok{1.}\KeywordTok{]}\NormalTok{ )}
 \NormalTok{r }\KeywordTok{=}\NormalTok{ polynomial( null() )}
@@ -536,9 +545,9 @@ statements in
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ sl1}
-\DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{target} \DataTypeTok{::}\NormalTok{ sl2}
-\DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ d1, d2}
+\DataTypeTok{type(sorted\_list)} \DataTypeTok{::}\NormalTok{ sl1}
+\DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{target} \DataTypeTok{::}\NormalTok{ sl2}
+\DataTypeTok{type(sortable)} \DataTypeTok{::}\NormalTok{ d1, d2}
 \NormalTok{:}
 \NormalTok{sl1 }\KeywordTok{=}\NormalTok{ sorted\_list( data}\KeywordTok{=}\NormalTok{d1, next}\KeywordTok{=}\NormalTok{sl2 )  }\CommentTok{! use keyword notation}
 \NormalTok{sl2 }\KeywordTok{=}\NormalTok{ sorted\_list( d2, null() )}
@@ -549,8 +558,8 @@ result in an object \texttt{sl1} with \texttt{sl1\%next} pointer
 associated with \texttt{sl2}, and an object \texttt{sl2} with
 \texttt{sl2\%next} disassociated; the \texttt{data} components of both
 objects have values, \texttt{d1} and \texttt{d2}, respectively. Note
-that an argument that matches with a \texttt{POINTER} component must
-have either the \texttt{POINTER} or the \texttt{TARGET} attribute. Also,
+that an argument that matches with a \texttt{pointer} component must
+have either the \texttt{pointer} or the \texttt{target} attribute. Also,
 \textbf{keyword notation} can be used in structure constructors in the
 same manner as for procedure arguments.
 
@@ -561,7 +570,7 @@ to be aware of:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  If all type components have the \texttt{PRIVATE} attribute i.e., the
+  If all type components have the \texttt{private} attribute i.e., the
   type is \textbf{opaque} (not a Fortran term), it can only be used if
   the type declaration is accessed by host association (this is the same
   as for nonallocatable/nonpointer components);
@@ -612,27 +621,27 @@ might read
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{INTERFACE}\NormalTok{ polynomial}
+\KeywordTok{interface}\NormalTok{ polynomial}
 \CommentTok{! overload to assure correct lower bound when creating a polynomial object}
-   \KeywordTok{MODULE PROCEDURE} \DataTypeTok{::}\NormalTok{ create\_polynomial}
-\NormalTok{   ... }\CommentTok{! further specifics as needed}
-\KeywordTok{END INTERFACE}
+  \KeywordTok{module procedure} \DataTypeTok{::}\NormalTok{ create\_polynomial}
+\NormalTok{  ... }\CommentTok{! further specifics as needed}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
 and the implementation of \texttt{create\_polynomial} (in the
-\texttt{CONTAINS} part of the module) might read
+\texttt{contains} part of the module) might read
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{PURE} \DataTypeTok{TYPE(polynomial)} \KeywordTok{FUNCTION}\NormalTok{ create\_polynomial(a)}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ a(}\DecValTok{0}\NormalTok{:)}
-   \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ degree(}\DecValTok{1}\NormalTok{)}
+\KeywordTok{pure} \DataTypeTok{type(polynomial)} \KeywordTok{function}\NormalTok{ create\_polynomial(a)}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ a(}\DecValTok{0}\NormalTok{:)}
+  \DataTypeTok{integer} \DataTypeTok{::}\NormalTok{ degree(}\DecValTok{1}\NormalTok{)}
 
-\NormalTok{   degree }\KeywordTok{=} \FunctionTok{findloc}\NormalTok{( a }\OperatorTok{/=} \FloatTok{0.0}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=}\ConstantTok{.true.}\NormalTok{, back}\KeywordTok{=}\ConstantTok{.true.}\NormalTok{ ) }\KeywordTok{{-}} \DecValTok{1}
-   \KeywordTok{ALLOCATE}\NormalTok{( create\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:degree(}\DecValTok{1}\NormalTok{)) )}
-\NormalTok{   create\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:) }\KeywordTok{=}\NormalTok{ a(}\DecValTok{0}\NormalTok{:degree(}\DecValTok{1}\NormalTok{))}
-\KeywordTok{END FUNCTION}
+\NormalTok{  degree }\KeywordTok{=} \FunctionTok{findloc}\NormalTok{( a }\OperatorTok{/=} \FloatTok{0.0}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=}\ConstantTok{.true.}\NormalTok{, back}\KeywordTok{=}\ConstantTok{.true.}\NormalTok{ ) }\KeywordTok{{-}} \DecValTok{1}
+  \KeywordTok{allocate}\NormalTok{( create\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:degree(}\DecValTok{1}\NormalTok{)) )}
+\NormalTok{  create\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:) }\KeywordTok{=}\NormalTok{ a(}\DecValTok{0}\NormalTok{:degree(}\DecValTok{1}\NormalTok{))}
+\KeywordTok{end function}
 \end{Highlighting}
 \end{Shaded}
 
@@ -644,12 +653,12 @@ For the \texttt{sorted\_list} type the interface block might read
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{INTERFACE}\NormalTok{ sorted\_list}
+\KeywordTok{interface}\NormalTok{ sorted\_list}
 \CommentTok{! the default constructor is unavailable because the type is opaque}
 \CommentTok{! the specific has a different signature than the structure constructor}
-   \KeywordTok{MODULE PROCEDURE} \DataTypeTok{::}\NormalTok{ create\_sorted\_list}
-\NormalTok{   ... }\CommentTok{! further specifics as needed}
-\KeywordTok{END INTERFACE}
+  \KeywordTok{module procedure} \DataTypeTok{::}\NormalTok{ create\_sorted\_list}
+\NormalTok{  ... }\CommentTok{! further specifics as needed}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
@@ -657,16 +666,16 @@ with the implementation of \texttt{create\_sorted\_list} as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{PURE} \KeywordTok{FUNCTION}\NormalTok{ create\_sorted\_list(item\_array) }\KeywordTok{RESULT}\NormalTok{(head)}
-   \DataTypeTok{TYPE(sortable)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ item\_array(:)}
-   \DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ head}
-   \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ i}
+\KeywordTok{pure} \KeywordTok{function}\NormalTok{ create\_sorted\_list(item\_array) }\KeywordTok{result}\NormalTok{(head)}
+  \DataTypeTok{type(sortable)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ item\_array(:)}
+  \DataTypeTok{type(sorted\_list)} \DataTypeTok{::}\NormalTok{ head}
+  \DataTypeTok{integer} \DataTypeTok{::}\NormalTok{ i}
 
-   \KeywordTok{DO}\NormalTok{ i }\KeywordTok{=} \DecValTok{1}\NormalTok{, }\FunctionTok{size}\NormalTok{(item\_array)}
-      \KeywordTok{CALL}\NormalTok{ add\_to\_sorted\_list(head, item\_array(i))}
-      \CommentTok{! handles tedious details of pointer fiddling}
-   \KeywordTok{END DO}
-\KeywordTok{END FUNCTION}
+  \KeywordTok{do}\NormalTok{ i }\KeywordTok{=} \DecValTok{1}\NormalTok{, }\FunctionTok{size}\NormalTok{(item\_array)}
+    \KeywordTok{call}\NormalTok{ add\_to\_sorted\_list(head, item\_array(i))}
+    \CommentTok{! handles tedious details of pointer fiddling}
+  \KeywordTok{end do}
+\KeywordTok{end function}
 \end{Highlighting}
 \end{Shaded}
 
@@ -674,7 +683,7 @@ The constructor has a signature that differs from that of the default
 one, but the latter is unavailable outside the host scope of the type
 definition anyway, due to the opacity of \texttt{sorted\_list}.
 
-\section{Copying objects of container-like
+\subsection{Copying objects of container-like
 type}\label{copying-objects-of-container-like-type}
 
 Default assignment extends to container-like objects. For objects
@@ -702,7 +711,7 @@ produces the same result as
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(q}\OperatorTok{\%}\NormalTok{a) ) }\KeywordTok{DEALLOCATE}\NormalTok{( q}\OperatorTok{\%}\NormalTok{a )}
+\KeywordTok{if}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(q}\OperatorTok{\%}\NormalTok{a) ) }\KeywordTok{deallocate}\NormalTok{( q}\OperatorTok{\%}\NormalTok{a )}
 \NormalTok{q}\OperatorTok{\%}\NormalTok{a }\KeywordTok{=}\NormalTok{ p}\OperatorTok{\%}\NormalTok{a  }\CommentTok{! performs auto{-}allocation using the RHS\textquotesingle{}s bounds, then copies the value}
 \end{Highlighting}
 \end{Shaded}
@@ -726,9 +735,9 @@ produces the same result as
 
 The terms \textbf{deep copy} and \textbf{shallow copy} (neither are
 Fortran terms) are sometimes used to describe the above behaviour for
-\texttt{ALLOCATABLE} and \texttt{POINTER} components, respectively. Note
+\texttt{allocatable} and \texttt{pointer} components, respectively. Note
 that - different from the default structure constructor - having
-\texttt{PRIVATE} components does not affect the use of default
+\texttt{private} components does not affect the use of default
 assigment. However, the semantics of default assignment might not be
 what is needed from the programmer's point of view.
 
@@ -774,34 +783,34 @@ assignment of \texttt{sorted\_list} objects:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SUBROUTINE}\NormalTok{ assign\_sorted\_list(}\KeywordTok{to}\NormalTok{, from)}
-   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{TARGET} \DataTypeTok{::}\NormalTok{ from}
-   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{INTENT(out)}\NormalTok{, }\DataTypeTok{TARGET} \DataTypeTok{::} \KeywordTok{to}  \CommentTok{! finalizer is executed on entry,}
-                                                 \CommentTok{! see below for discussion of this.}
-   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ p, q}
+\KeywordTok{subroutine}\NormalTok{ assign\_sorted\_list(}\KeywordTok{to}\NormalTok{, from)}
+  \DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{target} \DataTypeTok{::}\NormalTok{ from}
+  \DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{intent(out)}\NormalTok{, }\DataTypeTok{target} \DataTypeTok{::} \KeywordTok{to}  \CommentTok{! finalizer is executed on entry,}
+                                                \CommentTok{! see below for discussion of this.}
+  \DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{pointer} \DataTypeTok{::}\NormalTok{ p, q}
 
-\NormalTok{   p }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ from; q }\KeywordTok{=}\OperatorTok{\textgreater{}} \KeywordTok{to}
+\NormalTok{  p }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ from; q }\KeywordTok{=}\OperatorTok{\textgreater{}} \KeywordTok{to}
 
-\NormalTok{   deep\_copy : }\KeywordTok{DO}
-      \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(p) ) }\KeywordTok{THEN}
-\NormalTok{         q}\OperatorTok{\%}\NormalTok{data }\KeywordTok{=}\NormalTok{ p}\OperatorTok{\%}\NormalTok{data}
-      \KeywordTok{ELSE}
-         \KeywordTok{EXIT}\NormalTok{ deep\_copy}
-      \KeywordTok{END IF}
-\NormalTok{      p }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p}\OperatorTok{\%}\NormalTok{next}
-      \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(p) ) }\KeywordTok{ALLOCATE}\NormalTok{( q}\OperatorTok{\%}\NormalTok{next )}
-\NormalTok{      q }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ q}\OperatorTok{\%}\NormalTok{next}
-   \KeywordTok{END DO}\NormalTok{ deep\_copy}
-\KeywordTok{END SUBROUTINE}
+\NormalTok{  deep\_copy : }\KeywordTok{do}
+    \KeywordTok{if}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(p) ) }\KeywordTok{then}
+\NormalTok{      q}\OperatorTok{\%}\NormalTok{data }\KeywordTok{=}\NormalTok{ p}\OperatorTok{\%}\NormalTok{data}
+    \KeywordTok{else}
+      \KeywordTok{exit}\NormalTok{ deep\_copy}
+    \KeywordTok{end if}
+\NormalTok{    p }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p}\OperatorTok{\%}\NormalTok{next}
+    \KeywordTok{if}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(p) ) }\KeywordTok{allocate}\NormalTok{( q}\OperatorTok{\%}\NormalTok{next )}
+\NormalTok{    q }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ q}\OperatorTok{\%}\NormalTok{next}
+  \KeywordTok{end do}\NormalTok{ deep\_copy}
+\KeywordTok{end subroutine}
 \end{Highlighting}
 \end{Shaded}
 
 Avoiding 1. is usually done by means of finalizers, to be discussed in
 the next section. This is because assignment is not the only possible
-cause for orphaning of \texttt{POINTER}-related memory (or indeed other
+cause for orphaning of \texttt{pointer}-related memory (or indeed other
 resource leaks).
 
-\section{Finalization and
+\subsection{Finalization and
 conclusions}\label{finalization-and-conclusions}
 
 To deal with resource leaks that are otherwise not within the
@@ -812,30 +821,30 @@ like
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ sorted\_list}
-   \DataTypeTok{PRIVATE}
-   \DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ data}
-   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
-\KeywordTok{CONTAINS}
-   \DataTypeTok{FINAL} \DataTypeTok{::}\NormalTok{ delete\_sorted\_list}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type} \DataTypeTok{::}\NormalTok{ sorted\_list}
+  \DataTypeTok{private}
+  \DataTypeTok{type(sortable)} \DataTypeTok{::}\NormalTok{ data}
+  \DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{pointer} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+\KeywordTok{contains}
+  \DataTypeTok{final} \DataTypeTok{::}\NormalTok{ delete\_sorted\_list}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
-Note that the \texttt{FINAL} statement appears after a \texttt{CONTAINS}
+note that the \texttt{final} statement appears after a \texttt{contains}
 statement in the type definition; this implies that
 \texttt{delete\_sorted\_list} is not a regular type component. The
 module procedure's implementation might then be as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{PURE} \KeywordTok{RECURSIVE} \KeywordTok{SUBROUTINE}\NormalTok{ delete\_sorted\_list(list)}
-   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ list}
+\KeywordTok{pure} \KeywordTok{recursive} \KeywordTok{subroutine}\NormalTok{ delete\_sorted\_list(list)}
+  \DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{intent(inout)} \DataTypeTok{::}\NormalTok{ list}
 
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(list}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{THEN}
-      \KeywordTok{DEALLOCATE}\NormalTok{( list}\OperatorTok{\%}\NormalTok{next )  }\CommentTok{! invokes the finalizer recursively}
-   \KeywordTok{END IF}
-\KeywordTok{END SUBROUTINE}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(list}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{then}
+    \KeywordTok{deallocate}\NormalTok{( list}\OperatorTok{\%}\NormalTok{next )  }\CommentTok{! invokes the finalizer recursively}
+  \KeywordTok{end if}
+\KeywordTok{end subroutine}
 \end{Highlighting}
 \end{Shaded}
 
@@ -845,11 +854,11 @@ argument; for the case of finalizing array arguments it is possible to
 have a set of finalizers (all listed in the type definition), each of
 which declares the dummy argument with an appropriate rank.
 
-\emph{Hint:} The \texttt{PURE} and \texttt{RECURSIVE} properties
+\emph{Hint:} The \texttt{pure} and \texttt{recursive} properties
 specified above reflect the specific needs for the \texttt{sorted\_list}
-type and its associated procedures. The \texttt{RECURSIVE} specification
+type and its associated procedures. The \texttt{recursive} specification
 is optional (i.e., procedures can be called recursively by default), but
-a \texttt{NON\_RECURSIVE} specification can be supplied if the
+a \texttt{non\_recursive} specification can be supplied if the
 implementation's semantics does not permit correct behaviour in
 recursive calls.
 
@@ -863,7 +872,7 @@ The finalizer will be automatically invoked on an object if
   (before the assignment is performed),
 \item
   on invocation of a procedure call where it is argument associated with
-  an \texttt{INTENT(out)} dummy,
+  an \texttt{intent(out)} dummy,
 \item
   it is a non-saved variable and program execution ends its scope, or
 \item
@@ -893,29 +902,29 @@ See also the article
 ``\href{https://en.wikipedia.org/wiki/Rule_of_three_(C\%2B\%2B_programming)}{Rule
 of three}'' for the analogous situation in C++.
 
-\section{Further language features useful for object-based
+\subsection{Further language features useful for object-based
 programming}\label{further-language-features-useful-for-object-based-programming}
 
-\subsection{Extended semantics for allocatable
+\subsubsection{Extended semantics for allocatable
 objects}\label{extended-semantics-for-allocatable-objects}
 
-Scalars can have the \texttt{ALLOCATABLE} attribute:
+Scalars can have the \texttt{allocatable} attribute:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{CHARACTER(len=:)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ my\_string}
-\DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ my\_list}
+\DataTypeTok{character(len=:)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ my\_string}
+\DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ my\_list}
 \end{Highlighting}
 \end{Shaded}
 
 Allocation then can be done explicitly; the following examples
-illustrate applications of the \texttt{ALLOCATE} statement that are
+illustrate applications of the \texttt{allocate} statement that are
 useful or even necessary in this context:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ALLOCATE}\NormalTok{( }\DataTypeTok{CHARACTER(len=13)} \DataTypeTok{::}\NormalTok{ my\_string )                  }\CommentTok{! typed allocation}
-\KeywordTok{ALLOCATE}\NormalTok{( my\_list, source}\KeywordTok{=}\NormalTok{sorted\_list(array\_of\_sortable) )  }\CommentTok{! sourced allocation}
+\KeywordTok{allocate}\NormalTok{( }\DataTypeTok{character(len=13)} \DataTypeTok{::}\NormalTok{ my\_string )                  }\CommentTok{! typed allocation}
+\KeywordTok{allocate}\NormalTok{( my\_list, source}\KeywordTok{=}\NormalTok{sorted\_list(array\_of\_sortable) )  }\CommentTok{! sourced allocation}
 \end{Highlighting}
 \end{Shaded}
 
@@ -952,7 +961,7 @@ or shape, respectively.
 for object-oriented programming, with additional semantics applying for
 the case of polymorphic objects.
 
-\subsection{Implementing move
+\subsubsection{Implementing move
 semantics}\label{implementing-move-semantics}
 
 Sometimes it may be necessary to make use of move instead of copy
@@ -962,7 +971,7 @@ original. The simplest way of doing this is to make use of allocatable
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ my\_list, your\_list}
+\DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ my\_list, your\_list}
 \end{Highlighting}
 \end{Shaded}
 
@@ -972,7 +981,7 @@ intrinsic,
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{CALL}\NormalTok{ move\_alloc(your\_list, my\_list)}
+\KeywordTok{call}\NormalTok{ move\_alloc(your\_list, my\_list)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -983,40 +992,40 @@ up in the deallocated state. Note that the latter does not involve a
 regular object deallocation (effectively, a descriptor for the object is
 moved), so any existing finalizer will not be invoked.
 
-\subsection{\texorpdfstring{The \texttt{BLOCK}
-construct}{The BLOCK construct}}\label{the-block-construct}
+\subsubsection{\texorpdfstring{The \texttt{block}
+construct}{The block construct}}\label{the-block-construct}
 
 The above rules on finalization imply that variables declared in the
 specification part of the main program are not finalizable, since they
-by default have the \texttt{SAVE} attribute. One could argue this is not
+by default have the \texttt{save} attribute. One could argue this is not
 necessary since all assigned memory is reclaimed when program execution
 ends. However, excessive memory consumption or the use of other
 resources may cause issues for reliable program execution. To work
-around these, the \texttt{BLOCK} construct can be used:
+around these, the \texttt{block} construct can be used:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{PROGRAM}\NormalTok{ test\_sorted\_list}
-   \KeywordTok{USE}\NormalTok{ mod\_sortable}
-   \KeywordTok{USE}\NormalTok{ mod\_sorted\_list}
-   \KeywordTok{IMPLICIT} \KeywordTok{none}
-\NormalTok{   :}
-\NormalTok{   work : }\KeywordTok{BLOCK}
-      \DataTypeTok{TYPE(sortable)} \DataTypeTok{::}\NormalTok{ array(items)}
-      \DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list, ...}
-\NormalTok{      : }\CommentTok{! initialize array}
+\KeywordTok{program}\NormalTok{ test\_sorted\_list}
+  \KeywordTok{use}\NormalTok{ mod\_sortable}
+  \KeywordTok{use}\NormalTok{ mod\_sorted\_list}
+  \KeywordTok{implicit} \KeywordTok{none}
+\NormalTok{  :}
+\NormalTok{  work : }\KeywordTok{block}
+    \DataTypeTok{type(sortable)} \DataTypeTok{::}\NormalTok{ array(items)}
+    \DataTypeTok{type(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list, ...}
+\NormalTok{    : }\CommentTok{! initialize array}
 
-\NormalTok{      my\_list }\KeywordTok{=}\NormalTok{ sorted\_list(array)}
-\NormalTok{      :}
-   \KeywordTok{END BLOCK}\NormalTok{ work  }\CommentTok{! finalizer is executed on my\_list, ...}
-\NormalTok{   :}
-\KeywordTok{END PROGRAM}
+\NormalTok{    my\_list }\KeywordTok{=}\NormalTok{ sorted\_list(array)}
+\NormalTok{    :}
+  \KeywordTok{end block}\NormalTok{ work  }\CommentTok{! finalizer is executed on my\_list, ...}
+\NormalTok{  :}
+\KeywordTok{end program}
 \end{Highlighting}
 \end{Shaded}
 
 The construct (as the only one in Fortran) permits declaration of
 non-saved variables in its specification part. Their lifetime ends when
-program execution reaches the \texttt{END\ BLOCK} statement, and they
+program execution reaches the \texttt{end\ block} statement, and they
 therefore are finalized at this point, if applicable. Named variables
 declared outside the construct are accessible inside it, unless a
 block-local declaration with the same name exists.
@@ -1024,36 +1033,36 @@ block-local declaration with the same name exists.
 \emph{Hint:} Note that the construct's execution flow can be modified by
 executing an \texttt{EXIT} statement in its body; this can, for example,
 be used for structured error handling and finally permits sending
-\texttt{GO\ TO} to retirement.
+\texttt{go\ to} to retirement.
 
-\subsection{\texorpdfstring{The \texttt{ASSOCIATE}
-construct}{The ASSOCIATE construct}}\label{the-associate-construct}
+\subsubsection{\texorpdfstring{The \texttt{associate}
+construct}{The associate construct}}\label{the-associate-construct}
 
 With the introduction of deeply nested derived types, code that needs
 access to ultimate components can become quite hard to read. An
-\texttt{ASSOCIATE} block construct that enables the use of auto-typed
+\texttt{associate} block construct that enables the use of auto-typed
 aliases can be used. This is illustrated by a procedure that is used to
 implement the multiplication of two polynomials:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{PURE} \DataTypeTok{TYPE(polynomial)} \KeywordTok{FUNCTION}\NormalTok{ multiply\_polynomial(p1, p2)}
-   \DataTypeTok{TYPE(polynomial)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ p1, p2}
-   \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ j, l, lmax}
+\KeywordTok{pure} \DataTypeTok{type(polynomial)} \KeywordTok{function}\NormalTok{ multiply\_polynomial(p1, p2)}
+  \DataTypeTok{type(polynomial)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ p1, p2}
+  \DataTypeTok{integer} \DataTypeTok{::}\NormalTok{ j, l, lmax}
 
-\NormalTok{   lmax }\KeywordTok{=} \FunctionTok{ubound}\NormalTok{(p1}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{) }\KeywordTok{+} \FunctionTok{ubound}\NormalTok{(p2}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{)}
-   \KeywordTok{ALLOCATE}\NormalTok{( multiply\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:lmax) )}
+\NormalTok{  lmax }\KeywordTok{=} \FunctionTok{ubound}\NormalTok{(p1}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{) }\KeywordTok{+} \FunctionTok{ubound}\NormalTok{(p2}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{)}
+  \KeywordTok{allocate}\NormalTok{( multiply\_polynomial}\OperatorTok{\%}\NormalTok{a(}\DecValTok{0}\NormalTok{:lmax) )}
 
-   \KeywordTok{ASSOCIATE}\NormalTok{( a }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p1}\OperatorTok{\%}\NormalTok{a, b }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p2}\OperatorTok{\%}\NormalTok{a, c }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ multiply\_polynomial}\OperatorTok{\%}\NormalTok{a, }\KeywordTok{\&}
-\NormalTok{              jmax }\KeywordTok{=}\OperatorTok{\textgreater{}} \FunctionTok{ubound}\NormalTok{(p1}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{), kmax }\KeywordTok{=}\OperatorTok{\textgreater{}} \FunctionTok{ubound}\NormalTok{(p2}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{) )  }\CommentTok{! association list}
-      \KeywordTok{DO}\NormalTok{ l }\KeywordTok{=} \DecValTok{0}\NormalTok{, lmax}
-\NormalTok{         c(l) }\KeywordTok{=} \DecValTok{0}
-         \KeywordTok{DO}\NormalTok{ j }\KeywordTok{=} \BuiltInTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, l}\KeywordTok{{-}}\NormalTok{kmax), }\BuiltInTok{min}\NormalTok{(jmax, l)}
-\NormalTok{            c(l) }\KeywordTok{=}\NormalTok{ c(l) }\KeywordTok{+}\NormalTok{ a(j) }\KeywordTok{*}\NormalTok{ b(l}\KeywordTok{{-}}\NormalTok{j)}
-         \KeywordTok{END DO}
-      \KeywordTok{END DO}
-   \KeywordTok{END ASSOCIATE}
-\KeywordTok{END FUNCTION}
+  \KeywordTok{associate}\NormalTok{( a }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p1}\OperatorTok{\%}\NormalTok{a, b }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ p2}\OperatorTok{\%}\NormalTok{a, c }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ multiply\_polynomial}\OperatorTok{\%}\NormalTok{a, }\KeywordTok{\&}
+\NormalTok{    jmax }\KeywordTok{=}\OperatorTok{\textgreater{}} \FunctionTok{ubound}\NormalTok{(p1}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{), kmax }\KeywordTok{=}\OperatorTok{\textgreater{}} \FunctionTok{ubound}\NormalTok{(p2}\OperatorTok{\%}\NormalTok{a,}\DecValTok{1}\NormalTok{) )  }\CommentTok{! association list}
+    \KeywordTok{do}\NormalTok{ l }\KeywordTok{=} \DecValTok{0}\NormalTok{, lmax}
+\NormalTok{      c(l) }\KeywordTok{=} \DecValTok{0}
+      \KeywordTok{do}\NormalTok{ j }\KeywordTok{=} \BuiltInTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, l}\KeywordTok{{-}}\NormalTok{kmax), }\BuiltInTok{min}\NormalTok{(jmax, l)}
+\NormalTok{        c(l) }\KeywordTok{=}\NormalTok{ c(l) }\KeywordTok{+}\NormalTok{ a(j) }\KeywordTok{*}\NormalTok{ b(l}\KeywordTok{{-}}\NormalTok{j)}
+      \KeywordTok{end do}
+    \KeywordTok{end do}
+  \KeywordTok{end associate}
+\KeywordTok{end function}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1065,23 +1074,23 @@ be assigned to. If the selectors are expressions, so are the associate
 names (\texttt{jmax}, \texttt{kmax} in the above example).
 
 Associated entities that refer to variables inherit the
-\texttt{DIMENSION}, \texttt{CODIMENSION}, \texttt{TARGET},
-\texttt{ASYNCHRONOUS} and \texttt{VOLATILE} attributes from their
+\texttt{dimension}, \texttt{codimension}, \texttt{target},
+\texttt{asynchronous} and \texttt{volatile} attributes from their
 selectors, but no others. An associate name can only refer to an
 \texttt{OPTIONAL} dummy argument if the latter is present. Associate
-names can also appear in other block constructs (\texttt{SELECT\ TYPE},
-\texttt{CHANGE\ TEAM}), which will be discussed where appropriate.
+names can also appear in other block constructs (\texttt{select\ type},
+\texttt{change\ team}), which will be discussed where appropriate.
 
-\section{Performing I/O with objects of container-like
+\subsection{Performing I/O with objects of container-like
 type}\label{performing-io-with-objects-of-container-like-type}
 
 For objects of container-like type, a data transfer statement
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list}
+\DataTypeTok{type(sorted\_list)} \DataTypeTok{::}\NormalTok{ my\_list}
 \NormalTok{: }\CommentTok{! set up my\_list}
-\FunctionTok{WRITE(*}\NormalTok{, }\FunctionTok{*)}\NormalTok{ my\_list}
+\FunctionTok{write(*}\NormalTok{, }\FunctionTok{*)}\NormalTok{ my\_list}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1095,9 +1104,10 @@ suitably written named interface:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{INTERFACE} \FunctionTok{WRITE(formatted)}
-   \KeywordTok{MODULE PROCEDURE}\NormalTok{ write\_fmt\_list}
-\KeywordTok{END INTERFACE}
+
+\KeywordTok{interface} \FunctionTok{write(formatted)}
+  \KeywordTok{module procedure}\NormalTok{ write\_fmt\_list}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1117,13 +1127,13 @@ interpretation:
 \begin{itemize}
 \tightlist
 \item
-  \texttt{WRITE(formatted)}
+  \texttt{write(formatted)}
 \item
-  \texttt{READ(formatted)}
+  \texttt{read(formatted)}
 \item
-  \texttt{WRITE(unformatted)}
+  \texttt{write(unformatted)}
 \item
-  \texttt{READ(unformatted)}
+  \texttt{read(unformatted)}
 \end{itemize}
 
 The self-defined procedure is restricted with respect to its interfaces'
@@ -1131,8 +1141,8 @@ characteristics, which are described in the following:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SUBROUTINE} \OperatorTok{\textless{}}\NormalTok{formatted\_io}\OperatorTok{\textgreater{}}\NormalTok{   (dtv, unit, iotype, v\_list, iostat, iomsg)}
-\KeywordTok{SUBROUTINE} \OperatorTok{\textless{}}\NormalTok{unformatted\_io}\OperatorTok{\textgreater{}}\NormalTok{ (dtv, unit,                 iostat, iomsg)}
+\KeywordTok{subroutine} \OperatorTok{\textless{}}\NormalTok{formatted\_io}\OperatorTok{\textgreater{}}\NormalTok{   (dtv, unit, iotype, v\_list, iostat, iomsg)}
+\KeywordTok{subroutine} \OperatorTok{\textless{}}\NormalTok{unformatted\_io}\OperatorTok{\textgreater{}}\NormalTok{ (dtv, unit,                 iostat, iomsg)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1147,24 +1157,24 @@ The dummy arguments' declarations and meaning are:
   \texttt{dtv}: Must be declared to be a nonpointer nonallocatable
   scalar of the type in question. If the type is extensible (to be
   explained later), the declaration must be polymorphic (i.e.~using
-  \texttt{CLASS}), otherwise non-polymorphic (using \texttt{TYPE}). Its
-  \texttt{INTENT} must be \texttt{in} for \texttt{WRITE(...)}, and
-  ``\texttt{out}'' or ``\texttt{inout}'' for \texttt{READ(...)}. It
+  \texttt{class}), otherwise non-polymorphic (using \texttt{type}). Its
+  \texttt{intent} must be \texttt{in} for \texttt{write(...)}, and
+  ``\texttt{out}'' or ``\texttt{inout}'' for \texttt{read(...)}. It
   represents the object on which data transfer statements are to be
   executed.
 
   \emph{Hint:} Note: For the examples in this chapter, we need to use
-  \texttt{CLASS}, but the behaviour is as if \texttt{TYPE} were used, as
+  \texttt{class}, but the behaviour is as if \texttt{type} were used, as
   long as the actual arguments are non-polymorphic and the
   procedure-based interface is used for the invocation.
 \item
-  \texttt{unit}: An \texttt{INTEGER} scalar with \texttt{INTENT(in)}.
+  \texttt{unit}: An \texttt{integer} scalar with \texttt{intent(in)}.
   Its value is that of the unit used for data transfer statements. Use
   of other unit values is not permitted (except, perhaps,
   \texttt{error\_unit} for debugging purposes).
 \item
-  \texttt{iotype}: A \texttt{CHARACTER(len=*)} string with
-  \texttt{INTENT(in)}. This can only appear in procedures for formatted
+  \texttt{iotype}: A \texttt{character(len=*)} string with
+  \texttt{intent(in)}. This can only appear in procedures for formatted
   I/O. The following table describes how the incoming value relates to
   the parent I/O transfer statement:
 \end{itemize}
@@ -1182,13 +1192,13 @@ Caused by parent I/O statement
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\texttt{"LISTDIRECTED"} & \texttt{WRITE(unit,\ fmt=*)\ my\_list} \\
-\texttt{"NAMELIST"} & \texttt{WRITE(unit,\ nml=my\_namelist)}
+\texttt{"LISTDIRECTED"} & \texttt{write(unit,\ fmt=*)\ my\_list} \\
+\texttt{"NAMELIST"} & \texttt{write(unit,\ nml=my\_namelist)}
 \textbf{Note:} Referring to the example, at least one
 \texttt{sorted\_list} object must be a member of
 \texttt{my\_namelist}. \\
 \texttt{"DTsorted\_list\_fmt"} &
-\texttt{WRITE(unit,\ fmt=\textquotesingle{}(DT"sorted\_list\_fmt"(10,2))\textquotesingle{})\ my\_list}
+\texttt{write(unit,\ fmt=\textquotesingle{}(DT"sorted\_list\_fmt"(10,2))\textquotesingle{})\ my\_list}
 \textbf{Note:} \texttt{DT} is the ``derived type'' edit descriptor that
 is needed in format-driven editing to trigger execution of the UDDTIO
 routine. The string following the \texttt{DT} edit descriptor can be
@@ -1200,8 +1210,8 @@ parent I/O statement if it supports DT editing. \\
 \begin{itemize}
 \tightlist
 \item
-  \texttt{v\_list}: A rank-1 assumed-shape \texttt{INTEGER} array with
-  \texttt{INTENT(in)} . This can only appear in procedures for formatted
+  \texttt{v\_list}: A rank-1 assumed-shape \texttt{integer} array with
+  \texttt{intent(in)} . This can only appear in procedures for formatted
   I/O. The incoming value is taken from the final part of the
   \texttt{DT} edit descriptor; in the example from the table above it
   would have the value \texttt{{[}10,2{]}}. Free use can be made of the
@@ -1210,7 +1220,7 @@ parent I/O statement if it supports DT editing. \\
   specifically, it will be of size zero for the listdirected or namelist
   cases.
 \item
-  \texttt{iostat}: An \texttt{INTEGER} scalar with \texttt{INTENT(out)}.
+  \texttt{iostat}: An \texttt{integer} scalar with \texttt{intent(out)}.
   It must be given a value consistent with those produced by non-UDTTIO
   statements in case of an error. Successful execution of the I/O must
   result in a zero value. Unsuccessful execution must result in either a
@@ -1218,8 +1228,8 @@ parent I/O statement if it supports DT editing. \\
   \texttt{iostat\_eor} from the \texttt{iso\_fortran\_env} intrinsic
   module.
 \item
-  \texttt{iomsg}: A \texttt{CHARACTER(len=*)} string with
-  \texttt{INTENT(inout)}. It must be given a value if a non-zero
+  \texttt{iomsg}: A \texttt{character(len=*)} string with
+  \texttt{intent(inout)}. It must be given a value if a non-zero
   \texttt{iostat} is returned.
 \end{itemize}
 
@@ -1242,35 +1252,35 @@ on \texttt{sorted\_list} objects:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{RECURSIVE} \KeywordTok{SUBROUTINE}\NormalTok{ write\_fmt\_list(dtv, unit, iotype, v\_list, iostat, iomsg)}
-   \DataTypeTok{CLASS(sorted\_list)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ dtv}
-   \DataTypeTok{INTEGER}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ unit, v\_list(:)}
-   \DataTypeTok{CHARACTER(len=*)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ iotype}
-   \DataTypeTok{INTEGER}\NormalTok{, }\DataTypeTok{INTENT(out)} \DataTypeTok{::}\NormalTok{ iostat}
-   \DataTypeTok{CHARACTER(len=*)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ iomsg}
-   \DataTypeTok{CHARACTER(len=2)} \DataTypeTok{::}\NormalTok{ next\_component}
+\NormalTok{ecursive }\KeywordTok{subroutine}\NormalTok{ write\_fmt\_list(dtv, unit, iotype, v\_list, iostat, iomsg)}
+  \DataTypeTok{class(sorted\_list)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ dtv}
+  \DataTypeTok{integer}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ unit, v\_list(:)}
+  \DataTypeTok{character(len=*)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ iotype}
+  \DataTypeTok{integer}\NormalTok{, }\DataTypeTok{intent(out)} \DataTypeTok{::}\NormalTok{ iostat}
+  \DataTypeTok{character(len=*)}\NormalTok{, }\DataTypeTok{intent(inout)} \DataTypeTok{::}\NormalTok{ iomsg}
+  \DataTypeTok{character(len=2)} \DataTypeTok{::}\NormalTok{ next\_component}
 
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(dtv}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{THEN}
-      \FunctionTok{WRITE(}\NormalTok{next\_component, }\FunctionTok{fmt}\KeywordTok{=}\StringTok{\textquotesingle{}("T,")\textquotesingle{}}\FunctionTok{)}
-   \KeywordTok{ELSE}
-      \FunctionTok{WRITE(}\NormalTok{next\_component, }\FunctionTok{fmt}\KeywordTok{=}\StringTok{\textquotesingle{}("F")\textquotesingle{}}\FunctionTok{)}
-   \KeywordTok{END IF}
-   \KeywordTok{SELECT CASE}\NormalTok{ (iotype)}
-   \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}LISTDIRECTED\textquotesingle{}}\NormalTok{)}
-      \FunctionTok{WRITE(unit}\NormalTok{, }\FunctionTok{fmt}\KeywordTok{=}\FunctionTok{*}\NormalTok{, }\FunctionTok{delim}\KeywordTok{=}\StringTok{\textquotesingle{}quote\textquotesingle{}}\NormalTok{, }\FunctionTok{iostat}\KeywordTok{=}\FunctionTok{iostat}\NormalTok{, iomsg}\KeywordTok{=}\NormalTok{iomsg}\FunctionTok{)} \KeywordTok{\&}
-\NormalTok{            dtv}\OperatorTok{\%}\NormalTok{data}\OperatorTok{\%}\NormalTok{string}
-   \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}NAMELIST\textquotesingle{}}\NormalTok{)}
-      \FunctionTok{WRITE(unit}\NormalTok{, }\FunctionTok{fmt}\KeywordTok{=}\FunctionTok{*}\NormalTok{, }\FunctionTok{iostat}\KeywordTok{=}\FunctionTok{iostat}\NormalTok{, iomsg}\KeywordTok{=}\NormalTok{iomsg}\FunctionTok{)} \StringTok{\textquotesingle{}"\textquotesingle{}}\NormalTok{, }\KeywordTok{\&}
-\NormalTok{            dtv}\OperatorTok{\%}\NormalTok{data}\OperatorTok{\%}\NormalTok{string, }\StringTok{\textquotesingle{}",\textquotesingle{}}\NormalTok{, }\FunctionTok{trim}\NormalTok{(next\_component)}
-   \KeywordTok{CASE default}
-\NormalTok{      iostat }\KeywordTok{=} \DecValTok{129}
-\NormalTok{      iomsg }\KeywordTok{=} \StringTok{\textquotesingle{}iotype \textquotesingle{}} \KeywordTok{//} \FunctionTok{trim}\NormalTok{(iotype) }\KeywordTok{//} \StringTok{\textquotesingle{} not implemented\textquotesingle{}}
-      \KeywordTok{RETURN}
-   \KeywordTok{END SELECT}
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(dtv}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{THEN}
-      \KeywordTok{CALL}\NormalTok{ write\_fmt\_list(dtv}\OperatorTok{\%}\NormalTok{next, unit, iotype, v\_list, iostat, iomsg)}
-   \KeywordTok{END IF}
-\KeywordTok{END SUBROUTINE}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(dtv}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{then}
+    \FunctionTok{write(}\NormalTok{next\_component, }\FunctionTok{fmt}\KeywordTok{=}\StringTok{\textquotesingle{}("t,")\textquotesingle{}}\FunctionTok{)}
+  \KeywordTok{else}
+    \FunctionTok{write(}\NormalTok{next\_component, }\FunctionTok{fmt}\KeywordTok{=}\StringTok{\textquotesingle{}("f")\textquotesingle{}}\FunctionTok{)}
+  \KeywordTok{end if}
+  \KeywordTok{select case}\NormalTok{ (iotype)}
+  \KeywordTok{case}\NormalTok{ (}\StringTok{\textquotesingle{}listdirected\textquotesingle{}}\NormalTok{)}
+    \FunctionTok{write(unit}\NormalTok{, }\FunctionTok{fmt}\KeywordTok{=}\FunctionTok{*}\NormalTok{, }\FunctionTok{delim}\KeywordTok{=}\StringTok{\textquotesingle{}quote\textquotesingle{}}\NormalTok{, }\FunctionTok{iostat}\KeywordTok{=}\FunctionTok{iostat}\NormalTok{, iomsg}\KeywordTok{=}\NormalTok{iomsg}\FunctionTok{)} \KeywordTok{\&}
+\NormalTok{      dtv}\OperatorTok{\%}\NormalTok{data}\OperatorTok{\%}\NormalTok{string}
+  \KeywordTok{case}\NormalTok{ (}\StringTok{\textquotesingle{}namelist\textquotesingle{}}\NormalTok{)}
+    \FunctionTok{write(unit}\NormalTok{, }\FunctionTok{fmt}\KeywordTok{=}\FunctionTok{*}\NormalTok{, }\FunctionTok{iostat}\KeywordTok{=}\FunctionTok{iostat}\NormalTok{, iomsg}\KeywordTok{=}\NormalTok{iomsg}\FunctionTok{)} \StringTok{\textquotesingle{}"\textquotesingle{}}\NormalTok{, }\KeywordTok{\&}
+\NormalTok{      dtv}\OperatorTok{\%}\NormalTok{data}\OperatorTok{\%}\NormalTok{string, }\StringTok{\textquotesingle{}",\textquotesingle{}}\NormalTok{, }\FunctionTok{trim}\NormalTok{(next\_component)}
+  \KeywordTok{case default}
+\NormalTok{    iostat }\KeywordTok{=} \DecValTok{129}
+\NormalTok{    iomsg }\KeywordTok{=} \StringTok{\textquotesingle{}iotype \textquotesingle{}} \KeywordTok{//} \FunctionTok{trim}\NormalTok{(iotype) }\KeywordTok{//} \StringTok{\textquotesingle{} not implemented\textquotesingle{}}
+    \KeywordTok{return}
+  \KeywordTok{end select}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(dtv}\OperatorTok{\%}\NormalTok{next) ) }\KeywordTok{then}
+    \KeywordTok{call}\NormalTok{ write\_fmt\_list(dtv}\OperatorTok{\%}\NormalTok{next, unit, iotype, v\_list, iostat, iomsg)}
+  \KeywordTok{end if}
+\KeywordTok{end subroutine}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1295,7 +1305,7 @@ on \texttt{sorted\_list} objects:
 \section{Object-oriented programming
 techniques}\label{object-oriented-programming-techniques}
 
-\section{Introduction: Establishing an explicit relationship between
+\subsection{Introduction: Establishing an explicit relationship between
 types}\label{introduction-establishing-an-explicit-relationship-between-types}
 
 The discussion on object-based program design in the previous chapter
@@ -1310,19 +1320,19 @@ will be outlined in the following sections; runnable example codes are
 supplied in the \texttt{object\_oriented} subfolder of the
 \href{https://github.com/reinh-bader/object_fortran}{Github repository}
 
-\section{Extension types}\label{extension-types}
+\subsection{Extension types}\label{extension-types}
 
 As a starting point, consider the definition of a type, an object of
 which can quite generally represent a physical body:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ body}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ mass}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ pos(}\DecValTok{3}\NormalTok{), vel(}\DecValTok{3}\NormalTok{)}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type} \DataTypeTok{::}\NormalTok{ body}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ mass}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ pos(}\DecValTok{3}\NormalTok{), vel(}\DecValTok{3}\NormalTok{)}
+\DataTypeTok{end type}
 \NormalTok{:}
-\DataTypeTok{TYPE(body)} \DataTypeTok{::}\NormalTok{ my\_basketball }\KeywordTok{=}\NormalTok{ body(}\FloatTok{1.5}\NormalTok{, }\KeywordTok{[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{2.0}\KeywordTok{]}\NormalTok{, }\KeywordTok{[}\FloatTok{10.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
+\DataTypeTok{type(body)} \DataTypeTok{::}\NormalTok{ my\_basketball }\KeywordTok{=}\NormalTok{ body(}\FloatTok{1.5}\NormalTok{, }\KeywordTok{[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{2.0}\KeywordTok{]}\NormalTok{, }\KeywordTok{[}\FloatTok{10.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1331,18 +1341,18 @@ change of mass on a \texttt{body} object:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{PURE} \KeywordTok{SUBROUTINE}\NormalTok{ kick(a\_body, dp)}
-   \DataTypeTok{TYPE(body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ dp(}\DecValTok{3}\NormalTok{)}
+\KeywordTok{pure} \KeywordTok{subroutine}\NormalTok{ kick(a\_body, dp)}
+  \DataTypeTok{type(body)}\NormalTok{, }\DataTypeTok{intent(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ dp(}\DecValTok{3}\NormalTok{)}
 
-\NormalTok{   a\_body}\OperatorTok{\%}\NormalTok{vel(:) }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{vel(:) }\KeywordTok{+}\NormalTok{ dp(:) }\KeywordTok{/}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{mass}
-\KeywordTok{END SUBROUTINE}
-\KeywordTok{PURE} \KeywordTok{SUBROUTINE}\NormalTok{ accrete(a\_body, dm)}
-   \DataTypeTok{TYPE(body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ dm}
+\NormalTok{  a\_body}\OperatorTok{\%}\NormalTok{vel(:) }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{vel(:) }\KeywordTok{+}\NormalTok{ dp(:) }\KeywordTok{/}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{mass}
+\KeywordTok{end subroutine}
+\KeywordTok{pure} \KeywordTok{subroutine}\NormalTok{ accrete(a\_body, dm)}
+  \DataTypeTok{type(body)}\NormalTok{, }\DataTypeTok{intent(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ dm}
 
-\NormalTok{   a\_body}\OperatorTok{\%}\NormalTok{mass }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{mass }\KeywordTok{+}\NormalTok{ dm}
-\KeywordTok{END SUBROUTINE}\NormalTok{ accrete}
+\NormalTok{  a\_body}\OperatorTok{\%}\NormalTok{mass }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{mass }\KeywordTok{+}\NormalTok{ dm}
+\KeywordTok{end subroutine}\NormalTok{ accrete}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1358,9 +1368,9 @@ convenient and less intrusive to create a new type that is an
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{EXTENDS(body)} \DataTypeTok{::}\NormalTok{ charged\_body}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ charge}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{extends(body)} \DataTypeTok{::}\NormalTok{ charged\_body}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ charge}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1368,7 +1378,7 @@ An object of this type
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(charged\_body)} \DataTypeTok{::}\NormalTok{ a\_proton}
+\DataTypeTok{type(charged\_body)} \DataTypeTok{::}\NormalTok{ a\_proton}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1408,12 +1418,12 @@ structure constructor can be used to create a defined value:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(body)} \DataTypeTok{::}\NormalTok{ a\_mutilated\_proton}
-\CommentTok{! Construct a\_proton}
+\DataTypeTok{type(body)} \DataTypeTok{::}\NormalTok{ a\_mutilated\_proton}
+\CommentTok{! construct a\_proton}
 \NormalTok{a\_proton }\KeywordTok{=}\NormalTok{ charged\_body(mass}\KeywordTok{=}\FloatTok{1.672}\NormalTok{E}\KeywordTok{{-}}\DecValTok{27}\NormalTok{, pos}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{, }\KeywordTok{\&}
 \NormalTok{                        vel}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{ ,}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{), charge}\KeywordTok{=}\FloatTok{1.602}\NormalTok{E}\KeywordTok{{-}}\DecValTok{19}\NormalTok{)}
 
-\CommentTok{! Alternative construction with the same result}
+\CommentTok{! alternative construction with the same result}
 \NormalTok{a\_mutilated\_proton }\KeywordTok{=}\NormalTok{ body(mass}\KeywordTok{=}\FloatTok{1.672}\NormalTok{E}\KeywordTok{{-}}\DecValTok{27}\NormalTok{, pos}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{, }\KeywordTok{\&}
 \NormalTok{                          vel}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
 
@@ -1421,8 +1431,8 @@ structure constructor can be used to create a defined value:
 \end{Highlighting}
 \end{Shaded}
 
-Any derived type that does not have the \texttt{SEQUENCE} or
-\texttt{BIND(C)} attributes can be extended in the above manner;
+Any derived type that does not have the \texttt{sequence} or
+\texttt{bind(c)} attributes can be extended in the above manner;
 specifically, an extension type can itself be extended. For any given
 ``base'' type this gives rise to a potential hierarchy of types that can
 be represented by a directed acyclical graph:
@@ -1437,13 +1447,13 @@ An object of type \texttt{body} is \textbf{type compatible} with both
 \texttt{a\_proton} and \texttt{a\_mutilated\_proton}, so any of these
 two can, for example, appear in a call to the procedure \texttt{kick}.
 
-\section{Polymorphism}\label{polymorphism}
+\subsection{Polymorphism}\label{polymorphism}
 
-\subsection{\texorpdfstring{Declaring entities with
-\texttt{CLASS}}{Declaring entities with CLASS}}\label{declaring-entities-with-class}
+\subsubsection{\texorpdfstring{Declaring entities with
+\texttt{class}}{Declaring entities with class}}\label{declaring-entities-with-class}
 
-By declaring an object with the \texttt{CLASS} instead of the
-\texttt{TYPE} specifier, is is possible to defer the actual type that an
+By declaring an object with the \texttt{class} instead of the
+\texttt{type} specifier, is is possible to defer the actual type that an
 object has to be determined when the program executes, or even have the
 actual type change during program execution. Such an object is
 designated as being \textbf{polymorphic}. To be polymorphic, an object
@@ -1452,12 +1462,12 @@ must fulfill one of the following prerequisites:
 \begin{itemize}
 \tightlist
 \item
-  it has the \texttt{POINTER} attribute,
+  it has the \texttt{pointer} attribute,
 \item
-  it has the \texttt{ALLOCATABLE} attribute, or
+  it has the \texttt{allocatable} attribute, or
 \item
-  it is a dummy argument (with or without a \texttt{POINTER} or
-  \texttt{ALLOCATABLE} attribute).
+  it is a dummy argument (with or without a \texttt{pointer} or
+  \texttt{allocatable} attribute).
 \end{itemize}
 
 For example, the typed alllocation statement executed on a polymorphic
@@ -1465,9 +1475,9 @@ allocatable object
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{CLASS(body)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ a\_polymorphic\_body}
+\DataTypeTok{class(body)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ a\_polymorphic\_body}
 \NormalTok{:}
-\KeywordTok{ALLOCATE}\NormalTok{( charged\_body }\DataTypeTok{::}\NormalTok{ a\_polymorphic\_body )}
+\KeywordTok{allocate}\NormalTok{( charged\_body }\DataTypeTok{::}\NormalTok{ a\_polymorphic\_body )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1481,7 +1491,7 @@ the dynamic type is considered to be the same as the declared type,
 although this is only useful in very few contexts that do not require
 the object to be allocated or associated.
 
-\subsection{Run-time type and class
+\subsubsection{Run-time type and class
 identification}\label{run-time-type-and-class-identification}
 
 Within the scope of the object's declaration, only the components of its
@@ -1489,27 +1499,27 @@ declared type are accessible. Also, I/O operations on a polymorphic
 object are not permitted, unless UDDTIO routines have been defined. One
 way to obtain access to the complete object is to use a construct that
 permits \textbf{run-time type identification} (not a Fortran term),
-\texttt{SELECT\ TYPE}. For example, the I/O statements in
+\texttt{select\ type}. For example, the I/O statements in
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SELECT TYPE}\NormalTok{ (a\_polymorphic\_body)}
-\KeywordTok{TYPE IS}\NormalTok{ (body)}
-   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}object of type body has value        \textquotesingle{}}\NormalTok{, a\_polymorphic\_body}
-\KeywordTok{TYPE IS}\NormalTok{ (charged\_body)}
-   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}object of type charged\_body has value\textquotesingle{}}\NormalTok{, a\_polymorphic\_body}
-\KeywordTok{CLASS default}
-\NormalTok{   ERROR }\KeywordTok{STOP} \StringTok{\textquotesingle{}Type extension unsupported in this construct\textquotesingle{}}
-\KeywordTok{END SELECT}
+\KeywordTok{select type}\NormalTok{ (a\_polymorphic\_body)}
+\KeywordTok{type is}\NormalTok{ (body)}
+   \FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}object of type body has value        \textquotesingle{}}\NormalTok{, a\_polymorphic\_body}
+\KeywordTok{type is}\NormalTok{ (charged\_body)}
+   \FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}object of type charged\_body has value\textquotesingle{}}\NormalTok{, a\_polymorphic\_body}
+\KeywordTok{class default}
+\NormalTok{   error }\KeywordTok{stop} \StringTok{\textquotesingle{}type extension unsupported in this construct\textquotesingle{}}
+\KeywordTok{end select}
 \end{Highlighting}
 \end{Shaded}
 
 are permitted, since inside the block for each \textbf{type guard} the
 object is non-polymorphic and of the specified type. At most one type
 guard can match the object's type, and the corresponding statements are
-executed; otherwise the \texttt{CLASS\ default} section is executed (and
+executed; otherwise the \texttt{class\ default} section is executed (and
 the object remains polymorphic there). A disadvantage of using
-\texttt{SELECT\ TYPE} is that it needs to be appropriately updated
+\texttt{select\ type} is that it needs to be appropriately updated
 whenever an additional type extension is defined; apart from the
 maintenance effort this also requires access to all source code that
 contain a relevant instance of the construct. For this reason,
@@ -1521,12 +1531,12 @@ object, one now could consider the following:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SUBROUTINE}\NormalTok{ recharge(a\_charged\_body, dq)}
-   \DataTypeTok{TYPE(charged\_body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_charged\_body}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ dq}
+\KeywordTok{subroutine}\NormalTok{ recharge(a\_charged\_body, dq)}
+  \DataTypeTok{type(charged\_body)}\NormalTok{, }\DataTypeTok{intent(inout)} \DataTypeTok{::}\NormalTok{ a\_charged\_body}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ dq}
 
-\NormalTok{   a\_charged\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{=}\NormalTok{ a\_charged\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{+}\NormalTok{ dq}
-\KeywordTok{END SUBROUTINE}
+\NormalTok{  a\_charged\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{=}\NormalTok{ a\_charged\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{+}\NormalTok{ dq}
+\KeywordTok{end subroutine}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1534,18 +1544,18 @@ However, invoking this subroutine in the usual Fortran 95 style will not
 work for the variable \texttt{a\_polymorphic\_body}, since it violates
 the rule that the dummy argument's declared type must be type compatible
 with the actual argument's declared type. One can work around this by
-using a \texttt{SELECT\ TYPE} construct with \textbf{run-time class
+using a \texttt{select\ type} construct with \textbf{run-time class
 identification} (not a Fortran term), based on writing \textbf{class
 guards} instead of type guards:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SELECT TYPE}\NormalTok{ (a\_polymorphic\_body)}
-\KeywordTok{CLASS IS}\NormalTok{ (charged\_body)  }\CommentTok{! new declared type for a\_polymorphic\_body}
-   \KeywordTok{CALL}\NormalTok{ recharge(a\_polymorphic\_body, dq}\KeywordTok{=}\FloatTok{1.0e{-}5}\NormalTok{)}
-\KeywordTok{CLASS default}
-   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}INFO: object a\_polymorphic\_body was not modified.\textquotesingle{}}
-\KeywordTok{END SELECT}
+\KeywordTok{select type}\NormalTok{ (a\_polymorphic\_body)}
+\KeywordTok{class is}\NormalTok{ (charged\_body)  }\CommentTok{! new declared type for a\_polymorphic\_body}
+  \KeywordTok{call}\NormalTok{ recharge(a\_polymorphic\_body, dq}\KeywordTok{=}\FloatTok{1.0e{-}5}\NormalTok{)}
+\KeywordTok{class default}
+  \FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}info: object a\_polymorphic\_body was not modified.\textquotesingle{}}
+\KeywordTok{end select}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1554,50 +1564,50 @@ of \texttt{a\_polymorphic\_body} is \texttt{charged\_body} or an
 extension of it. The object remains polymorphic inside the class guard,
 only its declared type changes to that specified in the guard. Unless
 the ``lifted'' declared type of interest is already otherwise known from
-the context, or handling the \texttt{CLASS\ default} fall-through is
+the context, or handling the \texttt{class\ default} fall-through is
 straightforward, this is not in general a desirable way of dealing with
 class mismatches.
 
 \emph{Hint:} It is permitted to mix type and class guards in a
-\texttt{SELECT\ TYPE} construct; in that case, a type guard has
+\texttt{select\ type} construct; in that case, a type guard has
 precedence over a class guard specifying the same type with respect to
 selection of the guarded statements to be executed.
 
-\subsection{Unlimited polymorphic
+\subsubsection{Unlimited polymorphic
 objects}\label{unlimited-polymorphic-objects}
 
 A special case of polymorphism is that an object can be
 \textbf{unlimited polymorphic}. Such an object, declared with
-\texttt{CLASS(*)}, can be of any dynamic type (intrinsic type,
-extensible derived type, \texttt{SEQUENCE} or \texttt{BIND(C)} derived
+\texttt{class(*)}, can be of any dynamic type (intrinsic type,
+extensible derived type, \texttt{sequence} or \texttt{bind(c)} derived
 type), as illustrated by the following statements:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ a\_unlimited  }\CommentTok{! has no declared type, so any type is an extension}
+\DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ a\_unlimited  }\CommentTok{! has no declared type, so any type is an extension}
 
-\KeywordTok{ALLOCATE}\NormalTok{( a\_unlimited, source}\KeywordTok{=}\FloatTok{2.5}\NormalTok{E4)  }\CommentTok{! dynamic type becomes real}
+\KeywordTok{allocate}\NormalTok{( a\_unlimited, source}\KeywordTok{=}\FloatTok{2.5e4}\NormalTok{)  }\CommentTok{! dynamic type becomes real}
 
-\KeywordTok{SELECT TYPE}\NormalTok{ ( a\_unlimited )}
-\KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{REAL}\NormalTok{)}
-   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}a\_unlimited is of intrinsic real type with value \textquotesingle{}}\NormalTok{, a\_unlimited}
-\KeywordTok{END SELECT}
+\KeywordTok{select type}\NormalTok{ ( a\_unlimited )}
+\KeywordTok{type is}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+  \FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}a\_unlimited is of intrinsic real type with value \textquotesingle{}}\NormalTok{, a\_unlimited}
+\KeywordTok{end select}
 
-\KeywordTok{DEALLOCATE}\NormalTok{( a\_unlimited )}
-\KeywordTok{ALLOCATE}\NormalTok{( a\_unlimited, source}\KeywordTok{=}\NormalTok{a\_proton) )  }\CommentTok{! dynamic type becomes charged\_body}
+\KeywordTok{deallocate}\NormalTok{( a\_unlimited )}
+\KeywordTok{allocate}\NormalTok{( a\_unlimited, source}\KeywordTok{=}\NormalTok{a\_proton) )  }\CommentTok{! dynamic type becomes charged\_body}
 
-\KeywordTok{SELECT TYPE}\NormalTok{ ( a\_unlimited )}
-\KeywordTok{TYPE IS}\NormalTok{ (charged\_body)}
-   \FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}a\_unlimited is a charged\_body with value \textquotesingle{}}\NormalTok{, a\_unlimited}
-\KeywordTok{END SELECT}
+\KeywordTok{select type}\NormalTok{ ( a\_unlimited )}
+\KeywordTok{type is}\NormalTok{ (charged\_body)}
+  \FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}a\_unlimited is a charged\_body with value \textquotesingle{}}\NormalTok{, a\_unlimited}
+\KeywordTok{end select}
 \end{Highlighting}
 \end{Shaded}
 
-Accessing the object's data \emph{always} needs a \texttt{SELECT\ TYPE}
+Accessing the object's data \emph{always} needs a \texttt{select\ type}
 construct; type guards in the construct can in this case might not only
 refer to extensible types, but also to intrinsic types. However, for
-\texttt{SEQUENCE} or \texttt{BIND(C)} derived types, no type resolution
-is possible - these always fall through to a \texttt{CLASS\ default}
+\texttt{sequence} or \texttt{bind(c)} derived types, no type resolution
+is possible - these always fall through to a \texttt{class\ default}
 guard, if present; use of unlimited polymorphic objects to store values
 of such types is therefore considered unsafe.
 
@@ -1608,7 +1618,7 @@ the target object. If the source object's data is not needed,
 powerful tool, since the dynamic type of the source object need not be
 known in the scoping unit within which the allocation is executed.
 
-Type components with the \texttt{POINTER} or \texttt{ALLOCATABLE}
+Type components with the \texttt{pointer} or \texttt{allocatable}
 attribute can be unlimited polymorphic, enabling the construction of
 generic and potentially inhomogeneous container-like types. As an
 illustration of this, a supporting type for the purpose of holding data
@@ -1617,11 +1627,11 @@ targeted for manipulation of other objects is presented; its definition
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ any\_object}
-   \DataTypeTok{CHARACTER(len=:)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ description}
-   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::} \DataTypeTok{value}\NormalTok{(:)}
-   \DataTypeTok{INTEGER}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::} \FunctionTok{shape}\NormalTok{(:)}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type} \DataTypeTok{::}\NormalTok{ any\_object}
+  \DataTypeTok{character(len=:)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ description}
+  \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::} \DataTypeTok{value}\NormalTok{(:)}
+  \DataTypeTok{integer}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::} \FunctionTok{shape}\NormalTok{(:)}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1639,45 +1649,45 @@ interface for setting components of a structure:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{MODULE}\NormalTok{ mod\_wtype}
-   \KeywordTok{USE}\NormalTok{ mod\_utility\_types, }\KeywordTok{ONLY}\NormalTok{ : initialize }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ any\_object}
+\KeywordTok{module}\NormalTok{ mod\_wtype}
+  \KeywordTok{use}\NormalTok{ mod\_utility\_types, }\KeywordTok{only}\NormalTok{ : initialize }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ any\_object}
 
-   \DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ wtype}
-      \DataTypeTok{PRIVATE}
-      \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ nonzeros }\KeywordTok{=} \KeywordTok{{-}}\DecValTok{1}
-      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ w(:,:)}
-   \DataTypeTok{END TYPE}\NormalTok{ wtype}
-\KeywordTok{CONTAINS}
-   \KeywordTok{SUBROUTINE}\NormalTok{ setup\_wtype(a\_wtype, a\_component)}
-      \CommentTok{! in{-}place setting to avoid memory bursts for large objects}
-      \DataTypeTok{TYPE(wtype)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_wtype}
-      \DataTypeTok{TYPE(initialize)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{TARGET} \DataTypeTok{::}\NormalTok{ a\_component}
-      \DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ wsize}
-      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ pw(:,:)}
+  \DataTypeTok{type} \DataTypeTok{::}\NormalTok{ wtype}
+    \DataTypeTok{private}
+    \DataTypeTok{integer} \DataTypeTok{::}\NormalTok{ nonzeros }\KeywordTok{=} \KeywordTok{{-}}\DecValTok{1}
+    \DataTypeTok{real}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ w(:,:)}
+  \DataTypeTok{end type}\NormalTok{ wtype}
+\KeywordTok{contains}
+  \KeywordTok{subroutine}\NormalTok{ setup\_wtype(a\_wtype, a\_component)}
+    \CommentTok{! in{-}place setting to avoid memory bursts for large objects}
+    \DataTypeTok{type(wtype)}\NormalTok{, }\DataTypeTok{intent(inout)} \DataTypeTok{::}\NormalTok{ a\_wtype}
+    \DataTypeTok{type(initialize)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{target} \DataTypeTok{::}\NormalTok{ a\_component}
+    \DataTypeTok{integer} \DataTypeTok{::}\NormalTok{ wsize}
+    \DataTypeTok{real}\NormalTok{, }\DataTypeTok{pointer} \DataTypeTok{::}\NormalTok{ pw(:,:)}
 
-      \KeywordTok{SELECT CASE}\NormalTok{ (a\_component}\OperatorTok{\%}\NormalTok{description)}
-      \KeywordTok{CASE}\NormalTok{ (}\StringTok{"nonzeros"}\NormalTok{)}
-         \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{THEN}
-            \KeywordTok{SELECT TYPE}\NormalTok{ ( nonzeros }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
-            \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{INTEGER}\NormalTok{)}
-\NormalTok{               a\_wtype}\OperatorTok{\%}\NormalTok{nonzeros }\KeywordTok{=}\NormalTok{ nonzeros}
-            \KeywordTok{END SELECT}
-         \KeywordTok{END IF}
-      \KeywordTok{CASE}\NormalTok{ (}\StringTok{"w"}\NormalTok{)}
-         \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) }\OperatorTok{.AND.} \FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{) ) }\KeywordTok{THEN}
-\NormalTok{            wsize }\KeywordTok{=} \FunctionTok{size}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{)}
-            \KeywordTok{IF}\NormalTok{ ( wsize }\OperatorTok{\textgreater{}=} \FunctionTok{product}\NormalTok{(a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{) ) }\KeywordTok{THEN}
-               \KeywordTok{SELECT TYPE}\NormalTok{ ( w }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
-               \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{REAL}\NormalTok{)}
-\NormalTok{                  pw(}\DecValTok{1}\NormalTok{:a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{(}\DecValTok{1}\NormalTok{), }\DecValTok{1}\NormalTok{:a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{(}\DecValTok{2}\NormalTok{)) }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ w}
-\NormalTok{                  a\_wtype}\OperatorTok{\%}\NormalTok{w }\KeywordTok{=}\NormalTok{ pw}
-               \KeywordTok{END SELECT}
-            \KeywordTok{END IF}
-         \KeywordTok{END IF}
-      \KeywordTok{END SELECT}
-   \KeywordTok{END SUBROUTINE}\NormalTok{ setup\_wtype}
-\NormalTok{   :}
-\KeywordTok{END MODULE}
+    \KeywordTok{select case}\NormalTok{ (a\_component}\OperatorTok{\%}\NormalTok{description)}
+     \KeywordTok{case}\NormalTok{ (}\StringTok{"nonzeros"}\NormalTok{)}
+      \KeywordTok{if}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{then}
+        \KeywordTok{select type}\NormalTok{ ( nonzeros }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
+         \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{integer}\NormalTok{)}
+\NormalTok{          a\_wtype}\OperatorTok{\%}\NormalTok{nonzeros }\KeywordTok{=}\NormalTok{ nonzeros}
+        \KeywordTok{end select}
+      \KeywordTok{end if}
+     \KeywordTok{case}\NormalTok{ (}\StringTok{"w"}\NormalTok{)}
+      \KeywordTok{if}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) }\OperatorTok{.and.} \FunctionTok{allocated}\NormalTok{(a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{) ) }\KeywordTok{then}
+\NormalTok{        wsize }\KeywordTok{=} \FunctionTok{size}\NormalTok{(a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{)}
+        \KeywordTok{if}\NormalTok{ ( wsize }\OperatorTok{\textgreater{}=} \FunctionTok{product}\NormalTok{(a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{) ) }\KeywordTok{then}
+          \KeywordTok{select type}\NormalTok{ ( w }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_component}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
+           \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+\NormalTok{            pw(}\DecValTok{1}\NormalTok{:a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{(}\DecValTok{1}\NormalTok{), }\DecValTok{1}\NormalTok{:a\_component}\OperatorTok{\%}\FunctionTok{shape}\NormalTok{(}\DecValTok{2}\NormalTok{)) }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ w}
+\NormalTok{            a\_wtype}\OperatorTok{\%}\NormalTok{w }\KeywordTok{=}\NormalTok{ pw}
+          \KeywordTok{end select}
+        \KeywordTok{end if}
+      \KeywordTok{end if}
+    \KeywordTok{end select}
+  \KeywordTok{end subroutine}\NormalTok{ setup\_wtype}
+\NormalTok{  :}
+\KeywordTok{end module}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1702,7 +1712,7 @@ interface for setting components of a structure:
   The permitted values for the \texttt{initialize} object should be
   documented for each procedure that takes such an object;
 \item
-  Because access to \texttt{a\_component} within \texttt{SELECT\ TYPE}
+  Because access to \texttt{a\_component} within \texttt{select\ type}
   is via a type component, one is obliged to introduce an associate name
   for the latter. The language rules only permit omitting the associate
   name for named variables, and subobjects are not named variables;
@@ -1723,48 +1733,48 @@ follows, to set up a \texttt{wtype} object:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{USE}\NormalTok{ mod\_wtype}
-\DataTypeTok{TYPE(initialize)} \DataTypeTok{::}\NormalTok{ c\_nz, c\_w}
-\DataTypeTok{TYPE(wtype)} \DataTypeTok{::}\NormalTok{ my\_wtype}
-\DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ i, j}
-\DataTypeTok{INTEGER} \DataTypeTok{::}\NormalTok{ ndim}
+\KeywordTok{use}\NormalTok{ mod\_wtype}
+\DataTypeTok{type(initialize)} \DataTypeTok{::}\NormalTok{ c\_nz, c\_w}
+\DataTypeTok{type(wtype)} \DataTypeTok{::}\NormalTok{ my\_wtype}
+\DataTypeTok{integer} \DataTypeTok{::}\NormalTok{ i, j}
+\DataTypeTok{integer} \DataTypeTok{::}\NormalTok{ ndim}
 
 \NormalTok{ndim }\KeywordTok{=}\NormalTok{ ...}
 
-\KeywordTok{ASSOCIATE}\NormalTok{ ( my\_data }\KeywordTok{=}\OperatorTok{\textgreater{}} \KeywordTok{[}\NormalTok{ ((}\DataTypeTok{real (max(0, min(i{-}j+2, j{-}i+2)))}\NormalTok{, j}\KeywordTok{=}\DecValTok{1}\NormalTok{, ndim), i}\KeywordTok{=}\DecValTok{1}\NormalTok{, ndim) }\KeywordTok{]}\NormalTok{ )}
-\NormalTok{   c\_nz }\KeywordTok{=}\NormalTok{ initialize(}\StringTok{"nonzeros"}\NormalTok{, }\FunctionTok{count}\NormalTok{(my\_data }\OperatorTok{/=} \DecValTok{0}\NormalTok{))}
-\NormalTok{   c\_w }\KeywordTok{=}\NormalTok{ initialize(}\StringTok{"w"}\NormalTok{, my\_data, }\KeywordTok{[}\NormalTok{ ndim, ndim }\KeywordTok{]}\NormalTok{ )}
-\KeywordTok{END ASSOCIATE}
+\KeywordTok{associate}\NormalTok{ ( my\_data }\KeywordTok{=}\OperatorTok{\textgreater{}} \KeywordTok{[}\NormalTok{ ((}\DataTypeTok{real (max(0, min(i{-}j+2, j{-}i+2)))}\NormalTok{, j}\KeywordTok{=}\DecValTok{1}\NormalTok{, ndim), i}\KeywordTok{=}\DecValTok{1}\NormalTok{, ndim) }\KeywordTok{]}\NormalTok{ )}
+\NormalTok{  c\_nz }\KeywordTok{=}\NormalTok{ initialize(}\StringTok{"nonzeros"}\NormalTok{, }\FunctionTok{count}\NormalTok{(my\_data }\OperatorTok{/=} \DecValTok{0}\NormalTok{))}
+\NormalTok{  c\_w }\KeywordTok{=}\NormalTok{ initialize(}\StringTok{"w"}\NormalTok{, my\_data, }\KeywordTok{[}\NormalTok{ ndim, ndim }\KeywordTok{]}\NormalTok{ )}
+\KeywordTok{end associate}
 
-\KeywordTok{CALL}\NormalTok{ setup\_wtype(my\_wtype, c\_nz)}
-\KeywordTok{CALL}\NormalTok{ setup\_wtype(my\_wtype, c\_w)}
+\KeywordTok{call}\NormalTok{ setup\_wtype(my\_wtype, c\_nz)}
+\KeywordTok{call}\NormalTok{ setup\_wtype(my\_wtype, c\_w)}
 \end{Highlighting}
 \end{Shaded}
 
-\section{Type-bound procedures (TBP)}\label{sec:tbp}
+\subsection{Type-bound procedures (TBP)}\label{sec:tbp}
 
 To resolve the class mismatch issues arising from the use of polymorphic
 objects, one needs a language mechanism for making a run-time decision
 on a procedure invocation that depends on the dynamic type of a
 polymorphic object. This can be achieved by binding a procedure to a
-type in the type definition via a \texttt{PROCEDURE} statement in the
-type's \texttt{CONTAINS} part.
+type in the type definition via a \texttt{procedure} statement in the
+type's \texttt{contains} part.
 
 For the type \texttt{body}, the augmented type definition reads
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE} \DataTypeTok{::}\NormalTok{ body}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ mass}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ pos(}\DecValTok{3}\NormalTok{), vel(}\DecValTok{3}\NormalTok{)}
-\KeywordTok{CONTAINS}
-   \DataTypeTok{PROCEDURE} \DataTypeTok{::}\NormalTok{ update }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ update\_body}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type} \DataTypeTok{::}\NormalTok{ body}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ mass}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ pos(}\DecValTok{3}\NormalTok{), vel(}\DecValTok{3}\NormalTok{)}
+\KeywordTok{contains}
+  \DataTypeTok{procedure} \DataTypeTok{::}\NormalTok{ update }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ update\_body}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
 This does not impact how the structure constructor is used; for this,
-only the specifications before the \texttt{CONTAINS} statement are
+only the specifications before the \texttt{contains} statement are
 relevant. To establish a simple and uniform interface for object
 updates, the procedure \texttt{update\_body} makes use of the
 \texttt{any\_object} type discussed earlier, which in view of the
@@ -1772,29 +1782,29 @@ context is locally renamed to \texttt{change}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SUBROUTINE}\NormalTok{ update\_body(a\_body, a\_change)}
-   \DataTypeTok{CLASS(body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
-   \DataTypeTok{TYPE(change)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ a\_change}
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.AND.} \FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{THEN}
-     \KeywordTok{SELECT CASE}\NormalTok{ ( }\FunctionTok{trim}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) )}
-     \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}mass\textquotesingle{}}\NormalTok{)}
-        \KeywordTok{SELECT TYPE}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
-        \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
-           \KeywordTok{CALL}\NormalTok{ accrete(a\_body, delta)}
-        \KeywordTok{END SELECT}
-     \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}momentum\textquotesingle{}}\NormalTok{)}
-        \KeywordTok{SELECT TYPE}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
-        \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
-           \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{size}\NormalTok{(delta) }\OperatorTok{\textgreater{}=} \DecValTok{3}\NormalTok{ ) }\KeywordTok{CALL}\NormalTok{ kick(a\_body, delta(}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{))}
-        \KeywordTok{END SELECT}
-     \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}position\textquotesingle{}}\NormalTok{)}
-        \KeywordTok{SELECT TYPE}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
-        \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
-           \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{size}\NormalTok{(delta) }\OperatorTok{\textgreater{}=} \DecValTok{3}\NormalTok{) a\_body}\OperatorTok{\%}\NormalTok{pos }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{pos }\KeywordTok{+}\NormalTok{ delta(}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{)}
-        \KeywordTok{END SELECT}
-     \KeywordTok{END SELECT}
-   \KeywordTok{END IF}
-\KeywordTok{END SUBROUTINE}
+\KeywordTok{subroutine}\NormalTok{ update\_body(a\_body, a\_change)}
+  \DataTypeTok{class(body)}\NormalTok{, }\DataTypeTok{intent(inout)} \DataTypeTok{::}\NormalTok{ a\_body}
+  \DataTypeTok{type(change)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ a\_change}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.and.} \FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{then}
+    \KeywordTok{select case}\NormalTok{ ( }\FunctionTok{trim}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) )}
+     \KeywordTok{case}\NormalTok{ (}\StringTok{\textquotesingle{}mass\textquotesingle{}}\NormalTok{)}
+      \KeywordTok{select type}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
+       \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+        \KeywordTok{call}\NormalTok{ accrete(a\_body, delta)}
+      \KeywordTok{end select}
+     \KeywordTok{case}\NormalTok{ (}\StringTok{\textquotesingle{}momentum\textquotesingle{}}\NormalTok{)}
+      \KeywordTok{select type}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
+       \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+        \KeywordTok{if}\NormalTok{ ( }\FunctionTok{size}\NormalTok{(delta) }\OperatorTok{\textgreater{}=} \DecValTok{3}\NormalTok{ ) }\KeywordTok{call}\NormalTok{ kick(a\_body, delta(}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{))}
+      \KeywordTok{end select}
+     \KeywordTok{case}\NormalTok{ (}\StringTok{\textquotesingle{}position\textquotesingle{}}\NormalTok{)}
+      \KeywordTok{select type}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{ )}
+       \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+        \KeywordTok{if}\NormalTok{ ( }\FunctionTok{size}\NormalTok{(delta) }\OperatorTok{\textgreater{}=} \DecValTok{3}\NormalTok{) a\_body}\OperatorTok{\%}\NormalTok{pos }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{pos }\KeywordTok{+}\NormalTok{ delta(}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{)}
+      \KeywordTok{end select}
+    \KeywordTok{end select}
+  \KeywordTok{end if}
+\KeywordTok{end subroutine}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1810,11 +1820,11 @@ polymorphic, is to do it through the object itself:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(change)} \DataTypeTok{::}\NormalTok{  dx}
+\DataTypeTok{Type(change)} \DataTypeTok{::}\NormalTok{  dx}
 \NormalTok{:}
 \NormalTok{dx }\KeywordTok{=}\NormalTok{ change(description}\KeywordTok{=}\StringTok{\textquotesingle{}mass\textquotesingle{}}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=[}\FloatTok{0.0}\NormalTok{, }\FloatTok{2.0}\NormalTok{, }\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
 
-\KeywordTok{CALL}\NormalTok{ my\_basketball}\OperatorTok{\%}\NormalTok{update(dx) }\CommentTok{! invokes update\_body(my\_basketball, dx)}
+\KeywordTok{call}\NormalTok{ my\_basketball}\OperatorTok{\%}\NormalTok{update(dx) }\CommentTok{! invokes update\_body(my\_basketball, dx)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1836,11 +1846,11 @@ it is possible to \textbf{override} the parent type's bound procedure:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{EXTENDS(body)} \DataTypeTok{::}\NormalTok{ charged\_body}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ charge}
-\KeywordTok{CONTAINS}
-   \DataTypeTok{PROCEDURE} \DataTypeTok{::}\NormalTok{ update }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ update\_charged\_body}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{extends(body)} \DataTypeTok{::}\NormalTok{ charged\_body}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ charge}
+\KeywordTok{contains}
+  \DataTypeTok{procedure} \DataTypeTok{::}\NormalTok{ update }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ update\_charged\_body}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1848,23 +1858,23 @@ with the procedure defined as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SUBROUTINE}\NormalTok{ update\_charged\_body(a\_body, a\_change)}
-   \DataTypeTok{CLASS(charged\_body)} \DataTypeTok{::}\NormalTok{ a\_body}
-   \DataTypeTok{TYPE(change)} \DataTypeTok{::}\NormalTok{ a\_change}
+\KeywordTok{subroutine}\NormalTok{ update\_charged\_body(a\_body, a\_change)}
+  \DataTypeTok{class(charged\_body)} \DataTypeTok{::}\NormalTok{ a\_body}
+  \DataTypeTok{type(change)} \DataTypeTok{::}\NormalTok{ a\_change}
 
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.AND.} \FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{THEN}
-      \KeywordTok{SELECT CASE}\NormalTok{ ( }\FunctionTok{trim}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) )}
-      \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}charge\textquotesingle{}}\NormalTok{)}
-         \KeywordTok{SELECT TYPE}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
-         \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
-\NormalTok{            a\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{+}\NormalTok{ delta}
-         \KeywordTok{END SELECT}
-      \KeywordTok{CASE default}
-         \KeywordTok{CALL}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{body}\OperatorTok{\%}\NormalTok{update(a\_change)}
-         \CommentTok{! assure that a change to a parent component is dealt with}
-      \KeywordTok{END SELECT}
-   \KeywordTok{END IF}
-\KeywordTok{END SUBROUTINE}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.and.} \FunctionTok{allocated}\NormalTok{(a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{then}
+    \KeywordTok{select case}\NormalTok{ ( }\FunctionTok{trim}\NormalTok{(a\_change}\OperatorTok{\%}\NormalTok{description) )}
+     \KeywordTok{case}\NormalTok{ (}\StringTok{\textquotesingle{}charge\textquotesingle{}}\NormalTok{)}
+      \KeywordTok{select type}\NormalTok{ ( delta }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ a\_change}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
+       \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+\NormalTok{        a\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{=}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{charge }\KeywordTok{+}\NormalTok{ delta}
+      \KeywordTok{end select}
+     \KeywordTok{case default}
+      \KeywordTok{call}\NormalTok{ a\_body}\OperatorTok{\%}\NormalTok{body}\OperatorTok{\%}\NormalTok{update(a\_change)}
+      \CommentTok{! assure that a change to a parent component is dealt with}
+    \KeywordTok{end select}
+  \KeywordTok{end if}
+\KeywordTok{end subroutine}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1877,18 +1887,18 @@ override has been defined, the call through an object of dynamic type
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(change)} \DataTypeTok{::}\NormalTok{  dc, dp}
-\DataTypeTok{CLASS(body)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ my\_polymorphic\_body}
+\DataTypeTok{type(change)} \DataTypeTok{::}\NormalTok{  dc, dp}
+\DataTypeTok{class(body)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ my\_polymorphic\_body}
 
 \NormalTok{my\_polymorphic\_body }\KeywordTok{=}\NormalTok{ charged\_body(mass}\KeywordTok{=}\FloatTok{1.5}\NormalTok{, pos}\KeywordTok{=[}\FloatTok{0.}\NormalTok{,}\FloatTok{0.}\NormalTok{,}\FloatTok{0.}\KeywordTok{]}\NormalTok{, }\KeywordTok{\&}
-\NormalTok{                                   vel}\KeywordTok{=[}\FloatTok{2.}\NormalTok{,}\FloatTok{0.}\NormalTok{,}\FloatTok{0.}\KeywordTok{]}\NormalTok{, charge}\KeywordTok{=}\FloatTok{2.41}\NormalTok{E}\KeywordTok{{-}}\DecValTok{5}\NormalTok{)}
-\CommentTok{!  the above statement auto{-}allocates the left hand side}
-\NormalTok{dc }\KeywordTok{=}\NormalTok{ change(description}\KeywordTok{=}\StringTok{\textquotesingle{}charge\textquotesingle{}}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=}\FloatTok{5.0}\NormalTok{E}\KeywordTok{{-}}\DecValTok{6}\NormalTok{)}
+\NormalTok{                                   vel}\KeywordTok{=[}\FloatTok{2.}\NormalTok{,}\FloatTok{0.}\NormalTok{,}\FloatTok{0.}\KeywordTok{]}\NormalTok{, charge}\KeywordTok{=}\FloatTok{2.41e{-}5}\NormalTok{)}
+\CommentTok{! the above statement auto{-}allocates the left hand side}
+\NormalTok{dc }\KeywordTok{=}\NormalTok{ change(description}\KeywordTok{=}\StringTok{\textquotesingle{}charge\textquotesingle{}}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=}\FloatTok{5.0e{-}6}\NormalTok{)}
 \NormalTok{dp }\KeywordTok{=}\NormalTok{ change(description}\KeywordTok{=}\StringTok{\textquotesingle{}momentum\textquotesingle{}}\NormalTok{, }\DataTypeTok{value}\KeywordTok{=[{-}}\FloatTok{1.0}\NormalTok{,}\FloatTok{1.0}\NormalTok{,}\FloatTok{0.0}\KeywordTok{]}\NormalTok{)}
 
 \CommentTok{! both the following dispatch to update\_charged\_body}
-\KeywordTok{CALL}\NormalTok{ my\_polymorphic\_body}\OperatorTok{\%}\NormalTok{update(dc)}
-\KeywordTok{CALL}\NormalTok{ my\_polymorphic\_body}\OperatorTok{\%}\NormalTok{update(dp)}
+\KeywordTok{call}\NormalTok{ my\_polymorphic\_body}\OperatorTok{\%}\NormalTok{update(dc)}
+\KeywordTok{call}\NormalTok{ my\_polymorphic\_body}\OperatorTok{\%}\NormalTok{update(dp)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1910,16 +1920,16 @@ override has been defined, the call through an object of dynamic type
   substitution principle};
 \item
   to enforce using the TBP calls in a use association context, the
-  module procedures that implement them can be made \texttt{PRIVATE}.
+  module procedures that implement them can be made \texttt{private}.
   The accessibility of the TBP itself is determined by the attribute for
-  it (default is \texttt{PUBLIC}) in the type definition;
+  it (default is \texttt{public}) in the type definition;
 \item
   the programmer can prevent overriding of a binding by declaring it to
-  be \texttt{NON\_OVERRIDABLE}; its implementation then is regarded as
+  be \texttt{non\_overridable}; its implementation then is regarded as
   valid for all conceivable extension types.
 \end{itemize}
 
-\section{Abstract types and
+\subsection{Abstract types and
 interfaces}\label{abstract-types-and-interfaces}
 
 The \texttt{sortable} type used for demonstrating the
@@ -1932,11 +1942,11 @@ list machinery more flexibly i.e., for any type that supports the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{ABSTRACT} \DataTypeTok{::}\NormalTok{ sortable}
-\KeywordTok{CONTAINS}
-   \DataTypeTok{PROCEDURE(compare)}\NormalTok{, }\DataTypeTok{DEFERRED} \DataTypeTok{::}\NormalTok{ less\_than}
-   \CommentTok{! ... more to follow}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{abstract} \DataTypeTok{::}\NormalTok{ sortable}
+\KeywordTok{contains}
+  \DataTypeTok{procedure(compare)}\NormalTok{, }\DataTypeTok{deferred} \DataTypeTok{::}\NormalTok{ less\_than}
+  \CommentTok{! ... more to follow}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1947,25 +1957,25 @@ procedure, but is characterized by an \textbf{abstract interface}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{ABSTRACT} \KeywordTok{INTERFACE}
-   \KeywordTok{PURE} \DataTypeTok{LOGICAL} \KeywordTok{FUNCTION}\NormalTok{ compare(s1, s2)}
-      \KeywordTok{IMPORT} \DataTypeTok{::}\NormalTok{ sortable}
-      \DataTypeTok{CLASS(sortable)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ s1, s2}
-      \CommentTok{! dispatch is via the first argument}
-   \KeywordTok{END FUNCTION}
-\KeywordTok{END INTERFACE}
+\DataTypeTok{abstract} \KeywordTok{interface}
+  \KeywordTok{pure} \DataTypeTok{logical} \KeywordTok{function}\NormalTok{ compare(s1, s2)}
+    \KeywordTok{import} \DataTypeTok{::}\NormalTok{ sortable}
+    \DataTypeTok{class(sortable)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ s1, s2}
+    \CommentTok{! dispatch is via the first argument}
+  \KeywordTok{end function}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
-The \texttt{IMPORT} statement is required to give the interface access
+The \texttt{import} statement is required to give the interface access
 to the type defined in its host. Furthermore, an override of the
 structure constructor will be needed
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{INTERFACE}\NormalTok{ sortable}
-   \DataTypeTok{PROCEDURE} \DataTypeTok{::}\NormalTok{ create\_sortable}
-\KeywordTok{END INTERFACE}
+\KeywordTok{interface}\NormalTok{ sortable}
+  \DataTypeTok{procedure} \DataTypeTok{::}\NormalTok{ create\_sortable}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1988,47 +1998,42 @@ inversion} (not a Fortran term):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC} \DataTypeTok{::}\NormalTok{ sorted\_list}
-   \DataTypeTok{PRIVATE}
-   \DataTypeTok{CLASS(sortable)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ data}
-   \CommentTok{! changed to refer to abstract type}
-   \DataTypeTok{TYPE(sorted\_list)}\NormalTok{, }\DataTypeTok{POINTER} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
-\KeywordTok{CONTAINS}
-   \DataTypeTok{FINAL} \DataTypeTok{::}\NormalTok{ delete\_sorted\_list}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{public} \DataTypeTok{::}\NormalTok{ sorted\_list}
+  \DataTypeTok{private}
+  \DataTypeTok{class(sortable)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ data}
+  \CommentTok{! changed to refer to abstract type}
+  \DataTypeTok{type(sorted\_list)}\NormalTok{, }\DataTypeTok{pointer} \DataTypeTok{::}\NormalTok{ next }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+\KeywordTok{contains}
+  \DataTypeTok{final} \DataTypeTok{::}\NormalTok{ delete\_sorted\_list}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
-\end{enumerate}
 
-The advantage of this is that no change to the preexisting machinery
-will be needed whenever a programmer decides to add an extension type as
-outlined in 2. below.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
+  The advantage of this is that no change to the preexisting machinery
+  will be needed whenever a programmer decides to add an extension type
+  as outlined in 2. below.
 \item
   For a concrete realization of a \texttt{sortable} object, the
   programmer needs to create a type extension, for example
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC}\NormalTok{, }\DataTypeTok{EXTENDS(sortable)} \DataTypeTok{::}\NormalTok{ sortable\_string}
-   \DataTypeTok{CHARACTER(len=:)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ string}
-\KeywordTok{CONTAINS}
-   \DataTypeTok{PROCEDURE} \DataTypeTok{::}\NormalTok{ less\_than }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ less\_than\_string}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{public}\NormalTok{, }\DataTypeTok{extends(sortable)} \DataTypeTok{::}\NormalTok{ sortable\_string}
+  \DataTypeTok{character(len=:)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ string}
+\KeywordTok{contains}
+  \DataTypeTok{procedure} \DataTypeTok{::}\NormalTok{ less\_than }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ less\_than\_string}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
+
+  including an \emph{obligatory} implementation
+  \texttt{less\_than\_string} of an overriding TBP for the deferred
+  binding. The constructor function (promised earlier, but not yet
+  delivered) also needs to be updated to enable creation of objects of
+  the extended type.
 \end{enumerate}
 
-including an \emph{obligatory} implementation
-\texttt{less\_than\_string} of an overriding TBP for the deferred
-binding. The constructor function (promised earlier, but not yet
-delivered) also needs to be updated to enable creation of objects of the
-extended type.
-
-\section{Generic type-bound procedures and operator
+\subsection{Generic type-bound procedures and operator
 overloading}\label{generic-type-bound-procedures-and-operator-overloading}
 
 As a convenience, use of an overloading for the comparison operator
@@ -2037,11 +2042,11 @@ type-bound procedure:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{ABSTRACT} \DataTypeTok{::}\NormalTok{ sortable}
-\KeywordTok{CONTAINS}
-   \DataTypeTok{PROCEDURE(compare)}\NormalTok{, }\DataTypeTok{DEFERRED} \DataTypeTok{::}\NormalTok{ less\_than}
-   \DataTypeTok{GENERIC} \DataTypeTok{::} \KeywordTok{OPERATOR}\NormalTok{(}\OperatorTok{\textless{}}\NormalTok{) }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ less\_than}
-\DataTypeTok{END TYPE}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{abstract} \DataTypeTok{::}\NormalTok{ sortable}
+\KeywordTok{contains}
+  \DataTypeTok{procedure(compare)}\NormalTok{, }\DataTypeTok{deferred} \DataTypeTok{::}\NormalTok{ less\_than}
+  \DataTypeTok{generic} \DataTypeTok{::} \KeywordTok{operator}\NormalTok{(}\OperatorTok{\textless{}}\NormalTok{) }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ less\_than}
+\DataTypeTok{end type}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2049,20 +2054,20 @@ which means that when a statement involving a comparison expression
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{CLASS(sortable)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ s1, s2}
+\DataTypeTok{class(sortable)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ s1, s2}
 
 \NormalTok{s1 }\KeywordTok{=}\NormalTok{ sortable( ... )}
 \NormalTok{s2 }\KeywordTok{=}\NormalTok{ sortable( ... )}
 
-\KeywordTok{IF}\NormalTok{ ( s1 }\OperatorTok{\textless{}}\NormalTok{ s2 ) }\KeywordTok{THEN}
+\KeywordTok{if}\NormalTok{ ( s1 }\OperatorTok{\textless{}}\NormalTok{ s2 ) }\KeywordTok{then}
 \NormalTok{   ...}
-\KeywordTok{END IF}
+\KeywordTok{end if}
 \end{Highlighting}
 \end{Shaded}
 
 is executed, the overridden type-bound procedure bound to the first
 operand will be invoked to evaluate the expression. It is not necessary
-to re-specify the \texttt{GENERIC} clause in any type extensions; the
+to re-specify the \texttt{generic} clause in any type extensions; the
 dispatch will automatically select the overridden procedure.
 
 Named generic type-bound procedures that do not overload existing
@@ -2074,10 +2079,10 @@ restriction that polymorphic dummy arguments that are related by
 inheritance cannot be distinguished for the purpose of compile-time
 resolution to a specific procedure.
 
-\section{Completing the dependency
+\subsection{Completing the dependency
 inversion}\label{completing-the-dependency-inversion}
 
-\subsection{Discussion of structural
+\subsubsection{Discussion of structural
 dependencies}\label{discussion-of-structural-dependencies}
 
 When implementing the above concept, typically a separate module, say
@@ -2103,10 +2108,10 @@ The implementation of the constructor will need to use associate
 objects of the types defined there. On the other hand, the interface to
 the constructor needs to be visible in \texttt{mod\_sortable}, since the
 machinery that depends on it must be able to call it. As a consequence,
-one would end up with a circular \texttt{USE} dependency between the two
+one would end up with a circular \texttt{use} dependency between the two
 modules, which is prohibited.
 
-\subsection{Using submodules to break dependency
+\subsubsection{Using submodules to break dependency
 cycles}\label{using-submodules-to-break-dependency-cycles}
 
 To deal with such a situation (among others), the concept of
@@ -2122,17 +2127,17 @@ declared in \texttt{mod\_sortable}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{INTERFACE}
-   \KeywordTok{MODULE} \KeywordTok{FUNCTION}\NormalTok{ create\_sortable(init) }\KeywordTok{RESULT}\NormalTok{(r)}
-      \DataTypeTok{CLASS(sortable)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ r}
-      \DataTypeTok{TYPE(initialize)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ init}
-   \KeywordTok{END FUNCTION}
-\KeywordTok{END INTERFACE}
+\KeywordTok{interface}
+  \KeywordTok{module} \KeywordTok{function}\NormalTok{ create\_sortable(init) }\KeywordTok{result}\NormalTok{(r)}
+    \DataTypeTok{class(sortable)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ r}
+    \DataTypeTok{type(initialize)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ init}
+  \KeywordTok{end function}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
-The special notation \texttt{MODULE\ FUNCTION} (or
-\texttt{MODULE\ SUBROUTINE} for a subroutine) tells the compiler that
+The special notation \texttt{module\ function} (or
+\texttt{module\ subroutine} for a subroutine) tells the compiler that
 the implementation is deferred to a submodule.
 
 \textbf{Notes:}
@@ -2146,7 +2151,7 @@ the implementation is deferred to a submodule.
   consistent with this, the variable representing the function result is
   an allocatable polymorphic object of the abstract type;
 \item
-  an \texttt{IMPORT} statement is not obligatory in separate module
+  an \texttt{import} statement is not obligatory in separate module
   procedure interfaces, although it is permitted (compiler support
   assumed!), primarily for the purpose of fine-grain control of host
   access;
@@ -2155,29 +2160,29 @@ the implementation is deferred to a submodule.
   \texttt{any\_object} type referred to earlier.
 \end{itemize}
 
-\subsection{Implementation of the
+\subsubsection{Implementation of the
 constructor}\label{implementation-of-the-constructor}
 
 The submodule containing the implementation then reads as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SUBMODULE}\NormalTok{ (mod\_sortable) smod\_constructor}
-\KeywordTok{CONTAINS}
-   \KeywordTok{MODULE PROCEDURE}\NormalTok{ create\_sortable}
-      \KeywordTok{USE}\NormalTok{ mod\_sortable\_extensions, }\KeywordTok{ONLY}\NormalTok{ : sortable\_string}
+\KeywordTok{submodule}\NormalTok{ (mod\_sortable) smod\_constructor}
+\KeywordTok{contains}
+  \KeywordTok{module procedure}\NormalTok{ create\_sortable}
+  \KeywordTok{use}\NormalTok{ mod\_sortable\_extensions, }\KeywordTok{only}\NormalTok{ : sortable\_string}
 
-      \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(init}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.AND.} \FunctionTok{allocated}\NormalTok{(init}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{THEN}
-         \KeywordTok{SELECT CASE}\NormalTok{ (init}\OperatorTok{\%}\NormalTok{description)}
-         \KeywordTok{CASE}\NormalTok{ (}\StringTok{\textquotesingle{}sortable\_string\textquotesingle{}}\NormalTok{)}
-            \KeywordTok{SELECT TYPE}\NormalTok{ ( }\DataTypeTok{value} \KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ init}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
-            \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{CHARACTER(len=*)}\NormalTok{)}
-               \KeywordTok{ALLOCATE}\NormalTok{( r, source}\KeywordTok{=}\NormalTok{sortable\_string(}\DataTypeTok{value}\NormalTok{) )}
-            \KeywordTok{END SELECT}
-         \KeywordTok{END SELECT}
-      \KeywordTok{END IF}
-   \KeywordTok{END PROCEDURE}
-\KeywordTok{END SUBMODULE}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{allocated}\NormalTok{(init}\OperatorTok{\%}\NormalTok{description) }\OperatorTok{.and.} \FunctionTok{allocated}\NormalTok{(init}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{) ) }\KeywordTok{then}
+    \KeywordTok{select case}\NormalTok{ (init}\OperatorTok{\%}\NormalTok{description)}
+     \KeywordTok{case}\NormalTok{ (}\StringTok{\textquotesingle{}sortable\_string\textquotesingle{}}\NormalTok{)}
+      \KeywordTok{select type}\NormalTok{ ( }\DataTypeTok{value} \KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ init}\OperatorTok{\%}\DataTypeTok{value}\NormalTok{(}\DecValTok{1}\NormalTok{) )}
+       \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{character(len=*)}\NormalTok{)}
+        \KeywordTok{allocate}\NormalTok{( r, source}\KeywordTok{=}\NormalTok{sortable\_string(}\DataTypeTok{value}\NormalTok{) )}
+      \KeywordTok{end select}
+    \KeywordTok{end select}
+  \KeywordTok{end if}
+\KeywordTok{end procedure}
+\KeywordTok{end submodule}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2191,23 +2196,23 @@ The submodule containing the implementation then reads as follows:
   alternative syntax exists that replicates the interface (but this is
   not shown here);
 \item
-  the effect of the \texttt{ONLY} clause is to suppress use access to
+  the effect of the \texttt{only} clause is to suppress use access to
   any entity of the parent program unit (which would be indirectly
   established). This is because use association overrides host
   association, which may cause undesirable side effects;
 \item
   submodules additionally can contain specifications (before the
-  \texttt{CONTAINS} statement), as well as local submodule procedures.
+  \texttt{contains} statement), as well as local submodule procedures.
   All these are only accessible from the submodule (and its descendant
   submodules, if any);
 \item
   the naming scheme for a submodule always references the direct parent.
   For submodules of submodules, the scheme is
-  \texttt{SUBMODULE\ (\textless{}parent\ module\textgreater{}:\textless{}parent\ submodule\textgreater{})\ \textless{}submodule\_name\textgreater{}}
+  \texttt{submodule\ (\textless{}parent\ module\textgreater{}:\textless{}parent\ submodule\textgreater{})\ \textless{}submodule\_name\textgreater{}}
   and the names of submodules of a given module must be unique.
 \end{itemize}
 
-\subsection{Diagramming the dependencies between program
+\subsubsection{Diagramming the dependencies between program
 units}\label{diagramming-the-dependencies-between-program-units}
 
 The following diagram shows the use and host association relationships
@@ -2242,9 +2247,10 @@ The compilation order for separate files would be:
 
 \section{Performance and ease of use}\label{performance-and-ease-of-use}
 
-\section{Functions with parameters}\label{sec:functions_with_parameters}
+\subsection{Functions with
+parameters}\label{sec:functions_with_parameters}
 
-\subsection{A type definition for invocation of a general
+\subsubsection{A type definition for invocation of a general
 function}\label{a-type-definition-for-invocation-of-a-general-function}
 
 In scientific applications, a commonly occurring requirement is the need
@@ -2263,21 +2269,21 @@ type definition of sufficient generality:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC} \DataTypeTok{::}\NormalTok{ pfunc\_type}
-   \DataTypeTok{PRIVATE}
-   \DataTypeTok{PROCEDURE(pfunc)}\NormalTok{, }\DataTypeTok{POINTER}\NormalTok{, }\DataTypeTok{NOPASS} \DataTypeTok{::}\NormalTok{ fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
-\NormalTok{   : }\CommentTok{! shown later}
-   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ param}
-\KeywordTok{CONTAINS}
-\NormalTok{   : }\CommentTok{! shown later}
-\DataTypeTok{END type}\NormalTok{ pfunc\_type}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{public} \DataTypeTok{::}\NormalTok{ pfunc\_type}
+  \DataTypeTok{private}
+  \DataTypeTok{procedure(pfunc)}\NormalTok{, }\DataTypeTok{pointer}\NormalTok{, }\DataTypeTok{nopass} \DataTypeTok{::}\NormalTok{ fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+\NormalTok{  : }\CommentTok{! shown later}
+  \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ param}
+\KeywordTok{contains}
+\NormalTok{  : }\CommentTok{! shown later}
+\DataTypeTok{end type}\NormalTok{ pfunc\_type}
 
-\DataTypeTok{ABSTRACT} \KeywordTok{INTERFACE}
-   \KeywordTok{PURE} \DataTypeTok{REAL} \KeywordTok{FUNCTION}\NormalTok{ pfunc(x, param)}
-      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x}
-      \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
-   \KeywordTok{END FUNCTION}\NormalTok{ pfunc}
-\KeywordTok{END INTERFACE}
+\DataTypeTok{abstract} \KeywordTok{interface}
+  \KeywordTok{pure} \DataTypeTok{real} \KeywordTok{function}\NormalTok{ pfunc(x, param)}
+    \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ x}
+    \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{optional} \DataTypeTok{::}\NormalTok{ param}
+  \KeywordTok{end function}\NormalTok{ pfunc}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2298,21 +2304,21 @@ object through
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(pfunc\_type)} \DataTypeTok{::}\NormalTok{ pfunc\_obj}
-\DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ x}
+\DataTypeTok{type(pfunc\_type)} \DataTypeTok{::}\NormalTok{ pfunc\_obj}
+\DataTypeTok{real} \DataTypeTok{::}\NormalTok{ x}
 
 \NormalTok{pfunc\_obj }\KeywordTok{=}\NormalTok{ pfunc\_type(psin, }\DecValTok{2}\NormalTok{)}
 \CommentTok{! definitions of procedure and data object discussed further below}
 \NormalTok{x }\KeywordTok{=}\NormalTok{ ...}
 
-\FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}Function value is \textquotesingle{}}\NormalTok{, pfunc\_obj}\OperatorTok{\%}\NormalTok{fp(x, pfunc\_obj}\OperatorTok{\%}\NormalTok{param)}
+\FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)} \StringTok{\textquotesingle{}function value is \textquotesingle{}}\NormalTok{, pfunc\_obj}\OperatorTok{\%}\NormalTok{fp(x, pfunc\_obj}\OperatorTok{\%}\NormalTok{param)}
 \end{Highlighting}
 \end{Shaded}
 
 Use of a procedure pointer reflects the fact that each
 \texttt{pfunc\_type} object will want to associate its individual target
 function; this is sometimes also referred to as an \textbf{object-bound
-procedure}. The \texttt{NOPASS} attribute in the type definition is
+procedure}. The \texttt{nopass} attribute in the type definition is
 needed because otherwise (analogous to what we saw for the earlier
 type-bound procedure examples), the object through which the invocation
 is done would be obliged to appear as a first argument in the abstract
@@ -2322,7 +2328,7 @@ invocation needs to explicitly specify the \texttt{param} component,
 making it a bit unwieldy; the use of \texttt{pfunc\_type} objects will
 be simplified as we go on.
 
-\subsection{Performance issues arising from object-oriented
+\subsubsection{Performance issues arising from object-oriented
 programming}\label{performance-issues-arising-from-object-oriented-programming}
 
 Let us look at a target function implementation, in form of a trivial
@@ -2330,21 +2336,21 @@ example \(\sin(\lambda x)\):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{PURE} \DataTypeTok{REAL} \KeywordTok{FUNCTION}\NormalTok{ psin(x, param)}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x}
-   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ factor}
-\NormalTok{   factor }\KeywordTok{=} \FloatTok{1.}
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{THEN}
-      \KeywordTok{SELECT TYPE}\NormalTok{ ( param )}
-      \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{REAL}\NormalTok{)}
-\NormalTok{         factor }\KeywordTok{=}\NormalTok{ param}
-      \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{INTEGER}\NormalTok{)}
-\NormalTok{         factor }\KeywordTok{=} \DataTypeTok{real(param)}
-      \KeywordTok{END SELECT}
-   \KeywordTok{END IF}
-\NormalTok{   psin }\KeywordTok{=} \BuiltInTok{sin}\NormalTok{(factor}\KeywordTok{*}\NormalTok{x)}
-\KeywordTok{END FUNCTION}\NormalTok{ psin}
+\KeywordTok{pure} \DataTypeTok{real} \KeywordTok{function}\NormalTok{ psin(x, param)}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ x}
+  \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{optional} \DataTypeTok{::}\NormalTok{ param}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ factor}
+\NormalTok{  factor }\KeywordTok{=} \FloatTok{1.}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{then}
+    \KeywordTok{select type}\NormalTok{ ( param )}
+     \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+\NormalTok{      factor }\KeywordTok{=}\NormalTok{ param}
+     \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{integer}\NormalTok{)}
+\NormalTok{      factor }\KeywordTok{=} \DataTypeTok{real(param)}
+    \KeywordTok{end select}
+  \KeywordTok{end if}
+\NormalTok{  psin }\KeywordTok{=} \BuiltInTok{sin}\NormalTok{(factor}\KeywordTok{*}\NormalTok{x)}
+\KeywordTok{end function}\NormalTok{ psin}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2366,22 +2372,22 @@ array-based version of the function
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{PURE} \KeywordTok{FUNCTION}\NormalTok{ psin\_array(x, param) }\KeywordTok{RESULT}\NormalTok{(r)}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x(:)}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
-   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ factor}
-\NormalTok{   factor }\KeywordTok{=} \FloatTok{1.}
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{THEN}
-      \KeywordTok{SELECT TYPE}\NormalTok{ ( param )}
-      \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{REAL}\NormalTok{)}
-\NormalTok{         factor }\KeywordTok{=}\NormalTok{ param}
-      \KeywordTok{TYPE IS}\NormalTok{ (}\DataTypeTok{INTEGER}\NormalTok{)}
-\NormalTok{         factor }\KeywordTok{=} \DataTypeTok{real(param)}
-      \KeywordTok{END SELECT}
-   \KeywordTok{END IF}
-\NormalTok{   r }\KeywordTok{=} \BuiltInTok{sin}\NormalTok{(factor}\KeywordTok{*}\NormalTok{x)  }\CommentTok{! kernel}
-\KeywordTok{END FUNCTION}\NormalTok{ psin\_array}
+\KeywordTok{pure} \KeywordTok{function}\NormalTok{ psin\_array(x, param) }\KeywordTok{result}\NormalTok{(r)}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ x(:)}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
+  \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{optional} \DataTypeTok{::}\NormalTok{ param}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ factor}
+\NormalTok{  factor }\KeywordTok{=} \FloatTok{1.}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{then}
+    \KeywordTok{select type}\NormalTok{ ( param )}
+     \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{real}\NormalTok{)}
+\NormalTok{      factor }\KeywordTok{=}\NormalTok{ param}
+     \KeywordTok{type is}\NormalTok{ (}\DataTypeTok{integer}\NormalTok{)}
+\NormalTok{      factor }\KeywordTok{=} \DataTypeTok{real(param)}
+    \KeywordTok{end select}
+  \KeywordTok{end if}
+\NormalTok{  r }\KeywordTok{=} \BuiltInTok{sin}\NormalTok{(factor}\KeywordTok{*}\NormalTok{x)  }\CommentTok{! kernel}
+\KeywordTok{end function}\NormalTok{ psin\_array}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2391,7 +2397,7 @@ above box) is amenable to array-related compiler optimizations (the
 specifics of which depend on both hardware architecture and working set
 size).
 
-\subsection{Completing the function type
+\subsubsection{Completing the function type
 definition}\label{completing-the-function-type-definition}
 
 The aim now is to proceed to a framework that permits to use both the
@@ -2404,27 +2410,27 @@ abstract interfaces, reads
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE}\NormalTok{, }\DataTypeTok{PUBLIC} \DataTypeTok{::}\NormalTok{ pfunc\_type}
-   \DataTypeTok{PRIVATE}
-   \DataTypeTok{PROCEDURE(pfunc)}\NormalTok{, }\DataTypeTok{POINTER}\NormalTok{, }\DataTypeTok{NOPASS} \DataTypeTok{::}\NormalTok{ fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
-   \DataTypeTok{PROCEDURE(pfunc\_array)}\NormalTok{, }\DataTypeTok{POINTER}\NormalTok{, }\DataTypeTok{NOPASS} \DataTypeTok{::}\NormalTok{ fp\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
-   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{ALLOCATABLE} \DataTypeTok{::}\NormalTok{ param}
-\KeywordTok{CONTAINS}
-   \DataTypeTok{PROCEDURE}\NormalTok{, }\DataTypeTok{PASS}\NormalTok{, }\DataTypeTok{PRIVATE}\NormalTok{, }\DataTypeTok{NON\_OVERRIDABLE} \DataTypeTok{::}\NormalTok{ f\_scalar, f\_array}
-   \DataTypeTok{GENERIC} \DataTypeTok{::}\NormalTok{ f }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ f\_scalar, f\_array}
-\DataTypeTok{END type}\NormalTok{ pfunc\_type}
+\DataTypeTok{type}\NormalTok{, }\DataTypeTok{public} \DataTypeTok{::}\NormalTok{ pfunc\_type}
+  \DataTypeTok{private}
+  \DataTypeTok{procedure(pfunc)}\NormalTok{, }\DataTypeTok{pointer}\NormalTok{, }\DataTypeTok{nopass} \DataTypeTok{::}\NormalTok{ fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+  \DataTypeTok{procedure(pfunc\_array)}\NormalTok{, }\DataTypeTok{pointer}\NormalTok{, }\DataTypeTok{nopass} \DataTypeTok{::}\NormalTok{ fp\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ null()}
+  \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{allocatable} \DataTypeTok{::}\NormalTok{ param}
+\KeywordTok{contains}
+  \DataTypeTok{procedure}\NormalTok{, }\DataTypeTok{pass}\NormalTok{, }\DataTypeTok{private}\NormalTok{, }\DataTypeTok{non\_overridable} \DataTypeTok{::}\NormalTok{ f\_scalar, f\_array}
+  \DataTypeTok{generic} \DataTypeTok{::}\NormalTok{ f }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ f\_scalar, f\_array}
+\DataTypeTok{end type}\NormalTok{ pfunc\_type}
 
-\DataTypeTok{ABSTRACT} \KeywordTok{INTERFACE}
-   \KeywordTok{PURE} \DataTypeTok{REAL} \KeywordTok{FUNCTION}\NormalTok{ pfunc(x, param)}
-      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x}
-      \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
-   \KeywordTok{END FUNCTION}\NormalTok{ pfunc}
-   \KeywordTok{PURE} \KeywordTok{FUNCTION}\NormalTok{ pfunc\_array(x, param) }\KeywordTok{RESULT}\NormalTok{(r)}
-      \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x(:)}
-      \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
-      \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
-   \KeywordTok{END FUNCTION}\NormalTok{ pfunc\_array}
-\KeywordTok{END INTERFACE}
+\DataTypeTok{abstract} \KeywordTok{interface}
+  \KeywordTok{pure} \DataTypeTok{real} \KeywordTok{function}\NormalTok{ pfunc(x, param)}
+    \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ x}
+    \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{optional} \DataTypeTok{::}\NormalTok{ param}
+  \KeywordTok{end function}\NormalTok{ pfunc}
+  \KeywordTok{pure} \KeywordTok{function}\NormalTok{ pfunc\_array(x, param) }\KeywordTok{result}\NormalTok{(r)}
+    \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ x(:)}
+    \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
+    \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{optional} \DataTypeTok{::}\NormalTok{ param}
+  \KeywordTok{end function}\NormalTok{ pfunc\_array}
+\KeywordTok{end interface}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2435,50 +2441,50 @@ The specifics \texttt{f\_scalar} and \texttt{f\_array} for this read
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{REAL} \KeywordTok{FUNCTION}\NormalTok{ f\_scalar(this, x)}
-   \DataTypeTok{CLASS(pfunc\_type)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ this}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x}
+\DataTypeTok{real} \KeywordTok{function}\NormalTok{ f\_scalar(this, x)}
+  \DataTypeTok{class(pfunc\_type)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ this}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ x}
 
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp) ) }\KeywordTok{THEN}
-\NormalTok{      f\_scalar }\KeywordTok{=}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp(x, this}\OperatorTok{\%}\NormalTok{param)}
-   \KeywordTok{ELSE} \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp\_array) ) }\KeywordTok{THEN}
-      \KeywordTok{ASSOCIATE}\NormalTok{ ( f\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp\_array(}\KeywordTok{[}\NormalTok{x}\KeywordTok{]}\NormalTok{, this}\OperatorTok{\%}\NormalTok{param) )}
-\NormalTok{         f\_scalar }\KeywordTok{=}\NormalTok{ f\_array(}\DecValTok{1}\NormalTok{)}
-      \KeywordTok{END ASSOCIATE}
-   \KeywordTok{ELSE}
-\NormalTok{      ERROR }\KeywordTok{STOP} \StringTok{\textquotesingle{}pfunc\_type callback: uninitialized object\textquotesingle{}}
-   \KeywordTok{END IF}
-\KeywordTok{END FUNCTION}\NormalTok{ f\_scalar}
-\KeywordTok{FUNCTION}\NormalTok{ f\_array(this, x) }\KeywordTok{RESULT}\NormalTok{(r)}
-   \DataTypeTok{CLASS(pfunc\_type)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ this}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ x(:)}
-   \DataTypeTok{REAL} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp) ) }\KeywordTok{then}
+\NormalTok{    f\_scalar }\KeywordTok{=}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp(x, this}\OperatorTok{\%}\NormalTok{param)}
+  \KeywordTok{else} \KeywordTok{if}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp\_array) ) }\KeywordTok{then}
+    \KeywordTok{associate}\NormalTok{ ( f\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp\_array(}\KeywordTok{[}\NormalTok{x}\KeywordTok{]}\NormalTok{, this}\OperatorTok{\%}\NormalTok{param) )}
+\NormalTok{      f\_scalar }\KeywordTok{=}\NormalTok{ f\_array(}\DecValTok{1}\NormalTok{)}
+    \KeywordTok{end associate}
+  \KeywordTok{else}
+\NormalTok{    error }\KeywordTok{stop} \StringTok{\textquotesingle{}pfunc\_type callback: uninitialized object\textquotesingle{}}
+  \KeywordTok{end if}
+\KeywordTok{end function}\NormalTok{ f\_scalar}
+\KeywordTok{function}\NormalTok{ f\_array(this, x) }\KeywordTok{result}\NormalTok{(r)}
+  \DataTypeTok{class(pfunc\_type)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ this}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ x(:)}
+  \DataTypeTok{real} \DataTypeTok{::}\NormalTok{ r(}\FunctionTok{size}\NormalTok{(x))}
 
-   \CommentTok{! Note that support for the scalar version is omitted here, since}
-   \CommentTok{! the procedure call overhead, including type resolution, would}
-   \CommentTok{! significantly impact performance.}
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp\_array) ) }\KeywordTok{THEN}
-\NormalTok{      r }\KeywordTok{=}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp\_array(x, this}\OperatorTok{\%}\NormalTok{param)}
-   \KeywordTok{ELSE}
-\NormalTok{      ERROR }\KeywordTok{STOP} \StringTok{\textquotesingle{}pfunc\_type callback: uninitialized object\textquotesingle{}}
-   \KeywordTok{END IF}
-\KeywordTok{END FUNCTION}\NormalTok{ f\_array}
+  \CommentTok{! note that support for the scalar version is omitted here, since}
+  \CommentTok{! the procedure call overhead, including type resolution, would}
+  \CommentTok{! significantly impact performance.}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{associated}\NormalTok{(this}\OperatorTok{\%}\NormalTok{fp\_array) ) }\KeywordTok{then}
+\NormalTok{    r }\KeywordTok{=}\NormalTok{ this}\OperatorTok{\%}\NormalTok{fp\_array(x, this}\OperatorTok{\%}\NormalTok{param)}
+  \KeywordTok{else}
+\NormalTok{    error }\KeywordTok{stop} \StringTok{\textquotesingle{}pfunc\_type callback: uninitialized object\textquotesingle{}}
+  \KeywordTok{end if}
+\KeywordTok{end function}\NormalTok{ f\_array}
 \end{Highlighting}
 \end{Shaded}
 
 The only way to invoke one of these (in a use association context) is
 via the generic name, since the specific type-bound procedures have the
-\texttt{PRIVATE} attribute; note that \texttt{pfunc\_type} is not
+\texttt{private} attribute; note that \texttt{pfunc\_type} is not
 designed for being extended. Disambiguation is by rank of \texttt{x}.
 
 The structure constructor for the type is overloaded
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{INTERFACE}\NormalTok{ pfunc\_type}
-   \KeywordTok{MODULE PROCEDURE}\NormalTok{ create\_pfunc\_type}
-   \KeywordTok{MODULE PROCEDURE}\NormalTok{ create\_pfunc\_type\_array}
-\KeywordTok{END INTERFACE}\NormalTok{ pfunc\_type}
+\KeywordTok{interface}\NormalTok{ pfunc\_type}
+  \KeywordTok{module procedure}\NormalTok{ create\_pfunc\_type}
+  \KeywordTok{module procedure}\NormalTok{ create\_pfunc\_type\_array}
+\KeywordTok{end interface}\NormalTok{ pfunc\_type}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2486,29 +2492,57 @@ with the following specific functions:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(pfunc\_type)} \KeywordTok{FUNCTION}\NormalTok{ create\_pfunc\_type(fp, param)}
-   \DataTypeTok{PROCEDURE(pfunc)} \DataTypeTok{::}\NormalTok{ fp}
-   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
-\NormalTok{   create\_pfunc\_type}\OperatorTok{\%}\NormalTok{fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ fp}
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{THEN}
-      \KeywordTok{ALLOCATE}\NormalTok{(create\_pfunc\_type}\OperatorTok{\%}\NormalTok{param, source}\KeywordTok{=}\NormalTok{param)}
-   \KeywordTok{END IF}
-\KeywordTok{END FUNCTION}\NormalTok{ create\_pfunc\_type}
-\DataTypeTok{TYPE(pfunc\_type)} \KeywordTok{FUNCTION}\NormalTok{ create\_pfunc\_type\_array(fp\_array, param)}
-   \DataTypeTok{PROCEDURE(pfunc\_array)} \DataTypeTok{::}\NormalTok{ fp\_array}
-   \DataTypeTok{CLASS(*)}\NormalTok{, }\DataTypeTok{INTENT(in)}\NormalTok{, }\DataTypeTok{OPTIONAL} \DataTypeTok{::}\NormalTok{ param}
-\NormalTok{   create\_pfunc\_type\_array}\OperatorTok{\%}\NormalTok{fp\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ fp\_array}
-   \KeywordTok{IF}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{THEN}
-      \KeywordTok{ALLOCATE}\NormalTok{(create\_pfunc\_type\_array}\OperatorTok{\%}\NormalTok{param, source}\KeywordTok{=}\NormalTok{param)}
-   \KeywordTok{END IF}
-\KeywordTok{END FUNCTION}\NormalTok{ create\_pfunc\_type\_array}
+\DataTypeTok{type(pfunc\_type)} \KeywordTok{function}\NormalTok{ create\_pfunc\_type(fp, param)}
+  \DataTypeTok{procedure(pfunc)} \DataTypeTok{::}\NormalTok{ fp}
+  \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{optional} \DataTypeTok{::}\NormalTok{ param}
+\NormalTok{  create\_pfunc\_type}\OperatorTok{\%}\NormalTok{fp }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ fp}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{then}
+    \KeywordTok{allocate}\NormalTok{(create\_pfunc\_type}\OperatorTok{\%}\NormalTok{param, source}\KeywordTok{=}\NormalTok{param)}
+  \KeywordTok{end if}
+\KeywordTok{end function}\NormalTok{ create\_pfunc\_type}
+\DataTypeTok{type(pfunc\_type)} \KeywordTok{function}\NormalTok{ create\_pfunc\_type\_array(fp\_array, param)}
+  \DataTypeTok{procedure(pfunc\_array)} \DataTypeTok{::}\NormalTok{ fp\_array}
+  \DataTypeTok{class(*)}\NormalTok{, }\DataTypeTok{intent(in)}\NormalTok{, }\DataTypeTok{optional} \DataTypeTok{::}\NormalTok{ param}
+\NormalTok{  create\_pfunc\_type\_array}\OperatorTok{\%}\NormalTok{fp\_array }\KeywordTok{=}\OperatorTok{\textgreater{}}\NormalTok{ fp\_array}
+  \KeywordTok{if}\NormalTok{ ( }\FunctionTok{present}\NormalTok{(param) ) }\KeywordTok{then}
+    \KeywordTok{allocate}\NormalTok{(create\_pfunc\_type\_array}\OperatorTok{\%}\NormalTok{param, source}\KeywordTok{=}\NormalTok{param)}
+  \KeywordTok{end if}
+\KeywordTok{end function}\NormalTok{ create\_pfunc\_type\_array}
 \end{Highlighting}
 \end{Shaded}
 
 Disambiguation is possible due to the sufficiently different interfaces
-of the procedure arguments.
+of the procedure arguments.\footnote{Brad Richardson
+  \href{https://fortran-lang.discourse.group/t/baders-draft-about-oop-and-fortran-bader-intended-for-wikipedia/8539/3}{comments}
+  the two functions are \emph{sufficiently different} only because their
+  results differ in rank. This pattern does not necessarily work in the
+  general case, i.e.~that the procedures are not both functions with
+  different type, kind or rank of their results.
 
-\subsection{Using the function type}\label{using-the-function-type}
+  More generally, referring to section 15.4.3.4.5 \emph{Restrictions on
+  generic declarations} of the current Fortran 2023 standard (see for
+  instance \href{https://j3-fortran.org/doc/year/23/23-007r1.pdf}{draft
+  23-007r1.pdf}, page 316)
+
+  \begin{quote}
+  Two dummy arguments are distinguishable if
+
+  \begin{itemize}
+  \tightlist
+  \item
+    one is a procedure and the other is a data object,
+  \item
+    they are both data objects or known to be functions, and neither is
+    TKR compatible with the other, one has the ALLOCATABLE attribute and
+    the other has the POINTER attribute and not the INTENT (IN)
+    attribute, or
+  \item
+    one is a function with nonzero rank and the other is not known to be
+    a function.
+  \end{itemize}
+  \end{quote}}
+
+\subsubsection{Using the function type}\label{using-the-function-type}
 
 With the already-shown implementations for the target functions
 \texttt{psin} and \texttt{psin\_array}, using this framework is
@@ -2516,18 +2550,18 @@ illustrated by the following:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DataTypeTok{TYPE(pfunc\_type)} \DataTypeTok{::}\NormalTok{ pfunc\_obj}
-\DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{PARAMETER} \DataTypeTok{::}\NormalTok{ piby4 }\KeywordTok{=} \BuiltInTok{atan}\NormalTok{(}\FloatTok{1.0}\NormalTok{), }\KeywordTok{\&}
-\NormalTok{   piby4\_arr(}\DecValTok{4}\NormalTok{) }\KeywordTok{=} \KeywordTok{[}\NormalTok{ piby4, }\FloatTok{2.}\KeywordTok{*}\NormalTok{piby4, }\FloatTok{3.}\KeywordTok{*}\NormalTok{piby4, }\FloatTok{4.}\KeywordTok{*}\NormalTok{piby4 }\KeywordTok{]}
+\DataTypeTok{type(pfunc\_type)} \DataTypeTok{::}\NormalTok{ pfunc\_obj}
+\DataTypeTok{real}\NormalTok{, }\DataTypeTok{parameter} \DataTypeTok{::}\NormalTok{ piby4 }\KeywordTok{=} \BuiltInTok{atan}\NormalTok{(}\FloatTok{1.0}\NormalTok{), }\KeywordTok{\&}
+\NormalTok{  piby4\_arr(}\DecValTok{4}\NormalTok{) }\KeywordTok{=} \KeywordTok{[}\NormalTok{ piby4, }\FloatTok{2.}\KeywordTok{*}\NormalTok{piby4, }\FloatTok{3.}\KeywordTok{*}\NormalTok{piby4, }\FloatTok{4.}\KeywordTok{*}\NormalTok{piby4 }\KeywordTok{]}
 
 \NormalTok{pfunc\_obj }\KeywordTok{=}\NormalTok{ pfunc\_type(psin, }\FloatTok{2.}\NormalTok{)}
-\FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4)}
+\FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4)}
 
 \NormalTok{pfunc\_obj }\KeywordTok{=}\NormalTok{ pfunc\_type(psin)}
-\FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4)}
+\FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4)}
 
 \NormalTok{pfunc\_obj }\KeywordTok{=}\NormalTok{ pfunc\_type(psin\_array, }\FloatTok{2.}\NormalTok{)}
-\FunctionTok{WRITE(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4\_arr)}
+\FunctionTok{write(*}\NormalTok{,}\FunctionTok{*)}\NormalTok{ pfunc\_obj}\OperatorTok{\%}\NormalTok{f(piby4\_arr)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2535,12 +2569,12 @@ Omitting a \texttt{param} in a constructor is fine, as long as the
 target functions cater for the dummy argument's non-presence.
 
 \emph{Hint:} The framework's implementation makes use of the fact that
-an unallocated actual argument associated with an \texttt{OPTIONAL}
+an unallocated actual argument associated with an \texttt{optional}
 dummy argument is considered not present. Once conditional expressions
 are implemented in compilers, the code will be appropriately reworked,
 since use of this feature is recommended against.
 
-\section{Arrays of structures versus structures of
+\subsection{Arrays of structures versus structures of
 arrays}\label{arrays-of-structures-versus-structures-of-arrays}
 
 Returning to our earlier example type body, the next idea would be to
@@ -2548,12 +2582,12 @@ simulate the dynamics of a large ensemble of bodies. A procedure
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{SUBROUTINE}\NormalTok{ propagate(bodies, delta\_t, force\_field)}
-   \DataTypeTok{TYPE(body)}\NormalTok{, }\DataTypeTok{INTENT(inout)} \DataTypeTok{::}\NormalTok{ bodies(:)}
-   \DataTypeTok{REAL}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ delta\_t}
-   \DataTypeTok{TYPE(field\_type)}\NormalTok{, }\DataTypeTok{INTENT(in)} \DataTypeTok{::}\NormalTok{ force\_field}
-\NormalTok{   :}
-\KeywordTok{END SUBROUTINE}
+\KeywordTok{subroutine}\NormalTok{ propagate(bodies, delta\_t, force\_field)}
+  \DataTypeTok{type(body)}\NormalTok{, }\DataTypeTok{intent(inout)} \DataTypeTok{::}\NormalTok{ bodies(:)}
+  \DataTypeTok{real}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ delta\_t}
+  \DataTypeTok{type(field\_type)}\NormalTok{, }\DataTypeTok{intent(in)} \DataTypeTok{::}\NormalTok{ force\_field}
+\NormalTok{  :}
+\KeywordTok{end subroutine}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2573,10 +2607,10 @@ for example as follows:
 where \texttt{force} results from evaluating \texttt{force\_field} at
 the position of the ensemble member.
 
-\section{Comments on further language
+\subsection{Comments on further language
 features}\label{comments-on-further-language-features}
 
-\subsection{Variations on the passed
+\subsubsection{Variations on the passed
 object}\label{variations-on-the-passed-object}
 
 All examples for type-bound procedures given up to now have the property
@@ -2587,11 +2621,11 @@ programmer
 \begin{itemize}
 \tightlist
 \item
-  either declaring the binding with a \texttt{PASS} attribute that
+  either declaring the binding with a \texttt{pass} attribute that
   references the specific (and of course appropriately declared)
   procedure argument the object of the bound type should be passed to,
 \item
-  or declaring the binding with a \texttt{NOPASS} attribute, in which
+  or declaring the binding with a \texttt{nopass} attribute, in which
   case the object is not (implicitly) passed to the procedure at all in
   a TBP invocation.
 \end{itemize}

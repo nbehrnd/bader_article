@@ -1,7 +1,7 @@
 ---
 title: readme.md
 date: 2024-08-05 Mon
-edit: 2024-09-03 Tue
+edit: 2024-10-10 Thu
 ---
 
 # purpose
@@ -147,11 +147,19 @@ disadvantages of either workflow.
 
 | workflow | original | rewritten | good | bad |
 | :--- | ----: | ----: | :-------- | :-------- |
-| pdfLaTeX | 795 kB | 412 kB | character set covers the needs, reliable management of illustrations (either png, or pdf) | large footprint to install |
+| pdfLaTeX | 794 kB | 415 kB | character set covers the needs, reliable management of illustrations (either png, or pdf) | large footprint to install |
 | rst2pdf  | 1.5 MB | 1.0 MB | relates to the Python ecosystem | slow processing, results large pdf |
-| groff | 680 kB | 188 kB | light footprint, fast processing | less symbol coverage than LaTeX, illustrations need to be in a pdf/eps container |
+| groff | 680 kB | 190 kB | light footprint, fast processing | less symbol coverage than LaTeX, illustrations need to be in a pdf/eps container |
 
 ## update summary
 
 - 2024-09-03 Tue: a comment by Brad Richardson regarding when interfaces are
   considered as sufficiently different (section 18.3) is added.
+- 2024-10-10 Thu: The draft as initially secured here served to prepare a
+  booklet for the learning materials of fortran-lang.org.  This proved the
+  initial organization of the material in chapters, sections, and sub sections
+  by Bader was not fully respected during the "rescue".  This update now puts
+  the elements back into their intended hierarchy.  In addition to this, results
+  of adjusting the style for a submission to fortran-lang.org (e.g., 2 instead
+  of 3 spaces per level of indentation, lower case Fortran keywords anyway
+  subject of syntax highlighting) were amended to this repository.
