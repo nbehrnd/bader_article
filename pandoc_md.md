@@ -165,7 +165,8 @@ type(sorted_list), target :: sl2
 type(sortable) :: d1, d2
 :
 sl1 = sorted_list( data=d1, next=sl2 )  ! use keyword notation
-sl2 = sorted_list( d2, null() )```
+sl2 = sorted_list( d2, null() )
+```
 
 result in an object `sl1` with `sl1%next` pointer associated with `sl2`,
 and an object `sl2` with `sl2%next` disassociated; the `data` components
@@ -527,7 +528,7 @@ that the latter does not involve a regular object deallocation
 (effectively, a descriptor for the object is moved), so any existing
 finalizer will not be invoked.
 
-### The `BLOCK` construct
+### The `block` construct
 
 The above rules on finalization imply that variables declared in the
 specification part of the main program are not finalizable, since they
@@ -881,7 +882,7 @@ call to the procedure `kick`.
 
 ## Polymorphism
 
-### Declaring entities with `CLASS`
+### Declaring entities with `class`
 
 By declaring an object with the `class` instead of the `type` specifier,
 is is possible to defer the actual type that an object has to be
