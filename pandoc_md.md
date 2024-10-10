@@ -1572,21 +1572,21 @@ object-oriented features of Fortran. We start with the outline for a
 type definition of sufficient generality:
 
 ```f90
-TYPE, PUBLIC :: pfunc_type
-   PRIVATE
-   PROCEDURE(pfunc), POINTER, NOPASS :: fp => null()
-   : ! shown later
-   CLASS(*), ALLOCATABLE :: param
-CONTAINS
-   : ! shown later
-END type pfunc_type
+type, public :: pfunc_type
+  private
+  procedure(pfunc), pointer, nopass :: fp => null()
+  : ! shown later
+  class(*), allocatable :: param
+contains
+  : ! shown later
+end type pfunc_type
 
-ABSTRACT INTERFACE
-   PURE REAL FUNCTION pfunc(x, param)
-      REAL, INTENT(in) :: x
-      CLASS(*), INTENT(in), OPTIONAL :: param
-   END FUNCTION pfunc
-END INTERFACE
+abstract interface
+  pure real function pfunc(x, param)
+    real, intent(in) :: x
+    class(*), intent(in), optional :: param
+  end function pfunc
+end interface
 ```
 
 It supplies
@@ -1600,20 +1600,20 @@ Notionally, one could invoke a properly set up `pfunc_type` object
 through
 
 ```f90
-TYPE(pfunc_type) :: pfunc_obj
-REAL :: x
+type(pfunc_type) :: pfunc_obj
+real :: x
 
 pfunc_obj = pfunc_type(psin, 2)
 ! definitions of procedure and data object discussed further below
 x = ...
 
-WRITE(*,*) 'Function value is ', pfunc_obj%fp(x, pfunc_obj%param)
+write(*,*) 'function value is ', pfunc_obj%fp(x, pfunc_obj%param)
 ```
 
 Use of a procedure pointer reflects the fact that each `pfunc_type`
 object will want to associate its individual target function; this is
 sometimes also referred to as an **object-bound procedure**. The
-`NOPASS` attribute in the type definition is needed because otherwise
+`nopass` attribute in the type definition is needed because otherwise
 (analogous to what we saw for the earlier type-bound procedure
 examples), the object through which the invocation is done would be
 obliged to appear as a first argument in the abstract interface `pfunc`;
@@ -1628,21 +1628,21 @@ Let us look at a target function implementation, in form of a trivial
 example $\sin(\lambda x)$:
 
 ```f90
-PURE REAL FUNCTION psin(x, param)
-   REAL, INTENT(in) :: x
-   CLASS(*), INTENT(in), OPTIONAL :: param
-   REAL :: factor
-   factor = 1.
-   IF ( present(param) ) THEN
-      SELECT TYPE ( param )
-      TYPE IS (REAL)
-         factor = param
-      TYPE IS (INTEGER)
-         factor = real(param)
-      END SELECT
-   END IF
-   psin = sin(factor*x)
-END FUNCTION psin
+pure real function psin(x, param)
+  real, intent(in) :: x
+  class(*), intent(in), optional :: param
+  real :: factor
+  factor = 1.
+  if ( present(param) ) then
+    select type ( param )
+     type is (real)
+      factor = param
+     type is (integer)
+      factor = real(param)
+    end select
+  end if
+  psin = sin(factor*x)
+end function psin
 ```
 
 Given that an application is likely to request a large number of
@@ -1657,22 +1657,22 @@ that operate in multitudes on small objects. Making use of an
 array-based version of the function
 
 ```f90
-PURE FUNCTION psin_array(x, param) RESULT(r)
-   REAL, INTENT(in) :: x(:)
-   REAL :: r(size(x))
-   CLASS(*), INTENT(in), OPTIONAL :: param
-   REAL :: factor
-   factor = 1.
-   IF ( present(param) ) THEN
-      SELECT TYPE ( param )
-      TYPE IS (REAL)
-         factor = param
-      TYPE IS (INTEGER)
-         factor = real(param)
-      END SELECT
-   END IF
-   r = sin(factor*x)  ! kernel
-END FUNCTION psin_array
+pure function psin_array(x, param) result(r)
+  real, intent(in) :: x(:)
+  real :: r(size(x))
+  class(*), intent(in), optional :: param
+  real :: factor
+  factor = 1.
+  if ( present(param) ) then
+    select type ( param )
+     type is (real)
+      factor = param
+     type is (integer)
+      factor = real(param)
+    end select
+  end if
+  r = sin(factor*x)  ! kernel
+end function psin_array
 ```
 
 is desirable, since the overheads specified above only arise *once*, and
@@ -1691,27 +1691,27 @@ The full definition of `pfunc_type`, including its referenced abstract
 interfaces, reads
 
 ```f90
-TYPE, PUBLIC :: pfunc_type
-   PRIVATE
-   PROCEDURE(pfunc), POINTER, NOPASS :: fp => null()
-   PROCEDURE(pfunc_array), POINTER, NOPASS :: fp_array => null()
-   CLASS(*), ALLOCATABLE :: param
-CONTAINS
-   PROCEDURE, PASS, PRIVATE, NON_OVERRIDABLE :: f_scalar, f_array
-   GENERIC :: f => f_scalar, f_array
-END type pfunc_type
+type, public :: pfunc_type
+  private
+  procedure(pfunc), pointer, nopass :: fp => null()
+  procedure(pfunc_array), pointer, nopass :: fp_array => null()
+  class(*), allocatable :: param
+contains
+  procedure, pass, private, non_overridable :: f_scalar, f_array
+  generic :: f => f_scalar, f_array
+end type pfunc_type
 
-ABSTRACT INTERFACE
-   PURE REAL FUNCTION pfunc(x, param)
-      REAL, INTENT(in) :: x
-      CLASS(*), INTENT(in), OPTIONAL :: param
-   END FUNCTION pfunc
-   PURE FUNCTION pfunc_array(x, param) RESULT(r)
-      REAL, INTENT(in) :: x(:)
-      REAL :: r(size(x))
-      CLASS(*), INTENT(in), OPTIONAL :: param
-   END FUNCTION pfunc_array
-END INTERFACE
+abstract interface
+  pure real function pfunc(x, param)
+    real, intent(in) :: x
+    class(*), intent(in), optional :: param
+  end function pfunc
+  pure function pfunc_array(x, param) result(r)
+    real, intent(in) :: x(:)
+    real :: r(size(x))
+    class(*), intent(in), optional :: param
+  end function pfunc_array
+end interface
 ```
 
 Because we now have two procedure pointers in the type (only one of
@@ -1720,69 +1720,69 @@ generic type-bound procedure `f` as a front end for ease of use. The
 specifics `f_scalar` and `f_array` for this read
 
 ```f90
-REAL FUNCTION f_scalar(this, x)
-   CLASS(pfunc_type), INTENT(in) :: this
-   REAL, INTENT(in) :: x
+real function f_scalar(this, x)
+  class(pfunc_type), intent(in) :: this
+  real, intent(in) :: x
 
-   IF ( associated(this%fp) ) THEN
-      f_scalar = this%fp(x, this%param)
-   ELSE IF ( associated(this%fp_array) ) THEN
-      ASSOCIATE ( f_array => this%fp_array([x], this%param) )
-         f_scalar = f_array(1)
-      END ASSOCIATE
-   ELSE
-      ERROR STOP 'pfunc_type callback: uninitialized object'
-   END IF
-END FUNCTION f_scalar
-FUNCTION f_array(this, x) RESULT(r)
-   CLASS(pfunc_type), INTENT(in) :: this
-   REAL, INTENT(in) :: x(:)
-   REAL :: r(size(x))
+  if ( associated(this%fp) ) then
+    f_scalar = this%fp(x, this%param)
+  else if ( associated(this%fp_array) ) then
+    associate ( f_array => this%fp_array([x], this%param) )
+      f_scalar = f_array(1)
+    end associate
+  else
+    error stop 'pfunc_type callback: uninitialized object'
+  end if
+end function f_scalar
+function f_array(this, x) result(r)
+  class(pfunc_type), intent(in) :: this
+  real, intent(in) :: x(:)
+  real :: r(size(x))
 
-   ! Note that support for the scalar version is omitted here, since
-   ! the procedure call overhead, including type resolution, would
-   ! significantly impact performance.
-   IF ( associated(this%fp_array) ) THEN
-      r = this%fp_array(x, this%param)
-   ELSE
-      ERROR STOP 'pfunc_type callback: uninitialized object'
-   END IF
-END FUNCTION f_array
+  ! note that support for the scalar version is omitted here, since
+  ! the procedure call overhead, including type resolution, would
+  ! significantly impact performance.
+  if ( associated(this%fp_array) ) then
+    r = this%fp_array(x, this%param)
+  else
+    error stop 'pfunc_type callback: uninitialized object'
+  end if
+end function f_array
 ```
 
 The only way to invoke one of these (in a use association context) is
 via the generic name, since the specific type-bound procedures have the
-`PRIVATE` attribute; note that `pfunc_type` is not designed for being
+`private` attribute; note that `pfunc_type` is not designed for being
 extended. Disambiguation is by rank of `x`.
 
 The structure constructor for the type is overloaded
 
 ```f90
-INTERFACE pfunc_type
-   MODULE PROCEDURE create_pfunc_type
-   MODULE PROCEDURE create_pfunc_type_array
-END INTERFACE pfunc_type
+interface pfunc_type
+  module procedure create_pfunc_type
+  module procedure create_pfunc_type_array
+end interface pfunc_type
 ```
 
 with the following specific functions:
 
 ```f90
-TYPE(pfunc_type) FUNCTION create_pfunc_type(fp, param)
-   PROCEDURE(pfunc) :: fp
-   CLASS(*), INTENT(in), OPTIONAL :: param
-   create_pfunc_type%fp => fp
-   IF ( present(param) ) THEN
-      ALLOCATE(create_pfunc_type%param, source=param)
-   END IF
-END FUNCTION create_pfunc_type
-TYPE(pfunc_type) FUNCTION create_pfunc_type_array(fp_array, param)
-   PROCEDURE(pfunc_array) :: fp_array
-   CLASS(*), INTENT(in), OPTIONAL :: param
-   create_pfunc_type_array%fp_array => fp_array
-   IF ( present(param) ) THEN
-      ALLOCATE(create_pfunc_type_array%param, source=param)
-   END IF
-END FUNCTION create_pfunc_type_array
+type(pfunc_type) function create_pfunc_type(fp, param)
+  procedure(pfunc) :: fp
+  class(*), intent(in), optional :: param
+  create_pfunc_type%fp => fp
+  if ( present(param) ) then
+    allocate(create_pfunc_type%param, source=param)
+  end if
+end function create_pfunc_type
+type(pfunc_type) function create_pfunc_type_array(fp_array, param)
+  procedure(pfunc_array) :: fp_array
+  class(*), intent(in), optional :: param
+  create_pfunc_type_array%fp_array => fp_array
+  if ( present(param) ) then
+    allocate(create_pfunc_type_array%param, source=param)
+  end if
+end function create_pfunc_type_array
 ```
 
 Disambiguation is possible due to the sufficiently different interfaces
@@ -1794,25 +1794,25 @@ With the already-shown implementations for the target functions `psin`
 and `psin_array`, using this framework is illustrated by the following:
 
 ```f90
-TYPE(pfunc_type) :: pfunc_obj
-REAL, PARAMETER :: piby4 = atan(1.0), &
-   piby4_arr(4) = [ piby4, 2.*piby4, 3.*piby4, 4.*piby4 ]
+type(pfunc_type) :: pfunc_obj
+real, parameter :: piby4 = atan(1.0), &
+  piby4_arr(4) = [ piby4, 2.*piby4, 3.*piby4, 4.*piby4 ]
 
 pfunc_obj = pfunc_type(psin, 2.)
-WRITE(*,*) pfunc_obj%f(piby4)
+write(*,*) pfunc_obj%f(piby4)
 
 pfunc_obj = pfunc_type(psin)
-WRITE(*,*) pfunc_obj%f(piby4)
+write(*,*) pfunc_obj%f(piby4)
 
 pfunc_obj = pfunc_type(psin_array, 2.)
-WRITE(*,*) pfunc_obj%f(piby4_arr)
+write(*,*) pfunc_obj%f(piby4_arr)
 ```
 
 Omitting a `param` in a constructor is fine, as long as the target
 functions cater for the dummy argument's non-presence.
 
 *Hint:* The framework's implementation makes use of the fact that an
-unallocated actual argument associated with an `OPTIONAL` dummy argument
+unallocated actual argument associated with an `optional` dummy argument
 is considered not present. Once conditional expressions are implemented
 in compilers, the code will be appropriately reworked, since use of this
 feature is recommended against.
@@ -1823,12 +1823,12 @@ Returning to our earlier example type body, the next idea would be to
 simulate the dynamics of a large ensemble of bodies. A procedure
 
 ```f90
-SUBROUTINE propagate(bodies, delta_t, force_field)
-   TYPE(body), INTENT(inout) :: bodies(:)
-   REAL, INTENT(in) :: delta_t
-   TYPE(field_type), INTENT(in) :: force_field
-   :
-END SUBROUTINE
+subroutine propagate(bodies, delta_t, force_field)
+  type(body), intent(inout) :: bodies(:)
+  real, intent(in) :: delta_t
+  type(field_type), intent(in) :: force_field
+  :
+end subroutine
 ```
 
 might be supplied that modifies the components of all ensemble members,
@@ -1849,10 +1849,10 @@ that the invoking object itself is passed as the first argument to the
 bound procedure. However, this default behaviour can be modified by the
 programmer
 
-- either declaring the binding with a `PASS` attribute that references
+- either declaring the binding with a `pass` attribute that references
   the specific (and of course appropriately declared) procedure argument
   the object of the bound type should be passed to,
-- or declaring the binding with a `NOPASS` attribute, in which case the
+- or declaring the binding with a `nopass` attribute, in which case the
   object is not (implicitly) passed to the procedure at all in a TBP
   invocation.
 
